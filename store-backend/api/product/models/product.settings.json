@@ -1,9 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "product",
+  "collectionName": "products",
   "info": {
-    "name": "product",
-    "description": ""
+    "name": "product"
   },
   "options": {
     "increments": true,
@@ -12,16 +11,10 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "description": {
-      "type": "text"
-    },
-    "slug": {
-      "type": "uid",
-      "targetField": "name"
-    },
-    "image": {
+    "pictures": {
       "collection": "file",
       "via": "related",
       "allowedTypes": [
@@ -32,12 +25,6 @@
     },
     "price": {
       "type": "decimal"
-    },
-    "qty": {
-      "type": "integer"
-    },
-    "reac_count": {
-      "type": "integer"
     }
   }
 }
