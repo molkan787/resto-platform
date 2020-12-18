@@ -1,0 +1,20 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/postorder",
+      "handler": "postorder.createOrder",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/postorder/:id",
+      "handler": "postorder.editOrder",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
