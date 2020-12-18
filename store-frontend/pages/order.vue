@@ -1,74 +1,61 @@
 <template>
-  <Page>
-    <TabView>
-      <TabPanel v-for="cat in categories" :key="cat.slug" :header="cat.name"></TabPanel>
-    </TabView>
-    <Category v-for="cat in categories" :key="cat.slug" :category="cat" />
+  <Page class="order-page">
+    <div class="content">
+      <div class="left-column">
+        <div class="categories-header">
+          <vs-button-group>
+            <vs-button v-for="cat in categories" :key="'tab-sel-' + cat.slug" flat
+              @click="categoryNameClicked(cat)">
+              {{ cat.name }}
+            </vs-button>
+          </vs-button-group>
+        </div>
+        <Category v-for="cat in categories" :key="cat.slug" :category="cat" />
+      </div>
+      <div class="right-column">
+        <Cart />
+      </div>
+    </div>
   </Page>
 </template>
 
 <script>
 export default {
+  async asyncData(ctx){
+    const categories = await ctx.$dataService.getCategories();
+    return { categories };
+  },
   data: () => ({
     currentCategoryIndex: 0,
-    categories: [
-      {
-        name: 'Starters',
-        slug: 'starters',
-        products: [
-          {
-            id: 1,
-            name: 'Lassoni Pasaliyan',
-            description: 'Free Range Wiltshire Lamb Chops with Raw Papaya and Cashew Nuts served with Curried Carrot Mash. (Three Pieces)',
-            price: 7.5,
-          },{
-            id: 2,
-            name: 'Murgh Malai Tikka',
-            description: 'Free Range Tandoori Grilled Chicken Breast, with Paprika, Ginger, Garlic, and Greek Yoghurt.',
-            price: 6.45
-          },{
-            id: 7,
-            name: 'Zafrani Jhinga',
-            description: 'Freshwater King Prawns, Saffron, Chia Seed, Bok Choy and Citrus Salsa.',
-            price: 7.5
-          }
-        ]
-      },
-      {
-        name: 'Signature Dishes',
-        slug: 'signature_dishes',
-        products: [
-          {
-            id: 3,
-            name: 'Mint Room Butter Chicken',
-            description: 'Free Range Wiltshire Lamb Chops with Raw Papaya and Cashew Nuts served with Curried Carrot Mash. (Three Pieces)',
-            price: 12,
-          },{
-            id: 4,
-            name: 'Kozhi Nadan Curry',
-            description: 'Free Range Tandoori Grilled Chicken Breast, with Paprika, Ginger, Garlic, and Greek Yoghurt.',
-            price: 12.95
-          }
-        ]
-      },
-      {
-        name: 'Dum Biriyani',
-        slug: 'dum_biriyani',
-        products: [
-          {
-            id: 5,
-            name: 'Chicken Dum Biriyani',
-            description: 'Free Range Wiltshire Lamb Chops with Raw Papaya and Cashew Nuts served with Curried Carrot Mash. (Three Pieces)',
-            price: 13.95,
-          },{
-            id: 6,
-            name: 'Lamb Dum Biriyani',
-            description: 'Free Range Tandoori Grilled Chicken Breast, with Paprika, Ginger, Garlic, and Greek Yoghurt.',
-            price: 14.95
-          }
-        ]
-      }
-    ]
-  })
+    categories: []
+  }),
+  methods: {
+    categoryNameClicked(category){
+      const selector = `category-pane-${category.slug}`;
+      document.getElementById(selector).scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/styles/_vars";
+.order-page .content{
+  display: flex;
+  flex-direction: row;
+  .left-column{
+    flex: 1;
+  }
+  .left-column, .right-column{
+    padding: 1rem;
+  }
+  @media (max-width: $mobile-width){
+    flex-direction: column;
+  }
+  .categories-header{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+}
+</style>

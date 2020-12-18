@@ -1,15 +1,19 @@
 <template>
-  <Card class="product">
-    <template #title>
-      {{ product.name }}
-    </template>
-    <template #content>
-      {{ product.description }}
-    </template>
-    <template #footer>
-      <span class="price">{{ product.price | price }}</span>
-    </template>
-  </Card>
+  <div @click="addToCart" class="product">
+    <vs-card>
+      <template #title>
+        <h2>
+          {{ product.name }}
+        </h2>
+      </template>
+      <template #text>
+        <p>
+          {{ product.description }}
+        </p>
+        <span class="price">{{ product.price | price }}</span>
+      </template>
+    </vs-card>
+  </div>
 </template>
 
 <script>
@@ -17,34 +21,41 @@ export default {
   props: {
     product: {
       type: Object,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+  methods: {
+    addToCart() {
+      this.$cartService.adjustProductQuantity(this.product.id, 1);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.product{
+.product {
   cursor: pointer;
   box-shadow: none;
-  &:hover{
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  }
 }
 </style>
 
 <style lang="scss">
-.product{
-  .p-card-title{
+.product {
+  user-select: none;
+  .vs-card, .vs-card-content{
+    max-width: unset;
+    height: 100%;
+  }
+  .p-card-title {
     font-size: 17px !important;
     color: rgb(0, 0, 0);
     font-weight: normal;
   }
-  .p-card-content{
+  .p-card-content {
     color: rgb(117, 117, 117);
   }
-  .price{
-    color: rgb(0, 0, 0)
+  .price {
+    color: rgb(0, 0, 0);
   }
 }
 </style>

@@ -14,15 +14,15 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    { src: 'primevue/resources/primevue.min.css'},
-    { src: 'primeicons/primeicons.css'},
     { src: '@/assets/styles/theme.scss'},
+    { src: 'vuesax/dist/vuesax.css' }
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    { src: '@/plugins/primevue', mode: 'client' },
-    { src: '@/plugins/global-filters', mode: 'client' },
+    { src: '@/plugins/vuesax' },
+    { src: '@/plugins/global-filters' },
+    { src: '@/plugins/services' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -36,12 +36,19 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    // '@nuxtjs/axios',
+    '@nuxtjs/strapi'
   ],
 
+  strapi: {
+    url: 'http://localhost:1337',
+    entities: ['categories', 'products', 'orders']
+  },
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:1337'
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

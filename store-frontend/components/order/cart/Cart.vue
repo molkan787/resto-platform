@@ -1,0 +1,127 @@
+<template>
+    <div class="cart">
+          <vs-card>
+            <template #title>
+                 <div class="title">
+                    Cart
+                </div>
+            </template>
+            <template #text>
+                <table class="items-table">
+                    <tbody>
+                        <template v-for="item in items">
+                            <CartItem :item="item" :key="item.id" />
+                        </template>
+                        <tr class="item total">
+                            <td></td>
+                            <td>Total</td>
+                            <td></td>
+                            <td>{{ total | price }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="controlls">
+                    <vs-button @click="placeOrderClick" size="xl" :loading="postingOrder">
+                        Place order
+                    </vs-button>
+                </div>
+            </template>
+        </vs-card>
+    </div>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+export default {
+    computed: {
+        ...mapState({
+            cartProducts: state => state.cart.products
+        }),
+        items(){
+            return Object.entries(this.cartProducts).map(([id, qty]) => {
+                const _id = parseInt(id);
+                const product = this.$store.state.products.get(_id);
+                return {
+                    id: _id,
+                    data: product,
+                    qty: qty,
+                    total: product.price * qty
+                }
+            })
+        },
+        total(){
+            return this.items.reduce((total, item) => total + item.total, 0);
+        }
+    },
+    data: () => ({
+        postingOrder: false,
+    }),
+    methods: {
+        async placeOrderClick(){
+            // this.$router.push({
+            //     path: '/checkout'
+            // })
+            try {
+                this.postingOrder = true;
+                await this.$orderService.postOrder();
+            } catch (error) {
+                alert('An error occured, Please try again.')
+            }
+            this.postingOrder = false;
+        }
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+$pad: 1rem;
+.cart{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    .title{
+        // min-width: 400px;
+        font-size: 18px;
+        color: #222;
+        border-bottom: 1px solid rgb(201, 201, 201);
+        padding: $pad;
+        text-align: center;
+    }
+    .items-wrapper{
+        padding: $pad;
+        .item{
+            &.total{
+                font-weight: bold;
+            }
+            td{
+                padding: 0.5rem;
+                &.price-cell{
+                    text-align: right;
+                }
+            }
+        }
+        &, .items-table{
+            width: 100%;
+        }
+    }
+    .controlls{
+        padding: 0;
+        transform: translateY(50%);
+        button{
+            width: 100%;
+            text-align: center;
+            display: inline;
+            margin: 0;
+            box-sizing: border-box;
+        }
+    }
+}
+</style>
+
+<style lang="scss">
+.cart{
+    .vs-card__text, .vs-card__title{
+        min-width: 314px;
+    }
+}
+</style>

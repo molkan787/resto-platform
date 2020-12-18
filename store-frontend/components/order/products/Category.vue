@@ -1,14 +1,10 @@
 <template>
-  <Card class="category">
-    <template #title>
-      {{ category.name }}
-    </template>
-    <template #content>
+  <div class="category" :id="'category-pane-' + category.slug">
+      <h2 class="header">{{ category.name }}</h2>
       <div class="content">
         <Product v-for="p in category.products" :key="p.id" :product="p" />
       </div>
-    </template>
-  </Card>
+  </div>
 </template>
 
 <script>
@@ -23,15 +19,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/_vars";
 .category{
+  margin-bottom: 2rem;
+  .header{
+    margin-bottom: 1rem;
+    padding-left: 15px;
+  }
   .content{
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, calc((100% - 1rem) / 2));
     grid-gap: 1rem;
-    .product{
-      margin-left: -16px;
-      margin-right: 16px;
+    @media (max-width: $mobile-width) {
+      &{
+        grid-template-columns: 100%;
+      }
+      .product{
+        margin-left: 0;
+        margin-right: 0;
+      }
     }
   }
 }
@@ -40,6 +47,5 @@ export default {
 <style lang="scss">
 .category .p-card-title{
   color: rgb(0, 0, 0);
-  // font-weight: normal;
 }
 </style>

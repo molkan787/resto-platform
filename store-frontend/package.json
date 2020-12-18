@@ -11,12 +11,13 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/strapi": "^0.1.8",
     "core-js": "^3.6.5",
     "nuxt": "^2.14.6",
     "primeicons": "^4.1.0",
     "primevue": "2.0.0",
-    "vue": "2.6.12"
+    "vue": "2.6.12",
+    "vuesax": "^4.0.1-alpha.25"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.6",
