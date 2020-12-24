@@ -3,7 +3,7 @@ const BadRequestError = require('../../../errors/BadRequestError');
 
 module.exports = class PostOrderService{
 
-    static async createOrder(data){
+    static async createOrder(data, user){
         const { type, items } = data;
         this.validateData(type, items);
         const products_ids = items.map(item => parseInt(item.id));
@@ -13,7 +13,9 @@ module.exports = class PostOrderService{
             type,
             products: productsItems,
             status: 'waiting',
-            total: this.calculateOrderTotal(productsItems)
+            total: this.calculateOrderTotal(productsItems),
+            created_by: user.id,
+            owner: user.id
         }
         await this.createOrderEntry(order);
         return order;

@@ -9,7 +9,7 @@ module.exports = {
     async createOrder(ctx){
         const data = ctx.request.body;
         try {
-            const resp = await strapi.services.postorder.createOrder(data);
+            const resp = await strapi.services.postorder.createOrder(data, ctx.state.user);
             return {
                 status: 'ok',
                 resp

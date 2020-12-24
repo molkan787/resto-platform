@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Start frontend server",
+            "name": "Start backend server",
             "request": "launch",
             "runtimeArgs": [
-                "dev"
+                "develop"
             ],
             "runtimeExecutable": "yarn",
             "skipFiles": [

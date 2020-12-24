@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "orders",
   "info": {
-    "name": "Order"
+    "name": "Order",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -13,10 +14,14 @@
     "status": {
       "type": "enumeration",
       "enum": [
-        "waiting",
-        "unconfirmed",
+        "placed",
         "confirmed",
-        "canceled"
+        "canceled",
+        "approved",
+        "declined",
+        "ready",
+        "shipped",
+        "delivered"
       ]
     },
     "products": {
@@ -35,6 +40,10 @@
     },
     "note": {
       "type": "string"
+    },
+    "owner": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }
