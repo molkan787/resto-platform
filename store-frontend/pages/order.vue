@@ -53,6 +53,7 @@ export default {
     flex-direction: column;
   }
   .categories-header{
+    background-color: white;
     position: sticky;
     top: 0;
     z-index: 1;

@@ -17,7 +17,7 @@
         "placed",
         "confirmed",
         "canceled",
-        "approved",
+        "accepted",
         "declined",
         "ready",
         "shipped",
@@ -31,7 +31,7 @@
     "type": {
       "type": "enumeration",
       "enum": [
-        "pickup",
+        "collection",
         "delivery"
       ]
     },

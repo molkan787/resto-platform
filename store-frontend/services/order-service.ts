@@ -11,7 +11,7 @@ export class OrderService extends Service{
                             }));
 
         const resp = await this.$strapi.$http.$post('/postorder', {
-            type: 'pickup',
+            type: 'collection',
             items
         });
         this.state.cart.products = {};

@@ -23,8 +23,8 @@
       "targetField": "name"
     },
     "products": {
-      "via": "category",
-      "collection": "product"
+      "collection": "product",
+      "via": "category"
     },
     "children": {
       "collection": "category",
@@ -33,6 +33,11 @@
     "parent": {
       "model": "category",
       "via": "children"
+    },
+    "menu": {
+      "type": "string",
+      "default": "online",
+      "private": true
     }
   }
 }

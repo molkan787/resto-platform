@@ -13,8 +13,8 @@ export class DataService extends Service{
         return this.state.categories;
     }
 
-    private createProductsMap(categories: Category[]): Map<number, Product>{
-        const map: Map<number, Product> = new Map();
+    private createProductsMap(categories: Category[]): Map<string, Product>{
+        const map: Map<string, Product> = new Map();
         for(let category of categories){
             category.products.forEach(p => map.set(p.id, p));
         }

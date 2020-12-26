@@ -1,4 +1,5 @@
 'use strict';
+const { sanitizeEntity } = require('strapi-utils');
 const BadRequestError = require('../../../errors/BadRequestError');
 
 module.exports = class PostOrderService{
@@ -6,19 +7,21 @@ module.exports = class PostOrderService{
     static async createOrder(data, user){
         const { type, items } = data;
         this.validateData(type, items);
-        const products_ids = items.map(item => parseInt(item.id));
+        const products_ids = items.map(item => item.id);
         const products = await this.fetchProducts(products_ids);
         const productsItems = this.fillProductsInfo(items, products);
         const order = {
             type,
             products: productsItems,
-            status: 'waiting',
+            status: 'placed',
             total: this.calculateOrderTotal(productsItems),
             created_by: user.id,
             owner: user.id
         }
-        await this.createOrderEntry(order);
-        return order;
+        const _order = await this.createOrderEntry(order);
+        const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
+        strapi.services.posSyncService.sendOrder(sanitizedOrderData);
+        return sanitizedOrderData;
     }
 
     static createOrderEntry(order){
@@ -63,7 +66,7 @@ module.exports = class PostOrderService{
     }
 
     static validateData(type, items){
-        if(!['delivery', 'pickup'].includes(type)){
+        if(!['delivery', 'collection'].includes(type)){
             throw new BadRequestError(`Invalid order type "${type}"`);
         }
         if(!(items instanceof Array) || items.length == 0){

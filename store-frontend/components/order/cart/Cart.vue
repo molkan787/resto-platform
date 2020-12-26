@@ -39,10 +39,9 @@ export default {
         }),
         items(){
             return Object.entries(this.cartProducts).map(([id, qty]) => {
-                const _id = parseInt(id);
-                const product = this.$store.state.products.get(_id);
+                const product = this.$store.state.products.get(id);
                 return {
-                    id: _id,
+                    id,
                     data: product,
                     qty: qty,
                     total: product.price * qty
@@ -77,7 +76,7 @@ export default {
 $pad: 1rem;
 .cart{
     position: sticky;
-    top: 0;
+    top: 18px;
     z-index: 1;
     .title{
         // min-width: 400px;

@@ -14,8 +14,9 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    { src: '@/assets/styles/theme.scss'},
-    { src: 'vuesax/dist/vuesax.css' }
+    { src: 'vuesax/dist/vuesax.css' },
+    { src: 'boxicons/css/boxicons.min.css' },
+    { src: '@/assets/styles/index.scss'},
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -23,6 +24,7 @@ export default {
     { src: '@/plugins/vuesax' },
     { src: '@/plugins/global-filters' },
     { src: '@/plugins/services' },
+    { src: '@/plugins/cookie-expire-time' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

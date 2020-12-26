@@ -2,6 +2,7 @@
   <BasePage class="page">
     <Header />
     <slot></slot>
+    <AuthModal />
   </BasePage>
 </template>
 

@@ -32,8 +32,8 @@
       "type": "text"
     },
     "category": {
-      "model": "category",
-      "via": "products"
+      "via": "products",
+      "model": "category"
     }
   }
 }
