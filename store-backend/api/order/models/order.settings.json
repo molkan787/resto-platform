@@ -44,6 +44,13 @@
     "owner": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "menu": {
+      "type": "enumeration",
+      "enum": [
+        "online",
+        "pos"
+      ]
     }
   }
 }

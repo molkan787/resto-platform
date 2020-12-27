@@ -15,15 +15,6 @@
       "type": "string",
       "required": true
     },
-    "pictures": {
-      "collection": "file",
-      "via": "related",
-      "allowedTypes": [
-        "images"
-      ],
-      "plugin": "upload",
-      "required": false
-    },
     "price": {
       "type": "decimal",
       "required": true
@@ -32,8 +23,21 @@
       "type": "text"
     },
     "category": {
-      "via": "products",
-      "model": "category"
+      "model": "category",
+      "via": "products"
+    },
+    "remote_id": {
+      "type": "integer"
+    },
+    "enable_stock": {
+      "type": "boolean",
+      "default": false,
+      "private": false
+    },
+    "stock": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
     }
   }
 }

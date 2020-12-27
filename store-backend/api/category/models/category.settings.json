@@ -23,8 +23,8 @@
       "targetField": "name"
     },
     "products": {
-      "collection": "product",
-      "via": "category"
+      "via": "category",
+      "collection": "product"
     },
     "children": {
       "collection": "category",
@@ -38,6 +38,15 @@
       "type": "string",
       "default": "online",
       "private": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "food",
+        "drinks"
+      ],
+      "default": "food",
+      "required": true
     }
   }
 }

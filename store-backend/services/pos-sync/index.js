@@ -4,7 +4,7 @@ module.exports = class PosSyncService{
 
     async setOrderStatus(orderId, action){
         const status = action == MurewActions.AcceptOrder ? 'accepted' : 'declined';
-        await strapi.query('order').update({ _id: orderId }, { status });
+        await strapi.services.postorder.setOrderStatus(orderId, status);
         this.sendAction(MurewActions.OrderStatusChanged, { id: orderId, status })
     }
 

@@ -1,4 +1,5 @@
 import { Category } from '~/interfaces/Category';
+import { Product } from '~/interfaces/Product';
 
 export const strict = false;
 
@@ -6,7 +7,8 @@ export const state = () => ({
     dataLoaded: false,
     categories: <Category[]>[],
     cart: {
-        products: <any>{}
+        products: <any>{},
+        orderType: <'delivery' | 'collection'>'delivery',
     },
-    products: new Map()
+    products: new Map<number, Product>()
 })

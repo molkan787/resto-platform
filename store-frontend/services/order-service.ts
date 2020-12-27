@@ -3,7 +3,8 @@ import { Service } from "./service";
 export class OrderService extends Service{
 
     async postOrder(){
-        const items = Object.entries(this.state.cart.products)
+        const { products, orderType } = this.state.cart;
+        const items = Object.entries(products)
                             .map(([id, qty]) => ({
                                 id,
                                 quantity: qty,
@@ -11,7 +12,7 @@ export class OrderService extends Service{
                             }));
 
         const resp = await this.$strapi.$http.$post('/postorder', {
-            type: 'collection',
+            type: orderType,
             items
         });
         this.state.cart.products = {};

@@ -1,5 +1,6 @@
 'use strict';
 const { sanitizeEntity } = require('strapi-utils');
+const { MurewMenu } = require('../../../constants/murew');
 const BadRequestError = require('../../../errors/BadRequestError');
 
 module.exports = class PostOrderService{
@@ -19,13 +20,23 @@ module.exports = class PostOrderService{
             owner: user.id
         }
         const _order = await this.createOrderEntry(order);
+        await this.manageStock(productsItems, -1);
         const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
+        sanitizedOrderData.menu = MurewMenu.ONLINE;
         strapi.services.posSyncService.sendOrder(sanitizedOrderData);
         return sanitizedOrderData;
     }
 
     static createOrderEntry(order){
         return strapi.query('order').create(order);
+    }
+
+    static async setOrderStatus(orderId, status){
+        const order = await strapi.query('order').update({ _id: orderId }, { status });
+        if(['declined', 'canceled'].includes(status)){
+            const { products } = order;
+            await this.manageStock(products, 1);
+        }
     }
 
     static fillProductsInfo(items, products){
@@ -35,14 +46,15 @@ module.exports = class PostOrderService{
             const { id, quantity, note } = item;
             const p = productsMap[id];
             if(!p) continue;
-            const { name, price, updated_at} = p;
+            const { name, price, updated_at, enable_stock} = p;
             result.push({
                 id,
-                quantity,
+                quantity: parseInt(quantity),
                 note,
                 name,
                 price,
-                version_date: updated_at
+                version_date: updated_at,
+                enable_stock: enable_stock
             })
         }
         return result;
@@ -57,6 +69,21 @@ module.exports = class PostOrderService{
             total += localTotal;
         }
         return total;
+    }
+
+    static async manageStock(items, direction){
+        const eligible = items.filter(item => item.enable_stock);
+        const queries = eligible
+            .map(item => (
+                strapi.query('product').model
+                .where({ _id: item.id })
+                .update({
+                    $inc: {
+                        stock: item.quantity * (direction || -1)
+                    }
+                })
+            ));
+        await Promise.all(queries);
     }
     
     static fetchProducts(ids){

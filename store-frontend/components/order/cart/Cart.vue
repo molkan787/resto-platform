@@ -27,6 +27,16 @@
                 </div>
             </template>
         </vs-card>
+        <div class="order-type-wrapper">
+            <vs-button-group>
+                <vs-button block flat @click="cart.orderType = 'delivery'" :active="cart.orderType == 'delivery'">
+                    Delivery
+                </vs-button>
+                <vs-button block flat @click="cart.orderType = 'collection'" :active="cart.orderType == 'collection'">
+                    Pickup
+                </vs-button>
+            </vs-button-group>
+        </div>
     </div>
 </template>
 
@@ -35,7 +45,8 @@ import { mapState } from 'vuex';
 export default {
     computed: {
         ...mapState({
-            cartProducts: state => state.cart.products
+            cartProducts: state => state.cart.products,
+            cart: state => state.cart,
         }),
         items(){
             return Object.entries(this.cartProducts).map(([id, qty]) => {
@@ -105,14 +116,18 @@ $pad: 1rem;
     }
     .controlls{
         padding: 0;
-        transform: translateY(50%);
+        // transform: translateY(50%);
         button{
             width: 100%;
             text-align: center;
             display: inline;
             margin: 0;
+            margin-top: 2rem;
             box-sizing: border-box;
         }
+    }
+    .order-type-wrapper{
+        padding: 15px;
     }
 }
 </style>

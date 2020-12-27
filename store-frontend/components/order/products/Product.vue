@@ -7,10 +7,13 @@
         </h2>
       </template>
       <template #text>
-        <p>
+        <p class="description">
           {{ product.description }}
         </p>
-        <span class="price">{{ product.price | price }}</span>
+        <span class="price">
+          {{ product.price | price }}
+          <label v-if="outofstock" class="outofstock">Out of stock</label>
+        </span>
       </template>
     </vs-card>
   </div>
@@ -24,8 +27,14 @@ export default {
       required: true,
     },
   },
+  computed: {
+    outofstock(){
+      return this.product.enable_stock && this.product.stock < 1;
+    }
+  },
   methods: {
     addToCart() {
+      if(this.outofstock) return;
       this.$cartService.adjustProductQuantity(this.product.id, 1);
     },
   },
@@ -54,8 +63,15 @@ export default {
   .p-card-content {
     color: rgb(117, 117, 117);
   }
+  .description{
+    padding-bottom: 1rem;
+  }
   .price {
     color: rgb(0, 0, 0);
+  }
+  .outofstock{
+    color: rgb(255, 71, 87);
+    float: right;
   }
 }
 </style>
