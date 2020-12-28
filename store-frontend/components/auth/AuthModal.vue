@@ -17,6 +17,9 @@
         <vs-input v-model="registerForm.email" placeholder="Email" :disabled="loading">
           <template #icon> @ </template>
         </vs-input>
+        <vs-input v-model="registerForm.phone" placeholder="Phone number" :disabled="loading">
+          <template #icon> <i class="bx bxs-phone"></i> </template>
+        </vs-input>
         <vs-input
           type="password"
           v-model="registerForm.password"
@@ -128,6 +131,7 @@ export default {
         passwordConfirmation: "",
         fullname: "",
         username: "",
+        phone: "",
       };
     },
     showMessage(color, text, title){
@@ -153,9 +157,12 @@ export default {
         this.loading = false;
     },
     register(){
-        const { password, passwordConfirmation, email } = this.registerForm;
+        const { password, passwordConfirmation, email, phone } = this.registerForm;
         if(password !== passwordConfirmation){
             throw new Error('Passwords doesn\'t match');
+        }
+        if(phone.length < 10){
+          throw new Error('Please provide a valid phone number');
         }
         this.registerForm.username = email;
         return this.$authService.registerUser(this.registerForm);

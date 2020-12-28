@@ -1,8 +1,19 @@
 .container{
     display: block;
+    box-sizing: border-box;
     width: 1024px;
     margin: auto;
+    &.flexed{
+        width: unset;
+        max-width: 1024px;
+    }
     @media (max-width: 768px) {
         width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hide-on-mobile{
+        display: none;
     }
 }

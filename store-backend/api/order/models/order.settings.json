@@ -60,6 +60,11 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "delivery_address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "order.address"
     }
   }
 }

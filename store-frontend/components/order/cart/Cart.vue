@@ -2,7 +2,7 @@
     <div class="cart">
           <vs-card>
             <template #title>
-                 <div class="title">
+                <div class="title">
                     Cart
                 </div>
             </template>
@@ -20,9 +20,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="controlls">
-                    <vs-button @click="placeOrderClick" size="xl" :loading="postingOrder">
-                        Place order
+                <div v-if="showOrderButton" class="controlls">
+                    <vs-button @click="orderClick" size="xl">
+                        Order
                     </vs-button>
                 </div>
             </template>
@@ -43,6 +43,12 @@
 <script>
 import { mapState } from 'vuex';
 export default {
+    props: {
+        showOrderButton: {
+            type: Boolean,
+            default: true
+        }
+    },
     computed: {
         ...mapState({
             cartProducts: state => state.cart.products,
@@ -63,21 +69,11 @@ export default {
             return this.items.reduce((total, item) => total + item.total, 0);
         }
     },
-    data: () => ({
-        postingOrder: false,
-    }),
     methods: {
-        async placeOrderClick(){
-            // this.$router.push({
-            //     path: '/checkout'
-            // })
-            try {
-                this.postingOrder = true;
-                await this.$orderService.postOrder();
-            } catch (error) {
-                alert('An error occured, Please try again.')
-            }
-            this.postingOrder = false;
+        async orderClick(){
+            this.$router.push({
+                path: '/checkout'
+            });
         }
     }
 }

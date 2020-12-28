@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_order_addresses",
+  "info": {
+    "name": "address",
+    "icon": "address-card"
+  },
+  "options": {},
+  "attributes": {
+    "line1": {
+      "type": "string",
+      "required": true
+    },
+    "line2": {
+      "type": "string"
+    },
+    "postcode": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    }
+  }
+}

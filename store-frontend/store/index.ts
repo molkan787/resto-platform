@@ -1,3 +1,4 @@
+import createPersistedState from 'vuex-persistedstate';
 import { Category } from '~/interfaces/Category';
 import { Product } from '~/interfaces/Product';
 
@@ -10,5 +11,5 @@ export const state = () => ({
         products: <any>{},
         orderType: <'delivery' | 'collection'>'delivery',
     },
-    products: new Map<number, Product>()
-})
+    products: new Map<string, Product>()
+});

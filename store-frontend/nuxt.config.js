@@ -25,6 +25,7 @@ export default {
     { src: '@/plugins/global-filters' },
     { src: '@/plugins/services' },
     { src: '@/plugins/cookie-expire-time' },
+    { src: '@/plugins/persisted-state.client', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

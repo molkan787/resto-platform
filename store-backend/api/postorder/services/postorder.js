@@ -7,8 +7,9 @@ const { generateOrderNumber } = require('../../../murew-core/utils/order');
 module.exports = class PostOrderService{
 
     static async createOrder(data, user){
-        const { type, items } = data;
-        this.validateData(type, items);
+        const { type, items, delivery_address, note } = data;
+        this.validateData(data);
+        const isDelivery = type == 'delivery';
         const products_ids = items.map(item => item.id);
         const products = await this.fetchProducts(products_ids);
         const productsItems = this.fillProductsInfo(items, products);
@@ -21,7 +22,12 @@ module.exports = class PostOrderService{
             total: this.calculateOrderTotal(productsItems),
             created_by: user.id,
             owner: user.id,
-            menu: MurewMenu.ONLINE
+            menu: MurewMenu.ONLINE,
+            note,
+            delivery_address: isDelivery ? delivery_address : {}
+        }
+        if(isDelivery){
+            await strapi.query('user', 'users-permissions').update({ id: user.id }, { default_address: delivery_address });
         }
         const _order = await this.createOrderEntry(order);
         await this.manageStock(productsItems, -1);
@@ -106,12 +112,16 @@ module.exports = class PostOrderService{
         return generateOrderNumber(order_no_pointer, 'N');
     }
 
-    static validateData(type, items){
+    static validateData(data){
+        const { type, items, delivery_address } = data;
         if(!['delivery', 'collection'].includes(type)){
             throw new BadRequestError(`Invalid order type "${type}"`);
         }
         if(!(items instanceof Array) || items.length == 0){
             throw new BadRequestError('At least one product should be included');
+        }
+        if(type == 'delivery' && typeof delivery_address != 'object'){
+            throw new BadRequestError('Please provide delivery address');
         }
         return true;
     }

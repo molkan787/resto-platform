@@ -3,7 +3,7 @@ import Vue from 'vue';
 
 export class CartService extends Service{
 
-    public adjustProductQuantity(productId: number, amount: number){
+    public adjustProductQuantity(productId: string, amount: number){
         const product = this.state.products.get(productId);
         const quantities = this.state.cart.products;
         let qty = quantities[productId];
