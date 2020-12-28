@@ -2,6 +2,7 @@
 const { sanitizeEntity } = require('strapi-utils');
 const { MurewMenu } = require('../../../constants/murew');
 const BadRequestError = require('../../../errors/BadRequestError');
+const { generateOrderNumber } = require('../../../murew-core/utils/order');
 
 module.exports = class PostOrderService{
 
@@ -11,13 +12,16 @@ module.exports = class PostOrderService{
         const products_ids = items.map(item => item.id);
         const products = await this.fetchProducts(products_ids);
         const productsItems = this.fillProductsInfo(items, products);
+        const orderNo = await this.generateOrderNumber();
         const order = {
+            no: orderNo,
             type,
             products: productsItems,
             status: 'placed',
             total: this.calculateOrderTotal(productsItems),
             created_by: user.id,
-            owner: user.id
+            owner: user.id,
+            menu: MurewMenu.ONLINE
         }
         const _order = await this.createOrderEntry(order);
         await this.manageStock(productsItems, -1);
@@ -48,7 +52,7 @@ module.exports = class PostOrderService{
             if(!p) continue;
             const { name, price, updated_at, enable_stock} = p;
             result.push({
-                id,
+                pid: id,
                 quantity: parseInt(quantity),
                 note,
                 name,
@@ -76,7 +80,7 @@ module.exports = class PostOrderService{
         const queries = eligible
             .map(item => (
                 strapi.query('product').model
-                .where({ _id: item.id })
+                .where({ _id: item.pid })
                 .update({
                     $inc: {
                         stock: item.quantity * (direction || -1)
@@ -90,6 +94,16 @@ module.exports = class PostOrderService{
         return strapi.query('product').find({
             id_in: ids
         }, []);
+    }
+
+    static async generateOrderNumber(){
+        const doc = await strapi.query('metadata').model.findOneAndUpdate({}, {
+            $inc: {
+                order_no_pointer: 1
+            }
+        });
+        const { order_no_pointer } = doc;
+        return generateOrderNumber(order_no_pointer, 'N');
     }
 
     static validateData(type, items){

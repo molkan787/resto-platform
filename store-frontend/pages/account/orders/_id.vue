@@ -1,7 +1,7 @@
 <template>
     <Page>
         <div class="content-wrapper">
-            <h1>Order #{{ id }}</h1>
+            <h1>Order #: {{ order.no }}</h1>
             <div class="info">
                 <h3>Status: {{ order.status | capitalize }}</h3>
                 <h3>Type: {{ order.type | capitalize }}</h3>

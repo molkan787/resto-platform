@@ -5,6 +5,7 @@
             <vs-table>
                 <template #thead>
                     <vs-tr>
+                        <vs-th> Order # </vs-th>
                         <vs-th> Order date </vs-th>
                         <vs-th> Status </vs-th>
                         <vs-th> Total </vs-th>
@@ -17,6 +18,9 @@
                         :data="tr"
                         @click="openOrder(tr)"
                     >
+                        <vs-td>
+                            {{ tr.no || '---' }}
+                        </vs-td>
                         <vs-td>
                             {{ tr.createdAt | date }}
                         </vs-td>

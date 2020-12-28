@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_order_order_items",
+  "info": {
+    "name": "order_item",
+    "icon": "box",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "quantity": {
+      "type": "integer"
+    },
+    "note": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "enable_stock": {
+      "type": "boolean",
+      "default": false
+    },
+    "pid": {
+      "type": "string"
+    }
+  }
+}

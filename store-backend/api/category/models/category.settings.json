@@ -23,8 +23,8 @@
       "targetField": "name"
     },
     "products": {
-      "via": "category",
-      "collection": "product"
+      "collection": "product",
+      "via": "category"
     },
     "children": {
       "collection": "category",
@@ -37,7 +37,8 @@
     "menu": {
       "type": "string",
       "default": "online",
-      "private": true
+      "private": true,
+      "required": true
     },
     "type": {
       "type": "enumeration",

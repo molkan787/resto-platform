@@ -22,10 +22,7 @@
         "ready",
         "shipped",
         "delivered"
-      ]
-    },
-    "products": {
-      "type": "json",
+      ],
       "required": true
     },
     "type": {
@@ -33,7 +30,8 @@
       "enum": [
         "collection",
         "delivery"
-      ]
+      ],
+      "required": true
     },
     "total": {
       "type": "decimal"
@@ -50,7 +48,18 @@
       "enum": [
         "online",
         "pos"
-      ]
+      ],
+      "required": true
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "order.order-item"
+    },
+    "no": {
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }

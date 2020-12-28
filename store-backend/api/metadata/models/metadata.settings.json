@@ -1,0 +1,17 @@
+{
+  "kind": "singleType",
+  "collectionName": "metadata",
+  "info": {
+    "name": "metadata"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "order_no_pointer": {
+      "type": "integer"
+    }
+  }
+}
