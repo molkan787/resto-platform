@@ -52,6 +52,10 @@
     "store_id": {
       "type": "string",
       "private": true
+    },
+    "remote_id": {
+      "type": "integer",
+      "private": true
     }
   }
 }
