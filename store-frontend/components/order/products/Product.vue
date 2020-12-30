@@ -35,7 +35,8 @@ export default {
   methods: {
     addToCart() {
       if(this.outofstock) return;
-      this.$cartService.adjustProductQuantity(this.product.id, 1);
+      // this.$cartService.adjustProductQuantity(this.product.id, 1);
+      this.$emit('click', this.product);
     },
   },
 };

@@ -14,20 +14,25 @@
                 <template #thead>
                     <vs-tr>
                         <vs-th> Name </vs-th>
-                        <vs-th> Email </vs-th>
-                        <vs-th> Id </vs-th>
+                        <vs-th> Quantity </vs-th>
+                        <vs-th> Unit Price </vs-th>
                     </vs-tr>
                 </template>
                 <template #tbody>
                     <vs-tr :key="i" v-for="(tr, i) in order.products" :data="tr">
                         <vs-td>
                             {{ tr.name }}
+                            <div class="extras">
+                                <div v-for="(e, index) in tr.extras" :key="e.name + index">
+                                    + {{ e.name }}
+                                </div>
+                            </div>
                         </vs-td>
                         <vs-td>
                             {{ tr.quantity }}
                         </vs-td>
                         <vs-td>
-                            {{ tr.price | price }}
+                            {{ (tr.unit_price || tr.price) | price }}
                         </vs-td>
                     </vs-tr>
                 </template>
@@ -60,5 +65,8 @@ export default {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(3, calc(100% / 3));
+}
+.extras{
+    padding-left: 1rem;
 }
 </style>

@@ -10,7 +10,8 @@
             </vs-button>
           </vs-button-group>
         </div>
-        <Category v-for="cat in categories" :key="cat.slug" :category="cat" />
+        <Category v-for="cat in categories" :key="cat.slug" :category="cat" @productClick="productClick" />
+        <ProductOptionsModal ref="productOptionsModal" />
       </div>
       <div class="right-column">
         <Cart />
@@ -33,7 +34,14 @@ export default {
     categoryNameClicked(category){
       const selector = `category-pane-${category.slug}`;
       document.getElementById(selector).scrollIntoView({ behavior: 'smooth' });
+    },
+    productClick(product){
+      this.$refs.productOptionsModal.open(product);
     }
+  },
+  mounted(){
+    // const p = this.categories[0].products[0];
+    // this.$refs.productOptionsModal.open(p);
   }
 }
 </script>

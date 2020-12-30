@@ -1,12 +1,22 @@
 import { Service } from "./service";
 import Vue from 'vue';
+import { Product } from "~/interfaces/Product";
+import { CartProductOptions } from "~/interfaces/CartProductOptions";
 
 export class CartService extends Service{
 
+    public setProduct(productId: string, options: CartProductOptions){
+        Vue.set(this.state.cart.products, productId, options);
+    }
+
+    public removeProduct(productId: string){
+        Vue.delete(this.state.cart.products, productId);
+    }
+
     public adjustProductQuantity(productId: string, amount: number){
         const product = this.state.products.get(productId);
-        const quantities = this.state.cart.products;
-        let qty = quantities[productId];
+        const options = this.state.cart.products[productId];
+        let qty = options.qty;
         if(typeof qty == 'number'){
             qty += amount;
         }else{
@@ -19,10 +29,13 @@ export class CartService extends Service{
         }
 
         if(qty > 0){
-            Vue.set(quantities, productId, qty);
+            Vue.set(options, 'qty', qty);
         }else{
-            Vue.delete(quantities, productId);
+            this.removeProduct(productId);
         }
     }
 
+    public getItemOptions(productId: string){
+        return this.state.cart.products[productId] || null;
+    }
 }

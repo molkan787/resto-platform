@@ -6,10 +6,11 @@ export class OrderService extends Service{
         const { address, paymentMethod, note } = data;
         const { products, orderType } = this.state.cart;
         const items = Object.entries(products)
-                            .map(([id, qty]) => ({
+                            .map(([id, options]) => ({
                                 id,
-                                quantity: qty,
-                                note: ''
+                                quantity: options.qty,
+                                note: options.note,
+                                extras: options.extras
                             }));
 
         const resp = await this.$strapi.$http.$post('/postorder', {

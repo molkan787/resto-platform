@@ -55,13 +55,13 @@ export default {
             cart: state => state.cart,
         }),
         items(){
-            return Object.entries(this.cartProducts).map(([id, qty]) => {
+            return Object.entries(this.cartProducts).map(([id, options]) => {
                 const product = this.$store.state.products.get(id);
                 return {
                     id,
                     data: product,
-                    qty: qty,
-                    total: product.price * qty
+                    qty: options.qty,
+                    total: this.calcItemTotal(product, options)
                 }
             })
         },
@@ -70,6 +70,11 @@ export default {
         }
     },
     methods: {
+        calcItemTotal(product, options){
+            const extrasCost = options.extras.reduce((t, e) => t + e.price, 0);
+            const unitPrice = product.price + extrasCost;
+            return unitPrice * options.qty;
+        },
         async orderClick(){
             this.$router.push({
                 path: '/checkout'

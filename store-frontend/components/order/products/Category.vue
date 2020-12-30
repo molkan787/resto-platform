@@ -2,7 +2,7 @@
   <div class="category" :id="'category-pane-' + category.slug">
       <h2 class="header">{{ category.name }}</h2>
       <div class="content">
-        <Product v-for="p in category.products" :key="p.id" :product="p" />
+        <Product v-for="p in category.products" :key="p.id" :product="p" @click="$emit('productClick', $event)" />
       </div>
   </div>
 </template>
