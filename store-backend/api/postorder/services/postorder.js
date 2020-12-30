@@ -7,16 +7,17 @@ const { generateOrderNumber } = require('../../../murew-core/utils/order');
 module.exports = class PostOrderService{
 
     static async createOrder(data, user){
-        const { type, items, delivery_address, note } = data;
+        const { type, items, delivery_address, note, store_id } = data;
         this.validateData(data);
         const isDelivery = type == 'delivery';
         const products_ids = items.map(item => item.id);
-        const products = await this.fetchProducts(products_ids);
+        const products = await this.fetchProducts(products_ids, store_id);
         const productsItems = this.fillProductsInfo(items, products);
         // throw new Error('foo')
         const orderNo = await this.generateOrderNumber();
         const order = {
             no: orderNo,
+            store_id: store_id,
             type,
             products: productsItems,
             status: 'placed',
@@ -59,7 +60,7 @@ module.exports = class PostOrderService{
             console.log(id, extras_ids)
             const p = productsMap[id];
             if(!p) continue;
-            const { name, price, updated_at, enable_stock, extras: extras_av } = p;
+            const { name, price, enable_stock, extras: extras_av } = p;
             const extras = extras_av.filter(ea => extras_ids.includes(ea.id)).map(e => ({
                 name: e.name,
                 price: e.price,
@@ -104,9 +105,10 @@ module.exports = class PostOrderService{
         await Promise.all(queries);
     }
     
-    static fetchProducts(ids){
+    static fetchProducts(ids, store_id){
         return strapi.query('product').find({
-            id_in: ids
+            id_in: ids,
+            store_id: store_id,
         }, []);
     }
 
