@@ -25,6 +25,14 @@
     },
     "pid": {
       "type": "string"
+    },
+    "extras": {
+      "type": "component",
+      "repeatable": true,
+      "component": "order.order-item-extra"
+    },
+    "unit_price": {
+      "type": "decimal"
     }
   }
 }

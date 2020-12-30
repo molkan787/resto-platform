@@ -1,9 +1,8 @@
 {
-  "collectionName": "components_order_addresses",
+  "collectionName": "components_common_addresses",
   "info": {
-    "name": "address",
-    "icon": "address-card",
-    "description": ""
+    "name": "Address",
+    "icon": "address-book"
   },
   "options": {},
   "attributes": {
@@ -15,7 +14,9 @@
       "type": "string"
     },
     "postcode": {
-      "type": "string"
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 10
     },
     "city": {
       "type": "string"

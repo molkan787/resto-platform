@@ -18,6 +18,7 @@ import IndicatorSeparator from './IndicatorSeparator';
 import Option from './Option';
 import { A, BaselineAlignment } from './components';
 import { connect, select, styles } from './utils';
+import { LS_STORE_ID_KEY } from '../../../config';
 
 function SelectWrapper({
   componentUid,
@@ -106,7 +107,7 @@ function SelectWrapper({
           method: 'GET',
           params: {
             ...params,
-            
+            store_id: window.localStorage.getItem(LS_STORE_ID_KEY)
           },
           signal,
         });

@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_products_extras",
+  "info": {
+    "name": "extra",
+    "icon": "cubes"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

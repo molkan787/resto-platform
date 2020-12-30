@@ -31,6 +31,7 @@ import {
   getYupInnerErrors,
   removePasswordFieldsFromData,
 } from './utils';
+import { LS_STORE_ID_KEY } from '../../../config';
 
 const getRequestUrl = path => `/${pluginId}/explorer/${path}`;
 
@@ -415,6 +416,11 @@ const EditViewDataManagerProvider = ({
         currentContentTypeLayout,
         allLayoutData.components
       );
+
+      const hasStoreId = typeof currentContentTypeLayout.schema.attributes.store_id == 'object';
+      if(hasStoreId){
+        cleanedData.store_id = window.localStorage.getItem(LS_STORE_ID_KEY);
+      }
 
       const formData = new FormData();
 

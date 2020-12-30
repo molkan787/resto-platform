@@ -13,6 +13,7 @@ module.exports = class PostOrderService{
         const products_ids = items.map(item => item.id);
         const products = await this.fetchProducts(products_ids);
         const productsItems = this.fillProductsInfo(items, products);
+        // throw new Error('foo')
         const orderNo = await this.generateOrderNumber();
         const order = {
             no: orderNo,
@@ -54,16 +55,24 @@ module.exports = class PostOrderService{
         const result = [];
         for(let item of items){
             const { id, quantity, note } = item;
+            const extras_ids = item.extras.map(e => e.id);
+            console.log(id, extras_ids)
             const p = productsMap[id];
             if(!p) continue;
-            const { name, price, updated_at, enable_stock} = p;
+            const { name, price, updated_at, enable_stock, extras: extras_av } = p;
+            const extras = extras_av.filter(ea => extras_ids.includes(ea.id)).map(e => ({
+                name: e.name,
+                price: e.price,
+            }));
+            const unit_price = extras.reduce((t, e) => t + e.price, price);
             result.push({
                 pid: id,
                 quantity: parseInt(quantity),
                 note,
                 name,
                 price,
-                version_date: updated_at,
+                unit_price: unit_price,
+                extras,
                 enable_stock: enable_stock
             })
         }
@@ -74,8 +83,7 @@ module.exports = class PostOrderService{
         let total = 0;
         for(let item of items){
             const qty = parseInt(item.quantity);
-            const price = item.price;
-            const localTotal = price * qty;
+            const localTotal = item.unit_price * qty;
             total += localTotal;
         }
         return total;

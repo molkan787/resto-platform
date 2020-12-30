@@ -29,8 +29,10 @@ import init from './init';
 import reducer, { initialState } from './reducer';
 import Loader from './Loader';
 import Wrapper from './Wrapper';
+import Select from 'react-select';
 
 const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) => {
+  const LS_STORE_ID_KEY = 'murew_store_id';
   const location = useLocation();
   const permissions = useContext(UserContext);
   const { menu: settingsMenu } = useSettingsMenu(true);
@@ -48,6 +50,8 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
       collectionTypesSectionLinks,
       generalSectionLinks,
       isLoading,
+      stores,
+      currentStore,
       pluginsSectionLinks,
       singleTypesSectionLinks,
     },
@@ -141,6 +145,30 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
       const generalSectionResults = await Promise.all(generalSectionLinksArrayOfPromises);
       const pluginsSectionResults = await Promise.all(pluginsSectionLinksArrayOfPromises);
 
+      const url = '/content-manager/explorer/application::store.store?_sort=name%3AASC';
+      const _stores = await request(url, { method: 'GET' });
+      const stores = _stores.map(s => ({ label: s.name, value: s.id }));
+      dispatch({
+        type: 'SET_STORES',
+        data: stores
+      });
+
+      let store = null;
+      const currentStoreId = window.localStorage.getItem(LS_STORE_ID_KEY);
+      if(currentStoreId){
+        const storeIndex = stores.findIndex(s => s.value == currentStoreId);
+        store = storeIndex >= 0 && stores[storeIndex];
+        
+      }
+      if(!store) store = stores[0];
+      if(store){
+        dispatch({
+          type: 'SET_CURRENT_STORE',
+          data: store
+        });
+        window.localStorage.setItem(LS_STORE_ID_KEY, store.value);
+      }
+      
       dispatch({
         type: 'SET_LINK_PERMISSIONS',
         data: {
@@ -158,11 +186,24 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [permissions]);
 
+  const onStoreChange = (option) => {
+    window.localStorage.setItem(LS_STORE_ID_KEY, option.value);
+    dispatch({
+      type: 'SET_CURRENT_STORE',
+      data: option
+    });
+    window.location.reload();
+  }
+
   return (
     <Wrapper>
       <Loader show={isLoading} />
       <LeftMenuHeader />
       <LinksContainer>
+        <div className="select-store-section" style={{ padding: '1rem' }}>
+          <span style={{ color: 'white' }}>Browse Store</span>
+          <Select onChange={onStoreChange} options={stores} value={currentStore}></Select>
+        </div>
         {collectTypesSectionLinksFiltered.length > 0 && (
           <LeftMenuLinksSection
             section="collectionType"

@@ -23,8 +23,8 @@
       "type": "text"
     },
     "category": {
-      "via": "products",
-      "model": "category"
+      "model": "category",
+      "via": "products"
     },
     "remote_id": {
       "type": "integer"
@@ -38,6 +38,15 @@
       "type": "integer",
       "default": 0,
       "min": 0
+    },
+    "extras": {
+      "type": "component",
+      "repeatable": true,
+      "component": "products.extra"
+    },
+    "store_id": {
+      "type": "string",
+      "private": true
     }
   }
 }

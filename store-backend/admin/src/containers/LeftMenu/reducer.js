@@ -37,6 +37,8 @@ const initialState = {
   singleTypesSectionLinks: [],
   pluginsSectionLinks: [],
   isLoading: true,
+  stores: [],
+  currentStore: null,
 };
 
 const reducer = (state, action) =>
@@ -56,6 +58,14 @@ const reducer = (state, action) =>
             set(draftState, [sectionName, result.index, 'isDisplayed'], result.hasPermission);
           });
         });
+        break;
+      }
+      case 'SET_STORES': {
+        draftState.stores = action.data;
+        break;
+      }
+      case 'SET_CURRENT_STORE': {
+        draftState.currentStore = action.data;
         break;
       }
       case 'TOGGLE_IS_LOADING': {

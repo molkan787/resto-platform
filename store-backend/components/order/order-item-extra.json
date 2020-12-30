@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_order_order_item_extras",
+  "info": {
+    "name": "order_item_extra",
+    "icon": "apple-alt"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    }
+  }
+}

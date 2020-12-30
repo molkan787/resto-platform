@@ -23,8 +23,8 @@
       "targetField": "name"
     },
     "products": {
-      "collection": "product",
-      "via": "category"
+      "via": "category",
+      "collection": "product"
     },
     "children": {
       "collection": "category",
@@ -48,6 +48,10 @@
       ],
       "default": "food",
       "required": true
+    },
+    "store_id": {
+      "type": "string",
+      "private": true
     }
   }
 }

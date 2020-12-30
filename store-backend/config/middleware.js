@@ -5,6 +5,6 @@ module.exports = {
     settings: {
       httperrors: {
         enabled: true,
-      },
+      }
     },
   }

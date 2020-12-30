@@ -406,6 +406,11 @@ module.exports = {
       return ctx.notFound('target.notFound');
     }
 
+    const hasStoreId = typeof target._attributes.store_id == 'object';
+    if(!hasStoreId){
+      delete query.store_id;
+    }
+
     const contentManagerService = contentManagerServices.contentmanager;
 
     let entities = [];

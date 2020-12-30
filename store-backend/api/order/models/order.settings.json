@@ -65,6 +65,10 @@
       "type": "component",
       "repeatable": false,
       "component": "order.address"
+    },
+    "store_id": {
+      "type": "string",
+      "private": true
     }
   }
 }
