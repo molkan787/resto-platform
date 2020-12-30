@@ -7,25 +7,21 @@
       HOME
     </vs-navbar-item>
 
-    <vs-navbar-item :active="active == 'order'" to="/order">
-      ORDER ONLINE
-    </vs-navbar-item>
-
-    <!-- <vs-navbar-group>
-      ORDER ONLINE
-
-      <template #items>
-        <vs-navbar-item :active="active == 'Bristol'" id="Bristol">
-          Bristol
-        </vs-navbar-item>
-        <vs-navbar-item :active="active == 'Marens'" id="Marens">
-          Marens
-        </vs-navbar-item>
-        <vs-navbar-item :active="active == 'Aleshi'" id="Aleshi">
-          Aleshi
-        </vs-navbar-item>
-      </template>
-    </vs-navbar-group> -->
+    <template v-if="stores.length > 1">
+      <vs-navbar-group>
+        ORDER ONLINE
+        <template #items>
+          <vs-navbar-item v-for="store in stores" :key="store.id" :active="activeStoreSlug == store.slug" :to="`/order/${store.slug}`">
+            {{ store.name }}
+          </vs-navbar-item>
+        </template>
+      </vs-navbar-group>
+    </template>
+    <template v-else>
+      <vs-navbar-item :active="active == 'order'" :to="`/order/${(stores[0] || {}).slug}`">
+        ORDER ONLINE
+      </vs-navbar-item>
+    </template>
 
     <vs-navbar-item :active="active == 'gallery'" to="/gallery">
       GALLERY
@@ -60,6 +56,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   methods: {
     itemClick(value){
@@ -77,11 +74,15 @@ export default {
     }
   },
   computed:{
+    ...mapState(['stores']),
     user(){
       return this.$strapi.user;
     },
     active(){
       return this.$route.name;
+    },
+    activeStoreSlug(){
+      return this.$route.params.store;
     }
   }
 };

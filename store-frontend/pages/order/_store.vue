@@ -2,6 +2,7 @@
   <Page class="order-page">
     <div class="content">
       <div class="left-column">
+        <h2>Order from {{ storeName | capitalize }}</h2>
         <div class="categories-header">
           <vs-button-group>
             <vs-button v-for="cat in categories" :key="'tab-sel-' + cat.slug" flat
@@ -21,10 +22,18 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   async asyncData(ctx){
-    const categories = await ctx.$dataService.getCategories();
+    const categories = await ctx.$dataService.getCategories(ctx.params.store);
     return { categories };
+  },
+  computed: {
+    ...mapState(['activeStore']),
+    storeName(){
+      const s = this.activeStore;
+      return s && s.slug == this.$route.params.store ? s.name : '';
+    }
   },
   data: () => ({
     currentCategoryIndex: 0,
@@ -40,8 +49,7 @@ export default {
     }
   },
   mounted(){
-    // const p = this.categories[0].products[0];
-    // this.$refs.productOptionsModal.open(p);
+    this.$appService.setActiveStoreBySlug(this.$route.params.store);
   }
 }
 </script>

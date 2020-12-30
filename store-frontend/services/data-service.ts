@@ -4,9 +4,11 @@ import { Product } from "~/interfaces/Product";
 
 export class DataService extends Service{
 
-    public async getCategories(){
+    public async getCategories(storeSlug: string){
         if(!this.state.dataLoaded){
-            const categories: Category[] = await this.$strapi.find('categories');
+            const storeId = this.context.$appService.getStoreIdBySlug(storeSlug);
+            if(!storeId) throw new Error('Not found');
+            const categories: Category[] = await this.$strapi.find('categories', { store_id: storeId });
             this.state.categories = categories;
             this.state.products = this.createProductsMap(categories);
         }

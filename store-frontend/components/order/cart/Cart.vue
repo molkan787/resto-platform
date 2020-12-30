@@ -57,13 +57,14 @@ export default {
         items(){
             return Object.entries(this.cartProducts).map(([id, options]) => {
                 const product = this.$store.state.products.get(id);
+                if(!product) return null;
                 return {
                     id,
                     data: product,
                     qty: options.qty,
                     total: this.calcItemTotal(product, options)
                 }
-            })
+            }).filter(i => !!i);
         },
         total(){
             return this.items.reduce((total, item) => total + item.total, 0);

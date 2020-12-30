@@ -12,8 +12,9 @@ export class OrderService extends Service{
                                 note: options.note,
                                 extras: options.extras
                             }));
-
+        const storeId = this.context.$appService.getActiveStoreId();
         const resp = await this.$strapi.$http.$post('/postorder', {
+            store_id: storeId,
             type: orderType,
             items,
             delivery_address: address,

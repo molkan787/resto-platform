@@ -45,7 +45,7 @@ export default {
 
   strapi: {
     url: 'http://localhost:1337',
-    entities: ['categories', 'products', 'orders']
+    entities: ['categories', 'products', 'orders', 'stores']
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

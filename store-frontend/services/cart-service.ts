@@ -1,6 +1,5 @@
 import { Service } from "./service";
 import Vue from 'vue';
-import { Product } from "~/interfaces/Product";
 import { CartProductOptions } from "~/interfaces/CartProductOptions";
 
 export class CartService extends Service{
@@ -37,5 +36,9 @@ export class CartService extends Service{
 
     public getItemOptions(productId: string){
         return this.state.cart.products[productId] || null;
+    }
+
+    public clearCart(){
+        this.state.cart.products = {};
     }
 }
