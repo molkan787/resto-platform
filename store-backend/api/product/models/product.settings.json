@@ -23,8 +23,8 @@
       "type": "text"
     },
     "category": {
-      "model": "category",
-      "via": "products"
+      "via": "products",
+      "model": "category"
     },
     "remote_id": {
       "type": "integer"

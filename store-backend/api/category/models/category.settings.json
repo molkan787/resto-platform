@@ -14,7 +14,7 @@
     "name": {
       "type": "string",
       "required": true,
-      "unique": true,
+      "unique": false,
       "minLength": 2,
       "maxLength": 150
     },
@@ -23,8 +23,8 @@
       "targetField": "name"
     },
     "products": {
-      "via": "category",
-      "collection": "product"
+      "collection": "product",
+      "via": "category"
     },
     "children": {
       "collection": "category",
