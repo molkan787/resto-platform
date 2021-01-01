@@ -19,7 +19,7 @@ module.exports = class WebsocketServer extends EventEmitter{
                 console.log((new Date()) + ' Connection rejected.');
                 return;
             }
-            const connection = request.accept('echo-protocol', request.origin);
+            const connection = request.accept('murew-protocol', request.origin);
             this.clients.push(connection);
             console.log((new Date()) + ' Connection accepted.');
             connection.on('message', (message) => {
