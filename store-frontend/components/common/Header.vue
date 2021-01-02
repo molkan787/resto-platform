@@ -12,7 +12,7 @@
         ORDER ONLINE
         <template #items>
           <vs-navbar-item v-for="store in stores" :key="store.id" :active="activeStoreSlug == store.slug" :to="`/order/${store.slug}`">
-            {{ store.name }}
+            {{ store.name | capitalize }}
           </vs-navbar-item>
         </template>
       </vs-navbar-group>
