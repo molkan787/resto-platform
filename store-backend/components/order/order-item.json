@@ -33,6 +33,9 @@
     },
     "unit_price": {
       "type": "decimal"
+    },
+    "remote_id": {
+      "type": "integer"
     }
   }
 }

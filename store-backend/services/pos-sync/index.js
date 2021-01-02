@@ -1,4 +1,5 @@
 const MurewMenuSync = require("./menu-sync");
+const MurewStockSync = require("./stock-sync");
 const WebsocketServer = require("./websocket-server")
 
 module.exports = class PosSyncService{
@@ -32,8 +33,10 @@ module.exports = class PosSyncService{
         const { action, data } = message;
         if([MurewActions.AcceptOrder, MurewActions.DeclineOrder].includes(action)){
             this.setOrderStatus(data.id, action);
-        }else{
+        }else if(action == MurewActions.SetMenu){
             MurewMenuSync.setMenu(data);
+        }else if(action == MurewActions.SyncStock){
+            MurewStockSync.setStocks(data);
         }
     }
 
@@ -45,5 +48,6 @@ const MurewActions = {
     AcceptOrder: 'accept-order',
     DeclineOrder: 'decline-order',
     SetMenu: 'set-menu',
-    SyncMenu: 'sync-menu'
+    SyncMenu: 'sync-menu',
+    SyncStock: 'sync-stock'
 }

@@ -9,11 +9,15 @@ module.exports = class PostOrderService{
     static async createOrder(data, user){
         const { type, items, delivery_address, note, store_id } = data;
         this.validateData(data);
+        const store = await strapi.query('store').findOne({ id: store_id, active: true });
+        if(!store){
+            throw new BadRequestError(`Store with id "${store_id}" not found.`);
+        }
         const isDelivery = type == 'delivery';
         const products_ids = items.map(item => item.id);
         const products = await this.fetchProducts(products_ids, store_id);
         const productsItems = this.fillProductsInfo(items, products);
-        // throw new Error('foo')
+        const allHaveRemoteId = productsItems.reduce((b, p) => b && !!p.remote_id, true);
         const orderNo = await this.generateOrderNumber();
         const order = {
             no: orderNo,
@@ -24,7 +28,7 @@ module.exports = class PostOrderService{
             total: this.calculateOrderTotal(productsItems),
             created_by: user.id,
             owner: user.id,
-            menu: MurewMenu.ONLINE,
+            menu: allHaveRemoteId ? MurewMenu.POS : MurewMenu.ONLINE,
             note,
             delivery_address: isDelivery ? delivery_address : {}
         }
@@ -34,7 +38,6 @@ module.exports = class PostOrderService{
         const _order = await this.createOrderEntry(order);
         await this.manageStock(productsItems, -1);
         const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
-        sanitizedOrderData.menu = MurewMenu.ONLINE;
         strapi.services.posSyncService.sendOrder(sanitizedOrderData);
         return sanitizedOrderData;
     }
@@ -74,7 +77,8 @@ module.exports = class PostOrderService{
                 price,
                 unit_price: unit_price,
                 extras,
-                enable_stock: enable_stock
+                enable_stock: enable_stock,
+                remote_id: p.remote_id
             })
         }
         return result;
