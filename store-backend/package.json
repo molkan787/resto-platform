@@ -1,8 +1,8 @@
 {
-  "name": "strapi-project",
+  "name": "murew-vendor",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "Vendor app for the Murew Platform",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
