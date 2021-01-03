@@ -10,12 +10,12 @@
     "strapi": "strapi"
   },
   "devDependencies": {
-    "@types/eventemitter3": "^2.0.2"
+    "@types/eventemitter3": "^2.0.2",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
     "eventemitter3": "^4.0.7",
-    "knex": "<0.20.0",
-    "sqlite3": "latest",
     "strapi": "3.3.4",
     "strapi-admin": "3.3.4",
     "strapi-connector-bookshelf": "3.3.4",
@@ -26,6 +26,8 @@
     "strapi-plugin-upload": "3.3.4",
     "strapi-plugin-users-permissions": "3.3.4",
     "strapi-utils": "3.3.4",
+    "vue": "^2.6.12",
+    "vuera": "^0.2.7",
     "websocket": "^1.0.33"
   },
   "author": {

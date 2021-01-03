@@ -14,7 +14,7 @@ import SearchWrapper from './SearchWrapper';
 const LeftMenuLinkHeader = ({ section, searchable, setSearch, search }) => {
   const [showSearch, setShowSearch] = useState(false);
   const ref = createRef();
-  const { id, defaultMessage } = messages[camelCase(section)];
+  let { id, defaultMessage } = messages[camelCase(section)];
 
   useEffect(() => {
     if (showSearch && ref.current) {
@@ -39,7 +39,7 @@ const LeftMenuLinkHeader = ({ section, searchable, setSearch, search }) => {
     <Title>
       {!showSearch ? (
         <>
-          <FormattedMessage id={id} defaultMessage={defaultMessage} />
+          <FormattedMessage id={'id'} defaultMessage={defaultMessage} />
           {searchable && (
             <SearchButton onClick={toggleSearch}>
               <FontAwesomeIcon icon="search" />

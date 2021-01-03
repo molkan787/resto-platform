@@ -1,0 +1,28 @@
+{
+  "name": "strapi-plugin-data",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "Data",
+    "icon": "plug",
+    "description": "Description of data plugin."
+  },
+  "dependencies": {},
+  "author": {
+    "name": "Seghier Dahmane",
+    "email": "dahmane.seghier@gmail.com",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

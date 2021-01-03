@@ -69,6 +69,15 @@
     "store_id": {
       "type": "string",
       "private": true
+    },
+    "payment_method": {
+      "type": "enumeration",
+      "enum": [
+        "cod",
+        "online_card"
+      ],
+      "default": "cod",
+      "required": true
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/generate",
+      "handler": "reports.generate",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

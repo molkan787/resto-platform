@@ -24,7 +24,7 @@ module.exports = class WebsocketServer extends EventEmitter{
             console.log((new Date()) + ' Connection accepted.');
             connection.on('message', (message) => {
                 if (message.type === 'utf8') {
-                    console.log('Received Message: ' + message.utf8Data);
+                    // console.log('Received Message: ' + message.utf8Data);
                     try {
                         const data = JSON.parse(message.utf8Data);
                         this.emit('message', data);

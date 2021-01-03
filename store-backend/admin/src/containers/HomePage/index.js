@@ -13,53 +13,9 @@ import { useModels } from '../../hooks';
 
 import useFetch from './hooks';
 import { ALink, Block, Container, LinkWrapper, P, Wave, Separator } from './components';
-import BlogPost from './BlogPost';
-import SocialLink from './SocialLink';
 
-const FIRST_BLOCK_LINKS = [
-  {
-    link:
-      'https://strapi.io/documentation/v3.x/getting-started/quick-start.html#_4-create-a-category-content-type',
-    contentId: 'app.components.BlockLink.documentation.content',
-    titleId: 'app.components.BlockLink.documentation',
-  },
-  {
-    link: 'https://github.com/strapi/foodadvisor',
-    contentId: 'app.components.BlockLink.code.content',
-    titleId: 'app.components.BlockLink.code',
-  },
-];
-
-const SOCIAL_LINKS = [
-  {
-    name: 'GitHub',
-    link: 'https://github.com/strapi/strapi/',
-  },
-  {
-    name: 'Slack',
-    link: 'https://slack.strapi.io/',
-  },
-  {
-    name: 'Medium',
-    link: 'https://medium.com/@strapi',
-  },
-  {
-    name: 'Twitter',
-    link: 'https://twitter.com/strapijs',
-  },
-  {
-    name: 'Reddit',
-    link: 'https://www.reddit.com/r/Strapi/',
-  },
-  {
-    name: 'Forum',
-    link: 'https://forum.strapi.io',
-  },
-  {
-    name: 'Academy',
-    link: 'https://academy.strapi.io',
-  },
-];
+import { VueWrapper } from 'vuera';
+import VueTest from './VueTest.vue'
 
 const HomePage = ({ history: { push } }) => {
   const { error, isLoading, posts } = useFetch();
@@ -115,6 +71,7 @@ const HomePage = ({ history: { push } }) => {
           <div className="col-lg-8 col-md-12">
             <Block>
               <h1>Dashboard</h1>
+              <VueWrapper component={VueTest} />
             </Block>
           </div>
 

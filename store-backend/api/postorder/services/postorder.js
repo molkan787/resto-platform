@@ -30,7 +30,8 @@ module.exports = class PostOrderService{
             owner: user.id,
             menu: allHaveRemoteId ? MurewMenu.POS : MurewMenu.ONLINE,
             note,
-            delivery_address: isDelivery ? delivery_address : {}
+            delivery_address: isDelivery ? delivery_address : {},
+            payment_method: 'cod'
         }
         if(isDelivery){
             await strapi.query('user', 'users-permissions').update({ id: user.id }, { default_address: delivery_address });

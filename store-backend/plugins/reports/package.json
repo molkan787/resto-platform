@@ -1,0 +1,31 @@
+{
+  "name": "strapi-plugin-reports",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "Reports",
+    "icon": "plug",
+    "description": "Description of reports plugin."
+  },
+  "dependencies": {
+    "downloadjs": "^1.4.7",
+    "excel4node": "^1.7.2"
+  },
+  "author": {
+    "name": "Dahmane Seghier",
+    "email": "dahmane.seghier@gmail.com",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

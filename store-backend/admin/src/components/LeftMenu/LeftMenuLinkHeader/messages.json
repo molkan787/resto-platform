@@ -1,7 +1,7 @@
 {
   "collectionType": {
     "id": "app.components.LeftMenuLinkContainer.collectionTypes",
-    "defaultMessage": "Collection Types"
+    "defaultMessage": "Collections"
   },
   "singleType": {
     "id": "app.components.LeftMenuLinkContainer.singleTypes",
@@ -21,7 +21,7 @@
   },
   "plugins": {
     "id": "app.components.LeftMenuLinkContainer.plugins",
-    "defaultMessage": "Plugins"
+    "defaultMessage": "Admin"
   },
   "general": {
     "id": "app.components.LeftMenuLinkContainer.general",
