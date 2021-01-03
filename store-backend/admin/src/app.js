@@ -152,6 +152,7 @@ window.strapi = Object.assign(window.strapi || {}, {
   env: NODE_ENV,
   remoteURL,
   backendURL: BACKEND_URL === '/' ? window.location.origin : BACKEND_URL,
+  onStoresLoaded: [],
   notification: {
     // New notification api
     toggle: config => {

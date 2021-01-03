@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/public-menus/:store_id",
+      "handler": "public-menu.find",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

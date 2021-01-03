@@ -7,7 +7,9 @@
     "icon": "plug",
     "description": "Description of data plugin."
   },
-  "dependencies": {},
+  "dependencies": {
+    "vue-select": "^3.11.2"
+  },
   "author": {
     "name": "Seghier Dahmane",
     "email": "dahmane.seghier@gmail.com",

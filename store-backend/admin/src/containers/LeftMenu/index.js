@@ -148,6 +148,9 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
       const url = '/content-manager/explorer/application::store.store?_sort=name%3AASC';
       const _stores = await request(url, { method: 'GET' });
       const stores = _stores.map(s => ({ label: s.name, value: s.id }));
+      strapi.stores = stores;
+      const callbacks = strapi.onStoresLoaded || [];
+      callbacks.forEach(cb => cb(stores));
       dispatch({
         type: 'SET_STORES',
         data: stores
