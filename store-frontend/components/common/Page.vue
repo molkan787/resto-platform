@@ -1,7 +1,11 @@
 <template>
-  <BasePage class="page">
-    <Header />
-    <slot></slot>
+  <BasePage class="page" :style="style">
+    <div class="page-struct">
+      <Header v-bind="header" />
+      <div class="page-content">
+        <slot></slot>
+      </div>
+    </div>
     <AuthModal />
     <transition name="fade">
       <div @click="scrollToTop" v-if="showScrollToTop" class="to-top-wrapper vs-card">
@@ -16,6 +20,21 @@ import BasePage from '../base/BasePage';
 export default {
   components: {
     BasePage
+  },
+  props: {
+    background: {
+      type: String,
+      default: null,
+    },
+    header: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  computed: {
+    style(){
+      return this.background ? `background-image: url('${this.background}');` : '';
+    }
   },
   data: () => ({
     showScrollToTop: false,
@@ -42,6 +61,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page{
+  width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .page-struct{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .page-content{
+      max-height: calc(100vh - 68px);
+      flex: 1;
+    }
+  }
+}
 .to-top-wrapper{
   $w: 50px;
   position: fixed;

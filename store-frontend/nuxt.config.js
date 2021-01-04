@@ -22,10 +22,11 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '@/plugins/vuesax' },
+    { src: '@/plugins/rellax', mode: 'client' },
     { src: '@/plugins/global-filters' },
     { src: '@/plugins/services' },
     { src: '@/plugins/cookie-expire-time' },
-    { src: '@/plugins/persisted-state.client', mode: 'client' }
+    // { src: '@/plugins/persisted-state.client', mode: 'client' }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

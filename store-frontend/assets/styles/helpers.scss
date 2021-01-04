@@ -1,14 +1,22 @@
 .container{
+    $width: 1020px;
     display: block;
     box-sizing: border-box;
-    width: 1024px;
+    width: $width;
     margin: auto;
-    &.flexed{
-        width: unset;
-        max-width: 1024px;
-    }
     @media (max-width: 768px) {
         width: 100%;
+    }
+    &.flexed{
+        width: unset;
+        max-width: $width;
+    }
+    &.center-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 }
 
@@ -18,12 +26,37 @@
     }
 }
 
+.center-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .h-form{
+    &.grid{
+        display: grid;
+        $gap: 6px;
+        column-gap: $gap;
+        &.c2{
+            grid-template-columns: repeat(2, calc((100% - #{$gap}) / 2));
+        }
+        &.c3{
+            grid-template-columns: repeat(3, calc((100% - #{$gap}) / 3));
+        }
+        &.c4{
+            grid-template-columns: repeat(4, calc((100% - #{$gap}) / 4));
+        }
+        &.c5{
+            grid-template-columns: repeat(5, calc((100% - #{$gap}) / 5));
+        }
+    }
     .field{
         &:not(:last-child){
             margin-bottom: 1rem;
         }
-        label{
+        & > label{
             display: inline-block;
             margin-bottom: 0.5rem;
             padding-left: 0.5rem;
@@ -39,5 +72,17 @@
     scrollbar-width: none;  /* Firefox */
     &::-webkit-scrollbar {
         display: none;
+    }
+}
+
+.content-block{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    .fluid{
+        flex: 1;
+    }
+    img, p{
+        padding: 1rem;
     }
 }

@@ -1,5 +1,8 @@
+html{
+    font-family: 'Cabin', sans-serif !important;
+}
 :root {
-    --vs-primary: 76, 55, 55 !important;
+    --vs-primary: 158, 122, 65 !important;
     --vs-success: 23, 201, 100;
     --vs-danger: 242, 19, 93;
     --vs-warn: 254, 130, 0 !important;
@@ -31,4 +34,14 @@ textarea{
     padding-left: 10px;
     font-family: inherit;
     resize: none;
+}
+
+.vs-navbar__item {
+    padding: 8px 10px !important;
+    font-size: 15px !important;
+}
+
+$textColor: #695028;
+.vs-navbar__item, .vs-navbar__group__item{
+    color: $textColor;
 }

@@ -9,7 +9,8 @@ const CookieExpireTime: Plugin = (context) => {
         _set(name, value, {
             ...options,
             expires: date,
-            maxAge: 60 * 60 * 24 * 365
+            maxAge: 60 * 60 * 24 * 365,
+            path: '/'
         });
     }
 }

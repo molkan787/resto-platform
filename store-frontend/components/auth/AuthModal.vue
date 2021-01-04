@@ -69,46 +69,57 @@
     <template #footer>
       <div class="footer-dialog">
         <vs-button @click="submitClick" :loading="loading" block>
-          {{ registerMode ? "Sign Up" : "Sign In" }}
+          {{ buttonTexts[mode] }}
         </vs-button>
 
         <div class="new">
           <template v-if="registerMode">
             Already have an account?
-            <a class="nhra" @click="mode = 'login'">Sign In</a>
+            <a class="nhra" @click="mode = AuthMode.Login">Sign In</a>
           </template>
           <template v-else>
             New Here?
-            <a class="nhra" @click="mode = 'register'">Create New Account</a>
+            <a class="nhra" @click="mode = AuthMode.Register">Create New Account</a>
           </template>
         </div>
+        <hr>
+        <a @click="setRedirectUrl" class="go-sigin-btn-wrapper" :href="googleSignUrl">
+          <GoogleSigninButton />
+        </a>
       </div>
     </template>
   </vs-dialog>
 </template>
 
 <script>
+import { AuthMode } from '../../interfaces/AuthMode';
 export default {
   data: () => ({
     isOpen: false,
-    mode: "register", // login or register
+    mode: "register", // AuthMode
     loading: false,
     loginForm: {},
     registerForm: {},
     remember: false,
     message: null,
-    // message: {
-    //     color: 'warning',
-    //     title: 'Login failed',
-    //     text: 'Please check your email address and password!',
-    // },
+    googleSignUrl: '',
+    buttonTexts: {
+      [AuthMode.Login]: 'Sign In',
+      [AuthMode.Register]: 'Sign Up',
+      [AuthMode.ForgotPassword]: 'Send Reset Code',
+      [AuthMode.ResetPassword]: 'Save New Password',
+    },
+    AuthMode
   }),
   computed: {
     registerMode() {
-      return this.mode == "register";
+      return this.mode == AuthMode.Register;
     },
   },
   methods: {
+    setRedirectUrl(){
+      window.localStorage.setItem('redirect', window.location.pathname);
+    },
     open(mode) {
       this.mode = mode;
       this.clearForms();
@@ -171,7 +182,9 @@ export default {
         return this.$authService.loginUser(this.loginForm);
     }
   },
-  mounted() {
+  mounted(){
+    const callback = new URL('/auth/google', window.location.origin).href;
+    this.googleSignUrl = new URL('/connect/google', this.$strapi.$http._defaults.prefixUrl).href + `?callback=${callback}`;
     window.openAuthModal = (mode) => this.open(mode);
   },
 };
@@ -179,6 +192,17 @@ export default {
 
 <style lang="scss">
 .auth-modal {
+  hr{
+    margin: 0.8rem 0;
+    background-color: #d2ceca;
+    height: 1px;
+    border: none;
+    width: 100%;
+  }
+  .go-sigin-btn-wrapper{
+    width: 100%;
+    text-decoration: none;
+  }
   .nhra {
     cursor: pointer;
     text-decoration: underline;

@@ -1,7 +1,7 @@
 <template>
-  <vs-navbar center-collapsed>
+  <vs-navbar :class="{ large, sticky }" class="navbar" center-collapsed>
     <template #left>
-      <!-- <img src="/logo2.png" alt="" /> -->
+      <img src="~/assets/images/logo.jpg" alt="logo" style="height: 44px" />
     </template>
     <vs-navbar-item :active="active == 'index'" to="/">
       HOME
@@ -32,7 +32,7 @@
         <vs-navbar-group>
           <span class="user-fullname">
             <i class="bx bxs-user"></i>
-            {{ user.fullname }}
+            {{ user.fullname || user.username }}
           </span>
           <template #items>
             <vs-navbar-item :active="active == 'account-settings'" to="/account/settings">
@@ -58,6 +58,16 @@
 <script>
 import { mapState } from 'vuex';
 export default {
+  props: {
+    large: {
+      type: Boolean,
+      default: false
+    },
+    sticky: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     itemClick(value){
       console.log()
@@ -88,12 +98,28 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+.navbar{
+  &.large{
+    padding: 12px;
+  }
+  &.sticky{
+    position: sticky !important;
+    top: 0;
+  }
+}
+</style>
+
 <style lang="scss">
 .vs-navbar-content{
   position: relative !important;
+  border-radius: 0 !important;
   .user-fullname{
     min-width: 120px;
     display: inline-block;
+  }
+  .vs-button{
+    margin-left: 6px;
   }
 }
 </style>
