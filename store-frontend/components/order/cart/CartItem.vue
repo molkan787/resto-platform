@@ -6,9 +6,13 @@
         <td>
             {{ item.data.name }}
         </td>
-        <td>
-            <button @click="adjustQty(-1)" class="p-button p-button-sm">-</button>
-            <button @click="adjustQty(1)" class="p-button p-button-sm">+</button>
+        <td class="cart-items-buttons">
+            <vs-button circle size="small" @click="adjustQty(-1)" class="p-button p-button-sm">
+                <i class='bx bx-minus'></i>
+            </vs-button>
+            <vs-button circle size="small" @click="adjustQty(1)" class="p-button p-button-sm">
+                <i class='bx bx-plus'></i>
+            </vs-button>
         </td>
         <td class="price-cell">
             {{ item.total | price }}
@@ -38,6 +42,15 @@ export default {
     padding: 0.5rem;
     &.price-cell{
         text-align: right;
+    }
+}
+</style>
+
+<style lang="scss">
+.item .cart-items-buttons{
+    white-space: nowrap;
+    button{
+        display: inline;
     }
 }
 </style>

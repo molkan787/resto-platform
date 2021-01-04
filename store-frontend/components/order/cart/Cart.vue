@@ -99,11 +99,13 @@ $pad: 1rem;
         padding: $pad;
         text-align: center;
     }
-    .items-wrapper{
+    .items-table{
         padding: $pad;
         .item{
             &.total{
-                font-weight: bold;
+                td{
+                    font-weight: bold;
+                }
             }
             td{
                 padding: 0.5rem;

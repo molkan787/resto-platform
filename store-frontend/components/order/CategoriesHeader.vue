@@ -1,10 +1,10 @@
 <template>
     <div class="categories-header hide-scrollbar">
         <div class="items">
-            <vs-button v-for="cat in items" :key="'tab-sel-' + cat.slug" flat square
+            <div v-for="cat in items" :key="'tab-sel-' + cat.slug" flat square
                 @click="categoryNameClicked(cat)">
                 {{ cat.name }}
-            </vs-button>
+            </div>
         </div>
     </div>
 </template>
@@ -39,6 +39,12 @@ export default {
     .items {
         display: flex;
         flex-direction: row;
+        white-space: nowrap;
+        & > div{
+            // background: #f003;
+            padding: 12px 12px;
+            cursor: pointer;
+        }
     }
 }
 </style>

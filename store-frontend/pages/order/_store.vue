@@ -2,7 +2,12 @@
   <Page class="order-page">
     <div class="content">
       <div class="left-column">
-        <h2>Order from {{ storeName | capitalize }}</h2>
+        <div class="store-info">
+          <h1>Murew - {{ storeName | capitalize }}</h1>
+          <p>
+            {{ address }}
+          </p>
+        </div>
         <CategoriesHeader :items="categories" />
         <Category v-for="cat in categories" :key="cat.slug" :category="cat" @productClick="productClick" />
         <ProductOptionsModal ref="productOptionsModal" />
@@ -26,6 +31,11 @@ export default {
     storeName(){
       const s = this.activeStore;
       return s && s.slug == this.$route.params.store ? s.name : '';
+    },
+    address(){
+      const s = this.activeStore || {};
+      const { line1, line2, postcode, city } = s.address || {};
+      return [line1, line2, postcode, city].filter(i => !!i).join('\n');
     }
   },
   data: () => ({
@@ -62,6 +72,15 @@ export default {
     position: sticky;
     top: 0;
     z-index: 1;
+  }
+  .store-info{
+    padding: 1rem;
+    h1{
+      color: #695028;
+    }
+    p{
+      white-space: pre-line;
+    }
   }
 }
 </style>

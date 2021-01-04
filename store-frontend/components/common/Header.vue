@@ -1,7 +1,9 @@
 <template>
   <vs-navbar :class="{ large, sticky }" class="navbar" center-collapsed>
     <template #left>
-      <img src="~/assets/images/logo.jpg" alt="logo" style="height: 44px" />
+      <nuxt-link to="/">
+        <img src="~/assets/images/logo.jpg" alt="logo" style="height: 44px;pointer-events: none;" />
+      </nuxt-link>
     </template>
     <vs-navbar-item :active="active == 'index'" to="/">
       HOME
