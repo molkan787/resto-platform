@@ -1,0 +1,13 @@
+{
+    "routes": [
+      {
+        "method": "PUT",
+        "path": "/account/update",
+        "handler": "account.updateMe",
+        "config": {
+          "policies": []
+        }
+      }
+    ]
+  }
+  
