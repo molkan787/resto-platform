@@ -1,0 +1,13 @@
+build-vendor-image:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - docker build -t murew-vendor:alpha1 .
+    - docker save -o murew-vendor.tar murew-vendor:alpha1
+  except:
+    - master
+  artifacts:
+    paths:
+    - murew-vendor.tar
