@@ -1,0 +1,17 @@
+{
+  "name": "murew-supervisor",
+  "version": "0.0.1",
+  "description": "Manages vendor app's",
+  "main": "index.js",
+  "author": "Dahmane Seghier",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "dockerode": "^3.2.1",
+    "mongodb": "^3.6.3",
+    "restify": "^8.5.1"
+  },
+  "devDependencies": {
+    "@types/dockerode": "^3.2.1"
+  }
+}
