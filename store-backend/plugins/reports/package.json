@@ -7,10 +7,7 @@
     "icon": "plug",
     "description": "Description of reports plugin."
   },
-  "dependencies": {
-    "downloadjs": "^1.4.7",
-    "excel4node": "^1.7.2"
-  },
+  "dependencies": {},
   "author": {
     "name": "Dahmane Seghier",
     "email": "dahmane.seghier@gmail.com",

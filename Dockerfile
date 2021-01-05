@@ -16,6 +16,9 @@ COPY ./store-backend .
 WORKDIR /usr/src/apps/store-frontend
 COPY ./store-frontend .
 
+WORKDIR /usr/src/apps
+COPY ./run-all.sh ./run-all.sh
+
 EXPOSE 1337
 EXPOSE 3000
-CMD [ "yarn", "develop" ]
+CMD ./run-all.sh

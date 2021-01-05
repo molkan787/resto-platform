@@ -15,7 +15,9 @@
     "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
+    "downloadjs": "^1.4.7",
     "eventemitter3": "^4.0.7",
+    "excel4node": "^1.7.2",
     "strapi": "3.3.4",
     "strapi-admin": "3.3.4",
     "strapi-connector-bookshelf": "3.3.4",

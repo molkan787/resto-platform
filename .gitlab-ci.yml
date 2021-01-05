@@ -1,6 +1,7 @@
 build-vendor-image:
   image: docker:latest
   stage: build
+  when: manual
   services:
     - docker:dind
   script:
