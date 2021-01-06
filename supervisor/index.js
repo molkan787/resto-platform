@@ -22,8 +22,18 @@
 
 const Supervisor = require('./supervisor');
 const supervisor = new Supervisor();
+// const ProxyServer = require('./proxyserver');
+// const proxyServer = new ProxyServer();
 
 (async () => {
     await supervisor.init();
-    await supervisor.createVendorApp('ac45', { frontend: 81, backend: 1337 });
+    await supervisor.createVendorApp({
+        id: 'dc16',
+        domain: 'chocolate.com',
+        port_pointer: 2
+    }, true);
+    // proxyServer.init(80, {
+    //     'foo.com': 'http://localhost:81',
+    //     'backend.foo.com': 'http://localhost:1337'
+    // })
 })();

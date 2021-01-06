@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "dockerode": "^3.2.1",
+    "http-proxy": "^1.18.1",
     "mongodb": "^3.6.3",
     "restify": "^8.5.1"
   },
