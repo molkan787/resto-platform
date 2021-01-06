@@ -40,12 +40,11 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    // '@nuxtjs/axios',
     '@nuxtjs/strapi'
   ],
 
   strapi: {
-    url: 'http://localhost:1337',
+    url: process.env.BACKEND_URL || 'http://localhost:1337',
     entities: ['categories', 'products', 'orders', 'stores']
   },
 
