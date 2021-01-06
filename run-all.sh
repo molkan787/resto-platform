@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Enable
 set -m
   
 # Start the frontend server

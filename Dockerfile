@@ -18,6 +18,7 @@ COPY ./store-frontend .
 
 WORKDIR /usr/src/apps
 COPY ./run-all.sh ./run-all.sh
+RUN ["chmod", "+x", "./run-all.sh"]
 
 EXPOSE 1337
 EXPOSE 3000
