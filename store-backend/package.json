@@ -29,6 +29,7 @@
     "strapi-plugin-users-permissions": "3.3.4",
     "strapi-utils": "3.3.4",
     "vue": "^2.6.12",
+    "vue-select": "^3.11.2",
     "vuera": "^0.2.7",
     "websocket": "^1.0.33"
   },
