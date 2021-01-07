@@ -13,8 +13,10 @@ module.exports = class WebsocketServer extends EventEmitter{
         this.server = server;
         
         server.on('request', async (request) => {
-            const keyId = request.httpRequest.headers.key_id;
+            const keyId = request.httpRequest.url.substr(1);
             const store_id = await this.getStoreId(keyId);
+            console.log('keyId', keyId);
+            console.log('store_id', store_id);
             if(!store_id){
                 request.reject(401);
                 console.log((new Date()) + ' Connection rejected.');
@@ -44,6 +46,7 @@ module.exports = class WebsocketServer extends EventEmitter{
     }
 
     async getStoreId(keyId){
+        if(!keyId) return null;
         const key = await strapi.query('pos-sync-key', 'pos-sync').findOne({ id: keyId });
         if(key && key.store){
             return key.store.id;

@@ -13,6 +13,11 @@ module.exports = {
   async generateKey(ctx){
     const BACKEND_URL = process.env.BACKEND_URL;
     const { store_id, name } = ctx.request.body;
+    const store = await strapi.query('store').findOne({ id: store_id });
+    if(!store){
+      ctx.badRequest('Store not found');
+      return;
+    }
     const query = strapi.query('pos-sync-key', 'pos-sync');
     let key = await query.create({
       store: store_id,
@@ -20,8 +25,9 @@ module.exports = {
     });
     let key_data = {
       key_id: key.id,
-      endpoint: BACKEND_URL
-    }
+      endpoint: BACKEND_URL,
+      store_name: store.name,
+    };
     key_data = JSON.stringify(key_data);
     key_data = Buffer.from(key_data).toString('base64');
     key = await query.update({ id: key.id }, { key_data });

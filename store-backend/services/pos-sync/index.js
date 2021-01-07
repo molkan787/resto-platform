@@ -26,7 +26,7 @@ module.exports = class PosSyncService{
 
     init(httpServer){
         const server = this.server = new WebsocketServer(httpServer);
-        server.on('message', msg => this.onMessage(msg));
+        server.on('message', (client, msg) => this.onMessage(client, msg));
     }
 
     onMessage({ store_id }, message){
