@@ -27,8 +27,8 @@ import download from 'downloadjs';
 export default {
     data: () => ({
         loading: false,
-        datefrom: '2021-01-01',
-        dateto: '2021-01-03',
+        datefrom: '',
+        dateto: '',
     }),
     methods: {
         async generateClick(){

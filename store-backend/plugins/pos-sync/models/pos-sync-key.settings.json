@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pos_sync_keys",
+  "info": {
+    "name": "pos_sync_key"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "timestamps": true,
+    "increments": true,
+    "comment": ""
+  },
+  "attributes": {
+    "false": {
+      "type": "string"
+    }
+  }
+}

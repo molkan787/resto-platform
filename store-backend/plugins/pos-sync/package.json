@@ -1,16 +1,16 @@
 {
-  "name": "strapi-plugin-reports",
+  "name": "strapi-plugin-pos-sync",
   "version": "0.0.0",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "Reports",
-    "icon": "chart-bar",
-    "description": "Description of reports plugin."
+    "name": "POS Sync",
+    "icon": "sync",
+    "description": "Description of pos-sync plugin."
   },
   "dependencies": {},
   "author": {
-    "name": "Dahmane Seghier",
-    "email": "dahmane.seghier@gmail.com",
+    "name": "A Strapi developer",
+    "email": "",
     "url": ""
   },
   "maintainers": [

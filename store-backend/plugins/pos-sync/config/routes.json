@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/all-keys",
+      "handler": "pos-sync.getAllKeys",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/generate-key",
+      "handler": "pos-sync.generateKey",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/key/:id",
+      "handler": "pos-sync.deleteKey",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
