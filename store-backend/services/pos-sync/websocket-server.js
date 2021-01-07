@@ -12,14 +12,16 @@ module.exports = class WebsocketServer extends EventEmitter{
         });
         this.server = server;
         
-        server.on('request', (request) => {
-            const auth = request.httpRequest.headers.authorization;
-            if(!this.isAllowed(auth)){
+        server.on('request', async (request) => {
+            const keyId = request.httpRequest.headers.key_id;
+            const store_id = await this.getStoreId(keyId);
+            if(!store_id){
                 request.reject(401);
                 console.log((new Date()) + ' Connection rejected.');
                 return;
             }
             const connection = request.accept('murew-protocol', request.origin);
+            connection.store_id = store_id;
             this.clients.push(connection);
             console.log((new Date()) + ' Connection accepted.');
             connection.on('message', (message) => {
@@ -27,7 +29,7 @@ module.exports = class WebsocketServer extends EventEmitter{
                     // console.log('Received Message: ' + message.utf8Data);
                     try {
                         const data = JSON.parse(message.utf8Data);
-                        this.emit('message', data);
+                        this.emit('message', connection, data);
                     } catch (error) {
                         
                     }
@@ -41,8 +43,13 @@ module.exports = class WebsocketServer extends EventEmitter{
         });
     }
 
-    isAllowed(authorization){
-        return true;
+    async getStoreId(keyId){
+        const key = await strapi.query('pos-sync-key', 'pos-sync').findOne({ id: keyId });
+        if(key && key.store){
+            return key.store.id;
+        }else{
+            return null;
+        }
     }
 
     send(data){

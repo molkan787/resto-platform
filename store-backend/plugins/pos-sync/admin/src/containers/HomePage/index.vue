@@ -102,6 +102,7 @@ export default {
                         name: this.keyName
                     }
                 });
+                this.keyName = '';
                 this.keys.unshift(key);
                 strapi.notification.success('Key successfully generated!');
                 console.log(key);

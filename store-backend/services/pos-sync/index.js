@@ -25,16 +25,16 @@ module.exports = class PosSyncService{
     }
 
     init(httpServer){
-        const server = this.server = this.server = new WebsocketServer(httpServer);
+        const server = this.server = new WebsocketServer(httpServer);
         server.on('message', msg => this.onMessage(msg));
     }
 
-    onMessage(message){
+    onMessage({ store_id }, message){
         const { action, data } = message;
         if([MurewActions.AcceptOrder, MurewActions.DeclineOrder].includes(action)){
             this.setOrderStatus(data.id, action);
         }else if(action == MurewActions.SetMenu){
-            MurewMenuSync.setMenu(data);
+            MurewMenuSync.setMenu(store_id, data);
         }else if(action == MurewActions.SyncStock){
             MurewStockSync.setStocks(data);
         }

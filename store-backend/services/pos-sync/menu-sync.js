@@ -1,7 +1,7 @@
 module.exports = class MurewMenuSync{
 
-    static async setMenu(data){
-        const { menu, store_id } = data;
+    static async setMenu(store_id, data){
+        const { menu } = data;
         await strapi.query('category').delete({ store_id });
         await strapi.query('product').delete({ store_id });
         const queries = menu.map(cat => this.createCategory(cat, store_id));
