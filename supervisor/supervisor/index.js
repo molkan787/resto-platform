@@ -3,6 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const Consts = require('./constants');
 const bootstrap = require('./bootstrap');
 const ProxyServer = require('../proxyserver');
+const { readFile } = require('../helpers/fs');
 
 module.exports = class MurewSupervisor{
 
@@ -52,6 +53,16 @@ module.exports = class MurewSupervisor{
         await db.addUser(dbUser, dbPwd, {
             roles: [ "readWrite", "dbAdmin" ]
         });
+        await this.importDbData(db);
+    }
+
+    async importDbData(db){
+        const rawData = await readFile('./db.json');
+        const collections = JSON.parse(rawData);
+        const queries = collections.map(({ collectionName, docs }) => (
+            docs.length ? db.collection(collectionName).insertMany(docs) : Promise.resolve()
+        ));
+        await Promise.all(queries);
     }
 
     async createVendorAppContainer(appId, ports, envs){
@@ -69,8 +80,11 @@ module.exports = class MurewSupervisor{
                     "3000/tcp": [{
                         HostPort: frontend.toString()
                     }]
+                },
+                RestartPolicy: {
+                    Name: 'always'
                 }
-            }
+            },
         })
         return container;
     }
