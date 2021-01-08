@@ -1,10 +1,14 @@
 module.exports = {
-    load: {
-        after: ['httperrors']
+  load: {
+    order: ['ipr'],
+    after: ['httperrors']
+  },
+  settings: {
+    httperrors: {
+      enabled: true,
     },
-    settings: {
-      httperrors: {
-        enabled: true,
-      }
-    },
-  }
+    ipr: {
+      enabled: true,
+    }
+  },
+}
