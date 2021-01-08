@@ -12,7 +12,6 @@ const {
 
 const contentTypeService = require('../../services/ContentTypes');
 const componentService = require('../../services/Components');
-const isDocker = require('is-docker');
 
 const updateContentTypes = async configurations => {
   const updateConfiguration = async uid => {
@@ -170,10 +169,7 @@ const registerPermissions = () => {
 };
 
 module.exports = async () => {
-  console.log('isDocker:', isDocker());
-  if(!isDocker()){
-    await syncContentTypesSchemas();
-    await syncComponentsSchemas();
-  }
+  await syncContentTypesSchemas();
+  await syncComponentsSchemas();
   registerPermissions();
 };
