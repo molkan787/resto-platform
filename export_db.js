@@ -2,6 +2,8 @@ const MongoClient = require('./supervisor/node_modules/mongodb').MongoClient;
 const fs = require('fs');
 
 const DB_NAME = 'murew-store';
+// const EXCLUDED_COLLECTIONS = [''];
+// const OVERREAD_DOCS = { };
 
 (async () => {
 
@@ -11,7 +13,7 @@ const DB_NAME = 'murew-store';
     const queries = collectionNames.map(cn => getCollectionData(db, cn));
     const collectionsData = await Promise.all(queries);
     const strData = JSON.stringify(collectionsData);
-    await writeFile('./db.json', strData, 'utf-8');
+    await writeFile('./supervisor/db.json', strData, 'utf-8');
 
     process.exit(0);
 
