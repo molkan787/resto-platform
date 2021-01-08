@@ -3,7 +3,8 @@ const MongoClient = require('mongodb').MongoClient;
 const Consts = require('./constants');
 const bootstrap = require('./bootstrap');
 const ProxyServer = require('../proxyserver');
-const { readFile } = require('../helpers/fs');
+const { exec } = require('../helpers/shell');
+const path = require('path');
 
 module.exports = class MurewSupervisor{
 
@@ -53,16 +54,17 @@ module.exports = class MurewSupervisor{
         await db.addUser(dbUser, dbPwd, {
             roles: [ "readWrite", "dbAdmin" ]
         });
-        await this.importDbData(db);
+        await this.importDbData(appId);
     }
 
-    async importDbData(db){
-        const rawData = await readFile('./db.json');
-        const collections = JSON.parse(rawData);
-        const queries = collections.map(({ collectionName, docs }) => (
-            docs.length ? db.collection(collectionName).insertMany(docs) : Promise.resolve()
-        ));
-        await Promise.all(queries);
+    async importDbData(appId){
+        const db_dir = path.join(path.dirname(__dirname), 'default_db');
+        const bin = process.platform == 'win32' ? '"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongorestore.exe"' : 'mongorestore';
+        const { dbName } = this._getDbInfo(appId);
+        const db_uri = this._getDbUri(appId, true);
+        const cmd = `${bin} --db=${dbName} --uri="${db_uri}" ${db_dir}`;
+        console.log('importDbData:cmd', cmd);
+        await exec(cmd);
     }
 
     async createVendorAppContainer(appId, ports, envs){
@@ -94,9 +96,11 @@ module.exports = class MurewSupervisor{
         await container.start();
     }
 
-    _getDbUri(appId){
+    _getDbUri(appId, fromLocalhost){
         const { dbName, dbUser, dbPwd } = this._getDbInfo(appId);
-        return `mongodb://${dbUser}:${dbPwd}@${Consts.DB_HOST_NAME}:27017/${dbName}`;
+        const host = fromLocalhost ? 'localhost' : Consts.DB_HOST_NAME;
+        const port = fromLocalhost ? 27018 : 27017;
+        return `mongodb://${dbUser}:${dbPwd}@${host}:${port}/${dbName}`;
     }
 
     _getDbInfo(appId){
