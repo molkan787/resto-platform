@@ -1,0 +1,1 @@
+docker run -d --name shared_mongodb --network vendor_apps_sharednetwork --env MONGO_INITDB_ROOT_USERNAME=root --env MONGO_INITDB_ROOT_PASSWORD=murew_is_magic -p 27018:27017 --restart always mongo
