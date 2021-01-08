@@ -1,0 +1,48 @@
+{
+  "name": "murew-vendor",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vendor app for the Murew Platform",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {
+    "@types/eventemitter3": "^2.0.2",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "downloadjs": "^1.4.7",
+    "eventemitter3": "^4.0.7",
+    "excel4node": "^1.7.2",
+    "strapi": "3.3.4",
+    "strapi-admin": "3.3.4",
+    "strapi-connector-bookshelf": "3.3.4",
+    "strapi-connector-mongoose": "^3.4.1",
+    "strapi-plugin-content-manager": "3.3.4",
+    "strapi-plugin-content-type-builder": "3.3.4",
+    "strapi-plugin-email": "3.3.4",
+    "strapi-plugin-upload": "3.3.4",
+    "strapi-plugin-users-permissions": "3.3.4",
+    "strapi-utils": "3.3.4",
+    "vue": "^2.6.12",
+    "vue-select": "^3.11.2",
+    "vuera": "^0.2.7",
+    "websocket": "^1.0.33"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": false
+  },
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

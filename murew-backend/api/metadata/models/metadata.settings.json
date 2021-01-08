@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "metadata",
+  "info": {
+    "name": "metadata"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "port_pointer": {
+      "type": "integer",
+      "default": 1
+    }
+  }
+}

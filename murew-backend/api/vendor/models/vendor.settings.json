@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vendors",
+  "info": {
+    "name": "Vendor"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "port_pointer": {
+      "type": "integer",
+      "unique": true
+    },
+    "Name": {
+      "type": "string",
+      "unique": true
+    },
+    "domain": {
+      "type": "string",
+      "regex": "^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\\.[a-zA-Z]{2,}$",
+      "unique": true,
+      "required": true
+    }
+  }
+}
