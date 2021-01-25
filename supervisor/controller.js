@@ -19,4 +19,20 @@ async function createVendorApp(req, res, next){
     return next();
 }
 
-module.exports = { createVendorApp };
+async function destroyVendorApp(req, res, next){
+    const { app } = req.body;
+    if(typeof app != 'object'){
+        return next(new errors.BadRequestError('Missing app data'));
+    }
+    try {
+        await supervisor.destroyVendorApp(app);
+    } catch (error) {
+        console.error(error);
+        return next(new errors.InternalError());
+    }
+    res.status(200);
+    res.send({});
+    return next();
+}
+
+module.exports = { createVendorApp, destroyVendorApp };

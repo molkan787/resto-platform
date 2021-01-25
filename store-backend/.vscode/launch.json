@@ -11,6 +11,9 @@
                 "develop",
                 "--watch-admin"
             ],
+            "env": {
+                "BACKEND_URL": "http://localhost:1337"
+            },
             "runtimeExecutable": "yarn",
             "skipFiles": [
                 "<node_internals>/**"

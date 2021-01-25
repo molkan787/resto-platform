@@ -2,21 +2,32 @@ const docker = require('./docker');
 const MongoClient = require('mongodb').MongoClient;
 const Consts = require('./constants');
 const bootstrap = require('./bootstrap');
-const ProxyServer = require('../proxyserver');
 const { exec } = require('../helpers/shell');
 const path = require('path');
+const axios = require('axios');
 
 module.exports = class MurewSupervisor{
 
     constructor(){
         this.apps = {};
-        this.proxyServer = new ProxyServer();
     }
 
     async init(){
         await bootstrap();
         this.mongoClient = await MongoClient.connect('mongodb://root:murew_is_magic@localhost:27018');
-        this.proxyServer.init(80, {});
+    }
+
+    /**
+     * 
+     * @param {{id: string, domain: string}} app 
+     */
+    async destroyVendorApp(app){
+        const { id: appId, domain } = app;
+        const container  = docker.getContainer('vendor_app_' + appId);
+        await container.stop();
+        await container.remove();
+        await this.removeProxyHostMap(domain);
+        await this.removeProxyHostMap(`backend.${domain}`);
     }
 
     /**
@@ -44,8 +55,8 @@ module.exports = class MurewSupervisor{
         if(start){
             await container.start();
         }
-        this.proxyServer.addMap(domain, `http://localhost:${frontendPort}`);
-        this.proxyServer.addMap(`backend.${domain}`, `http://localhost:${backendPort}`);
+        await this.addProxyHostMap(domain, `http://localhost:${frontendPort}`);
+        await this.addProxyHostMap(`backend.${domain}`, `http://localhost:${backendPort}`);
     }
 
     async createVendorDB(appId){
@@ -89,6 +100,14 @@ module.exports = class MurewSupervisor{
             },
         })
         return container;
+    }
+
+    async addProxyHostMap(sourceHost, target){
+        await axios.post('http://localhost/hosts/add', { sourceHost, target });
+    }
+    
+    async removeProxyHostMap(sourceHost){
+        await axios.post('http://localhost/hosts/remove', { sourceHost });
     }
 
     async startVendorApp(appId){

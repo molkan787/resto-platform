@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Start backend server",
+            "name": "Start murew backend server",
             "request": "launch",
             "runtimeArgs": [
                 "develop",

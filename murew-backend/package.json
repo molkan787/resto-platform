@@ -1,5 +1,5 @@
 {
-  "name": "murew-vendor",
+  "name": "murew-backend",
   "private": true,
   "version": "0.1.0",
   "description": "Vendor app for the Murew Platform",
