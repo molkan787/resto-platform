@@ -25,13 +25,16 @@ const TMP_DB_NAME = 'murew-store-tmp';
     // Clear test data
     await clearCollections(tmpDb, DATA_COLLECTIONS);
 
+    // Set the default values
+    await populateDefaultData(tmpDb);
+
     // Export the database template
     await dumpDatabase(TMP_DB_NAME, OUT_PATH);
 
+    // Delete the temporary database
     await tmpDb.dropDatabase();
 
     console.log(`Database template exported to "${OUT_PATH}"`);
-
 
 })()
 .catch(err => {
@@ -39,6 +42,28 @@ const TMP_DB_NAME = 'murew-store-tmp';
     process.exit(1);
 })
 .finally(() => process.exit(0));
+
+/**
+ * @param {Db} db 
+ */
+async function populateDefaultData(db){
+    const storesColl = db.collection('stores');
+    await storesColl.insertOne({
+        active: true,
+        name: 'Main',
+        address: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        slug: 'main',
+        menu_sync_enabled: false
+    });
+    const metadataColl = db.collection('metadata');
+    await metadataColl.updateOne({}, { 
+        $set: {
+            order_no_pointer: 1
+        }
+    })
+}
 
 /**
  * @param {Db} db 
