@@ -69,11 +69,11 @@ module.exports = class MurewSupervisor{
     }
 
     async importDbData(appId){
-        const db_dir = path.join(path.dirname(__dirname), 'default_db');
+        const db_archive = path.join(path.dirname(__dirname), 'vendor_db');
         const bin = process.platform == 'win32' ? '"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongorestore.exe"' : 'mongorestore';
         const { dbName } = this._getDbInfo(appId);
         const db_uri = this._getDbUri(appId, true);
-        const cmd = `${bin} --db=${dbName} --uri="${db_uri}" ${db_dir}`;
+        const cmd = `${bin} --nsFrom="murew-store-tmp.*" --nsTo="${dbName}.*" --uri="${db_uri}" --archive="${db_archive}"`;
         console.log('importDbData:cmd', cmd);
         await exec(cmd);
     }
@@ -119,7 +119,7 @@ module.exports = class MurewSupervisor{
         const { dbName, dbUser, dbPwd } = this._getDbInfo(appId);
         const host = fromLocalhost ? 'localhost' : Consts.DB_HOST_NAME;
         const port = fromLocalhost ? 27018 : 27017;
-        return `mongodb://${dbUser}:${dbPwd}@${host}:${port}/${dbName}`;
+        return `mongodb://${dbUser}:${dbPwd}@${host}:${port}/${dbName}?authSource=${dbName}`;
     }
 
     _getDbInfo(appId){
