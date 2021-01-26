@@ -23,12 +23,8 @@ module.exports = {
             }
         },
         async afterDelete(vendor){
-            try {
-                const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
-                await axios.post('http://localhost:8023/destroy-vendor-app', { app: sanitizedVendor });
-            } catch (error) {
-                throw error;
-            }
+            const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
+            await axios.post('http://localhost:8023/destroy-vendor-app', { app: sanitizedVendor });
         }
     }
 };
