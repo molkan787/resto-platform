@@ -38,7 +38,6 @@ const FieldComponent = ({
   removeComponentFromField,
 }) => {
   const { allLayoutData } = useEditView();
-
   const componentValueLength = size(componentValue);
   const isInitialized = componentValue !== null || isFromDynamicZone;
   const showResetComponent =

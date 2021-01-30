@@ -1,0 +1,38 @@
+{
+  "kind": "singleType",
+  "collectionName": "store_settings",
+  "info": {
+    "name": "Store Settings"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "delivery_cost": {
+      "type": "decimal",
+      "default": 0,
+      "required": true,
+      "min": 0
+    },
+    "free_delivery_maximum_distance": {
+      "type": "decimal",
+      "default": 10,
+      "required": true,
+      "min": 0
+    },
+    "enable_delivery_orders": {
+      "type": "boolean",
+      "default": true
+    },
+    "enable_pickup_orders": {
+      "type": "boolean",
+      "default": true
+    },
+    "enable_preorders": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

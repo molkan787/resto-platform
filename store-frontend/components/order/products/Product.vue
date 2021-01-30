@@ -1,6 +1,6 @@
 <template>
   <div @click="addToCart" class="product">
-    <vs-card>
+    <vs-card class="low-shadow hh-shadow">
       <template #title>
         <h2>
           {{ product.name }}
@@ -72,7 +72,8 @@ export default {
   }
   .outofstock{
     color: rgb(255, 71, 87);
-    float: right;
+    padding-left: 0.6rem;
+    // float: right;
   }
 }
 </style>

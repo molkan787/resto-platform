@@ -8,14 +8,16 @@
             {{ address }}
           </p>
         </div>
-        <CategoriesHeader :items="categories" />
-        <Category v-for="cat in categories" :key="cat.slug" :category="cat" @productClick="productClick" />
-        <ProductOptionsModal ref="productOptionsModal" />
+
+        <OrderStackLayout v-if="layoutSettings.order_page_layout == 'stack'" :categories="categories" @productClick="productClick" />
+        <OrderTabsLayout v-else :categories="categories" @productClick="productClick" />
+
       </div>
       <div class="right-column">
         <Cart />
       </div>
     </div>
+    <ProductOptionsModal ref="productOptionsModal" />
   </Page>
 </template>
 
@@ -27,7 +29,7 @@ export default {
     return { categories };
   },
   computed: {
-    ...mapState(['activeStore']),
+    ...mapState(['activeStore', 'layoutSettings']),
     storeName(){
       const s = this.activeStore;
       return s && s.slug == this.$route.params.store ? s.name : '';
@@ -58,7 +60,10 @@ export default {
 .order-page .content{
   display: flex;
   flex-direction: row;
+  max-width: 1300px;
+  margin: auto;
   .left-column{
+    min-width: 0;
     flex: 1;
   }
   .left-column, .right-column{

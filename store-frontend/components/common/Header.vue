@@ -102,6 +102,7 @@ export default {
 
 <style lang="scss" scoped>
 .navbar{
+  padding: 6px;
   &.large{
     padding: 12px;
   }
@@ -116,6 +117,7 @@ export default {
 .vs-navbar-content{
   position: relative !important;
   border-radius: 0 !important;
+  box-shadow: 0 0 6px #e2e2e2;
   .user-fullname{
     min-width: 120px;
     display: inline-block;

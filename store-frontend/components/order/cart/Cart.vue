@@ -21,7 +21,7 @@
                     </tbody>
                 </table>
                 <div v-if="showOrderButton" class="controlls">
-                    <vs-button @click="orderClick" size="xl">
+                    <vs-button @click="orderClick" size="large" radius="6">
                         Order
                     </vs-button>
                 </div>

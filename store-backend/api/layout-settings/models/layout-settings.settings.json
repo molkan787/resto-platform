@@ -1,0 +1,24 @@
+{
+  "kind": "singleType",
+  "collectionName": "layout_settings",
+  "info": {
+    "name": "Layout Settings",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "order_page_layout": {
+      "type": "enumeration",
+      "enum": [
+        "stack",
+        "tabs"
+      ],
+      "default": "tabs",
+      "required": true
+    }
+  }
+}

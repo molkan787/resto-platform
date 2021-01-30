@@ -57,11 +57,13 @@ export default {
 @import "@/assets/styles/_vars";
 .category{
   margin-bottom: 2rem;
+  border-bottom: 1px solid #e4e4e4;
+  padding-bottom: 2rem;
   .header{
     display: flex;
     flex-direction: row;
     h2{
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       padding-left: 15px;
     }
     .childs-tabs{

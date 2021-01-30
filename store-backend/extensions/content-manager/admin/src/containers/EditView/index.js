@@ -177,7 +177,7 @@ const EditView = ({
                               const isRepeatable = get(getField(name), 'repeatable', false);
                               const { max, min } = getField(name);
 
-                              const label = get(getFieldMetas(name), 'label', componentUid);
+                              const label = get(getFieldMetas(name), 'label', componentUid).replace(/\_/g, ' ');
 
                               return (
                                 <FieldComponent

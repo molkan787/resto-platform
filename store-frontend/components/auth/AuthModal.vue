@@ -68,7 +68,7 @@
 
     <template #footer>
       <div class="footer-dialog">
-        <vs-button @click="submitClick" :loading="loading" block>
+        <vs-button @click="submitClick" :loading="loading" block size="large">
           {{ buttonTexts[mode] }}
         </vs-button>
 

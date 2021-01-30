@@ -86,7 +86,11 @@ function Inputs({
   } = useStrapi();
 
   const attribute = useMemo(() => get(layout, ['schema', 'attributes', name], {}), [layout, name]);
-  const metadatas = useMemo(() => get(layout, ['metadatas', name, 'edit'], {}), [layout, name]);
+  const metadatas = useMemo(() => {
+    const md = get(layout, ['metadatas', name, 'edit'], {});
+    md.label = md.label.replace(/\_/g, ' ');
+    return md;
+  }, [layout, name]);
   const disabled = useMemo(() => !get(metadatas, 'editable', true), [metadatas]);
   const type = useMemo(() => get(attribute, 'type', null), [attribute]);
   const regexpString = useMemo(() => get(attribute, 'regex', null), [attribute]);
@@ -204,11 +208,13 @@ function Inputs({
     return disabled;
   }, [disabled, isCreatingEntry, isUserAllowedToEditField, isUserAllowedToReadField]);
 
+  const capitalize = val => val.charAt(0).toUpperCase() + val.slice(1);
+
   const options = useMemo(() => {
     return get(attribute, 'enum', []).map(v => {
       return (
         <option key={v} value={v}>
-          {v}
+          {capitalize(v)}
         </option>
       );
     });

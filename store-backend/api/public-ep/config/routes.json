@@ -1,0 +1,12 @@
+{
+    "routes": [
+        {
+            "method": "GET",
+            "path": "/public/frontend-settings",
+            "handler": "public.frontendSettings",
+            "config": {
+                "policies": []
+            }
+        }
+    ]
+}

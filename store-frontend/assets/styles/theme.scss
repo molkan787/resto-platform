@@ -1,20 +1,40 @@
-html{
+html, button{
     font-family: 'Cabin', sans-serif !important;
 }
 :root {
-    --vs-primary: 158, 122, 65 !important;
+    --vs-primary: 105, 80, 40 !important;
     --vs-success: 23, 201, 100;
     --vs-danger: 242, 19, 93;
     --vs-warn: 254, 130, 0 !important;
     --vs-dark: 36, 33, 69;
 }
 
-.vs-card:hover {
-    -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
-    -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity)) !important;
-    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
-    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity)) !important;
+.no-shadow > .vs-card{
+    box-shadow:none;
 }
+.low-shadow > .vs-card{
+    -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
+}
+
+.hh-shadow > .vs-card{
+    &:hover {
+        -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .12) !important;
+        box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .12) !important;
+        transform: none !important;
+    }
+}
+.vs-card{
+    border-radius: 6px;
+    &:hover {
+        -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
+        -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity)) !important;
+        box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
+        box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity)) !important;
+        transform: none !important;
+    }
+}
+
 
 .vs-button{
     margin-left: 0;

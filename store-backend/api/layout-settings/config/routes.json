@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/layout-settings",
+      "handler": "layout-settings.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/layout-settings",
+      "handler": "layout-settings.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/layout-settings",
+      "handler": "layout-settings.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
