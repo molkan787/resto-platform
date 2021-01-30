@@ -4,10 +4,8 @@ build-vendor-image:
   when: manual
   services:
     - docker:dind
-  # before_script:
-  #   - echo "$DOCKER_REGISTRY_PASS" | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
   script:
-    - docker build -t murew-vendor:alpha1 .
+    - docker build -t murew-vendor:alpha1 -f vendor_apps.dockerfile .
     - docker save -o murew-vendor.tar murew-vendor:alpha1
   except:
     - master
