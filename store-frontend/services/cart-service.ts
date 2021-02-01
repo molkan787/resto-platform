@@ -1,15 +1,18 @@
 import { Service } from "./service";
 import Vue from 'vue';
 import { CartProductOptions } from "~/interfaces/CartProductOptions";
+import { CART_LS_KEY } from "./constants";
 
 export class CartService extends Service{
 
     public setProduct(productId: string, options: CartProductOptions){
         Vue.set(this.state.cart.products, productId, options);
+        this.saveCart();
     }
 
     public removeProduct(productId: string){
         Vue.delete(this.state.cart.products, productId);
+        this.saveCart();
     }
 
     public adjustProductQuantity(productId: string, amount: number){
@@ -32,6 +35,7 @@ export class CartService extends Service{
         }else{
             this.removeProduct(productId);
         }
+        this.saveCart();
     }
 
     public getItemOptions(productId: string){
@@ -40,5 +44,27 @@ export class CartService extends Service{
 
     public clearCart(){
         this.state.cart.products = {};
+        this.saveCart();
     }
+
+    public saveCart(){
+        const { cart, activeStore } = this.state;
+        const data = {
+            cart,
+            store_id: activeStore?.id,
+        };
+        const strData = JSON.stringify(data);
+        window.localStorage.setItem(CART_LS_KEY, strData);
+    }
+
+    public loadCart(){
+        const raw = window.localStorage.getItem(CART_LS_KEY);
+        if(!raw) return;
+        const { cart, store_id } = JSON.parse(raw);
+        if(store_id === this.state.activeStore?.id){
+            this.state.cart = cart;
+        }
+    }
+
+
 }

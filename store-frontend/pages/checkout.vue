@@ -3,22 +3,24 @@
         <div class="content">
             <div class="left-col">
                 <div class="flexed container">
-                    <template v-if="orderType =='delivery'">
-                        <vs-card>
-                            <template #title>
-                                <h2>Where do you want your order to be delivered?</h2>
-                            </template>
-                            <template #text>
-                                <div class="address form">
-                                    <vs-input :disabled="loading" v-model="addressForm.line1" placeholder="Address line 1"/>
-                                    <vs-input :disabled="loading" v-model="addressForm.postcode" placeholder="Post Code"/>
-                                    <vs-input :disabled="loading" v-model="addressForm.line2" placeholder="Address line 2"/>
-                                    <vs-input :disabled="loading" v-model="addressForm.city" placeholder="City"/>
-                                </div>
-                            </template>
-                        </vs-card>
-                        <div class="sepa" />
-                    </template>
+                    <transition name="defanim">
+                        <div v-if="orderType =='delivery'">
+                            <vs-card>
+                                <template #title>
+                                    <h2>Where do you want your order to be delivered?</h2>
+                                </template>
+                                <template #text>
+                                    <div class="address form">
+                                        <vs-input :disabled="loading" v-model="addressForm.line1" placeholder="Address line 1"/>
+                                        <vs-input :disabled="loading" v-model="addressForm.postcode" placeholder="Post Code"/>
+                                        <vs-input :disabled="loading" v-model="addressForm.line2" placeholder="Address line 2"/>
+                                        <vs-input :disabled="loading" v-model="addressForm.city" placeholder="City"/>
+                                    </div>
+                                </template>
+                            </vs-card>
+                            <div class="sepa" />
+                        </div>
+                    </transition>
                     <vs-card>
                         <template #title>
                             <h2>Remarks/Note</h2>
@@ -43,7 +45,7 @@
                         </template>
                     </vs-card>
                     <div class="sepa" />
-                    <vs-button @click="checkoutClick" :loading="loading" size="xl" block>
+                    <vs-button @click="checkoutClick" :loading="loading" size="xl" block :disabled="!canPostOrder">
                         Checkout
                     </vs-button>
                 </div>
@@ -56,19 +58,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 export default {
-    computed: mapState({
-        orderType: state => state.cart.orderType
-    }),
+    computed: {
+        ...mapGetters(['canPostOrder']),
+        ...mapState({
+            orderType: state => state.cart.orderType,
+            checkout: state => state.checkout,
+            addressForm: state => state.checkout.addressForm,
+        })
+    },
     data: () => ({
         loading: false,
-        addressForm: {
-            line1: '',
-            line2: '',
-            postcode: '',
-            city: '',
-        },
         paymentMethod: 'cod',
         note: '',
     }),
@@ -106,7 +107,7 @@ export default {
     },
     mounted(){
         const { line1, line2, postcode, city } = (this.$strapi && this.$strapi.user && this.$strapi.user.default_address) || {};
-        this.addressForm = {
+        this.checkout.addressForm = {
             line1,
             line2,
             postcode,
@@ -120,6 +121,8 @@ export default {
 .checkout-page .content{
     display: flex;
     flex-direction: row;
+    max-width: 1300px;
+    margin: auto;
     .left-col{
         flex: 1;
         padding: 1rem;

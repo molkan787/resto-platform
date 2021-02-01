@@ -11,6 +11,7 @@ export class DataService extends Service{
             const categories: Category[] = await this.$strapi.find('public-menus/' + storeId);
             this.state.categories = categories;
             this.state.products = this.createProductsMap(categories);
+            this.state.dataLoaded = true;
         }
         return this.state.categories;
     }

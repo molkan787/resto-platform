@@ -52,9 +52,11 @@ export default {
 <style lang="scss">
 .product {
   user-select: none;
+  cursor: pointer;
   .vs-card, .vs-card-content{
     max-width: unset;
     height: 100%;
+    cursor: pointer;
   }
   .p-card-title {
     font-size: 17px !important;

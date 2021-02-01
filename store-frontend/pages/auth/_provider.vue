@@ -2,7 +2,7 @@
     <Page v-if="showError">
         <div class="container">
             <div class="content">
-                An error occured, Please to sign in again. <br>
+                An error occured, Please try to sign in again. <br>
                 <nuxt-link to="/">Home</nuxt-link>
             </div>
         </div>

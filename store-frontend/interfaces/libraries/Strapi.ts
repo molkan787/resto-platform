@@ -1,5 +1,6 @@
 export interface Strapi{
     $http: any;
+    user: any;
     find: (entity: string, params?: any) => Promise<any[]>;
     count: (entity: string, params?: any) => Promise<number>;
     findOne: (entity: string, id: number) => Promise<any>;

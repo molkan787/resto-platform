@@ -1,0 +1,12 @@
+{
+    "routes": [
+        {
+            "method": "GET",
+            "path": "/geo/postcodes/distance/:postcode1/:postcode2",
+            "handler": "geo.getDistanceBetweenPostcodes",
+            "config": {
+                "policies": []
+            }
+        }
+    ]
+}
