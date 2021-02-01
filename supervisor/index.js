@@ -1,7 +1,7 @@
 var restify = require('restify');
 const { createVendorApp, destroyVendorApp } = require('./controller');
 
-const PORT = process.env.SUPERVISOR_PORT || 8023;
+const PORT = process.env.SUPERVISOR_PORT || 1323;
  
 const server = restify.createServer({
   name: 'murew-supervisor',
