@@ -1,0 +1,11 @@
+{
+  "name": "distance-helper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Seghier Dahmane",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "express": "^4.17.1"
+  }
+}
