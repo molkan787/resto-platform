@@ -12,3 +12,18 @@ build-vendor-image:
   artifacts:
     paths:
     - murew-vendor.tar
+
+build-distance-helper-image:
+  image: docker:latest
+  stage: build
+  when: manual
+  services:
+    - docker:dind
+  script:
+    - docker build -t distance-helper:lastest -f distance_helper.dockerfile .
+    - docker save -o distance-helper.tar distance-helper:lastest
+  except:
+    - master
+  artifacts:
+    paths:
+    - distance-helper.tar
