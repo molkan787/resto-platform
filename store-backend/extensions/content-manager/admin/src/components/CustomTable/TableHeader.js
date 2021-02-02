@@ -58,7 +58,7 @@ function TableHeader({ headers, isBulkable }) {
               }}
             >
               <span className={header.sortable ? 'sortable' : ''}>
-                {header.label}
+                {header.label.replace(/\_/g, ' ')}
 
                 {sortBy === header.name && (
                   <Arrow fill="#212529" isUp={sortOrder === 'ASC' && 'isAsc'} />
