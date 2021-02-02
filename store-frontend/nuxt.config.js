@@ -23,6 +23,7 @@ export default {
   plugins: [
     { src: '@/plugins/vuesax' },
     { src: '@/plugins/rellax', mode: 'client' },
+    { src: '@/plugins/vue-gallery', mode: 'client' },
     { src: '@/plugins/global-filters' },
     { src: '@/plugins/services' },
     { src: '@/plugins/cookie-expire-time' },
@@ -50,7 +51,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: 'http://localhost:1337'
+    baseURL: process.env.BACKEND_URL || 'http://localhost:1337'
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

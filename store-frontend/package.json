@@ -19,6 +19,7 @@
     "primeicons": "^4.1.0",
     "primevue": "2.0.0",
     "vue": "2.6.12",
+    "vue-gallery-slideshow": "^1.5.2",
     "vue-rellax": "^0.2.0",
     "vuesax": "^4.0.1-alpha.25",
     "vuex-persistedstate": "3.1.0"
