@@ -1,5 +1,5 @@
 <template>
-  <Page :background="require('~/assets/images/landing_page_bg.jpg')" :header="{ large: true, sticky: true }">
+  <Page :background="require('~/assets/images/landing_page_bg.jpg')" :header="{ large: true, sticky: true }" :noFooter="true">
     <div class="home-page">
       <section class="welcome" v-rellax="{speed: 2}">
         <div class="container center-content">
@@ -43,6 +43,11 @@
           </div>
         </div>
       </section>
+      <section class="footer-section" v-rellax="{speed: 10}">
+        <div class="footer-wrapper">
+          <Footer />
+        </div>
+      </section>
     </div>
   </Page>
 </template>
@@ -79,9 +84,15 @@ export default Vue.extend({})
     filter: blur(0.45px);
     text-shadow: 0 0 2px #3e3e3e;
   }
-  section:not(:first-child){
+  section:not(:first-child):not(.footer-section){
     background-color: white;
     padding: 3rem;
+  }
+  section.footer-section{
+    padding-top: 18rem;
+    .footer-wrapper{
+      background-color: white;
+    }
   }
   .content-block{
     h1{

@@ -12,6 +12,7 @@
         <i class='bx bxs-up-arrow'></i>
       </div>
     </transition>
+    <Footer v-if="!noFooter" />
   </BasePage>
 </template>
 
@@ -29,6 +30,10 @@ export default {
     header: {
       type: Object,
       default: () => ({})
+    },
+    noFooter: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -86,6 +91,7 @@ export default {
   padding: 15px;
   font-size: 20px;
   color: #98a5aa;
+  cursor: pointer;
   &:hover{
     transform: translateY(-10px);
     color: rgb(100, 112, 117);

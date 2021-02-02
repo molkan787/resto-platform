@@ -28,6 +28,10 @@
     <vs-navbar-item :active="active == 'gallery'" to="/gallery">
       GALLERY
     </vs-navbar-item>
+    
+    <vs-navbar-item v-for="page in navPages" :key="page.slug" :active="active == page.slug" :to="'/p/' + page.slug">
+      {{ page.name | uppercase }}
+    </vs-navbar-item>
 
     <template #right>
       <template v-if="user">
@@ -86,7 +90,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(['stores']),
+    ...mapState(['stores', 'pages']),
     user(){
       return this.$strapi.user;
     },
@@ -95,6 +99,9 @@ export default {
     },
     activeStoreSlug(){
       return this.$route.params.store;
+    },
+    navPages(){
+      return this.pages.filter(p => p.show_in_navigation_menu);
     }
   }
 };

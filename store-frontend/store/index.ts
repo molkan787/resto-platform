@@ -3,6 +3,7 @@ import { CartProductOptions } from '~/interfaces/CartProductOptions';
 import { CartProducts } from '~/interfaces/CartProducts';
 import { Category } from '~/interfaces/Category';
 import { LayoutSettings } from '~/interfaces/LayoutSettings';
+import { Page } from '~/interfaces/Page';
 import { Product } from '~/interfaces/Product';
 import { Store } from '~/interfaces/Store';
 import { StoreSettings } from '~/interfaces/StoreSettings';
@@ -14,6 +15,7 @@ export const state = () => ({
     stores: <Store[]>[],
     layoutSettings: <LayoutSettings>{},
     storeSettings: <StoreSettings>{},
+    pages: <Page[]>[],
     dataLoaded: false,
     categories: <Category[]>[],
     cart: {
@@ -74,9 +76,10 @@ export const actions = {
         try {
             await Promise.all([
                 $strapi.find('stores', { active: true }).then(stores => state.stores = stores),
-                $strapi.find('public/frontend-settings').then(({ layout, store }: any) => {
+                $strapi.find('public/frontend-settings').then(({ layout, store, pages }: any) => {
                     state.layoutSettings = layout;
                     state.storeSettings = store;
+                    state.pages = pages;
                     bootstrap(state);
                 })
             ])

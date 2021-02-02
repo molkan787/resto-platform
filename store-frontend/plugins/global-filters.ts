@@ -20,3 +20,7 @@ Vue.filter('date', (date: Date | string) => {
   const _date = typeof date == 'string' ? new Date(date) : date;
   return _date.toLocaleString();
 });
+
+Vue.filter('uppercase', (value: string) => {
+  return typeof  value === 'string' ? value.toUpperCase() : value;
+})
