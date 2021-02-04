@@ -14,7 +14,10 @@ module.exports = {
       name: 'murew-backend',
       cwd: './murew-backend',
       script:'./node_modules/strapi/bin/strapi.js',
-      args: 'start'
+      args: 'start',
+      env: {
+        'DATABASE_URI': 'mongodb://localhost:27017/murew'
+      }
     }
   ]
 }
