@@ -32,7 +32,8 @@ module.exports = class MurewMenuSync{
                 parent: parentId ? new mongoose.Types.ObjectId(parentId) : undefined
             },
             {
-                upsert: true
+                upsert: true,
+                new: true
             }
         );
         const { _id } = entry;
@@ -58,7 +59,8 @@ module.exports = class MurewMenuSync{
                 store_id
             },
             {
-                upsert: true
+                upsert: true,
+                new: true
             }
         );
         return _id;
