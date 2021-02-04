@@ -62,13 +62,10 @@ export default Vue.extend({})
 .home-page{
   height: 100%;
   .welcome{
-    height: 100%;
-    // background-image: url('~assets/images/landing_page_bg.jpg');
-    // background-repeat: no-repeat;
-    // background-size: cover;
+    height: fit-content;
     color: white;
     .container{
-      height: 100%;
+      height: calc(100vh - 60px);
     }
     .hd1{
       font-size: 46px;

@@ -4,6 +4,7 @@
             <h3>{{ product.name }}</h3>
         </template>
         <ProductOptions ref="optionsForm" :product="product" />
+        <vs-alert v-if="product.contains_allergens" color="warn">Warning: This product contains allergens (ex: Peanuts, Wheat...)</vs-alert>
         <template #footer>
             <vs-button @click="addToCartClick" flat size="large" block>
                 {{ editMode ? 'Update' : 'Add to Cart' }}

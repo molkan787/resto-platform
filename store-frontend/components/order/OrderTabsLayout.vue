@@ -60,7 +60,7 @@ export default {
         .content {
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(2, calc((100% - 1rem) / 2));
+            grid-template-columns: 1;
             grid-gap: 1rem;
             @media (max-width: $mobile-width) {
                 & {

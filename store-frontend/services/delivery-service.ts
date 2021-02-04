@@ -6,15 +6,17 @@ export class DeliveryService extends Service {
 
     constructor(context: Context){
         super(context);
-        context.store.watch(
-            () => this.getDeliveryPostcode(),
-            () => this.callUpdateDeliveryOptions(),
-            { immediate: true }
-        );
-        context.store.watch(
-            state => state.activeStore,
-            () => this.callUpdateDeliveryOptions()
-        );
+        if(process.client){
+            context.store.watch(
+                () => this.getDeliveryPostcode(),
+                () => this.callUpdateDeliveryOptions(),
+                { immediate: true }
+            );
+            context.store.watch(
+                state => state.activeStore,
+                () => this.callUpdateDeliveryOptions()
+            );
+        }
     }
 
     public getDeliveryPostcode(): string{
@@ -23,7 +25,7 @@ export class DeliveryService extends Service {
 
     
     private callUpdateDeliveryOptions = debounce(
-        () => this.updateDeliveryOption(), 250
+        () => this.updateDeliveryOption(), 1000
     );
 
     public async updateDeliveryOption(){
@@ -46,7 +48,7 @@ export class DeliveryService extends Service {
             return -1;
         }
         const data = <any>(await this.context.$strapi.find(`geo/postcodes/distance/${storePostcode}/${deliveryPostcode}`));
-        return <number>(data?.distance || -1);
+        return <number>(typeof data?.distance == 'number' ? data.distance : -1);
     }
     
 }

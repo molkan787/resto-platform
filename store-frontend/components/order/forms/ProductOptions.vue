@@ -12,11 +12,20 @@
                 </vs-checkbox>
             </div>
         </div>
+        <vs-alert v-if="stockLimit" color="warn">
+            Only <b>{{ stockLimit }}</b>
+            {{ stockLimit == 1 ? 'item is' : 'items are'}}
+            left in stock.
+        </vs-alert>
         <div class="field final">
             <div class="controls">
-                <vs-button @click="addQty(-1)" flat>-</vs-button>
+                <vs-button @click="addQty(-1)" flat>
+                    <i class='bx bx-minus'></i>
+                </vs-button>
                 <span class="qty">{{ qty }}</span>
-                <vs-button @click="addQty(1)" flat>+</vs-button>
+                <vs-button @click="addQty(1)" flat>
+                    <i class='bx bx-plus'></i>
+                </vs-button>
             </div>
             <div class="total">
                 {{ total | price }}
@@ -37,6 +46,7 @@ export default {
         extras: [],
         qty: 1,
         note: '',
+        stockLimit: null,
     }),
     computed: {
         unitPrice(){
@@ -49,11 +59,15 @@ export default {
     },
     methods: {
         addQty(amt){
+            const { stock, enable_stock } = this.product;
             let newQty = this.qty + amt;
             if(newQty < 1){
                 newQty = 1;
-            }else if(this.product.enable_stock && newQty > this.product.stock){
-                newQty = this.product.stock;
+            }else if(enable_stock && newQty > stock){
+                newQty = stock;
+                this.stockLimit = stock;
+            }else{
+                this.stockLimit = null;
             }
             this.qty = newQty;
         },

@@ -72,11 +72,13 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   .page-struct{
-    height: 100%;
+    height: auto;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     .page-content{
-      max-height: calc(100vh - 68px);
+      height: auto;
+      min-height: calc(100vh - 68px);
       flex: 1;
     }
   }
@@ -100,7 +102,7 @@ export default {
 .fade-enter-active, .fade-leave-active {
   transition: opacity .2s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>

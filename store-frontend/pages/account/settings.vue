@@ -92,7 +92,7 @@ export default {
 <style lang="scss" scoped>
 .container{
     max-width: 600px;
-    padding: 1rem;
+    padding: 2rem 1rem 1rem 1rem;
 }
 section{
     width: 100%;

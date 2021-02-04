@@ -23,8 +23,8 @@
       "type": "text"
     },
     "category": {
-      "via": "products",
-      "model": "category"
+      "model": "category",
+      "via": "products"
     },
     "remote_id": {
       "type": "integer"
@@ -47,6 +47,11 @@
     "store_id": {
       "type": "string",
       "private": true
+    },
+    "contains_allergens": {
+      "type": "boolean",
+      "default": false,
+      "required": false
     }
   }
 }

@@ -4,6 +4,14 @@
       <template #title>
         <h2>
           {{ product.name }}
+          <div class="head-right-section">
+            <i 
+              v-if="product.contains_allergens"
+              title="This product contains allergens (ex: Peanuts, Wheat...)"
+              class='bx bxs-error-circle'
+              style='color: rgba(var(--vs-warn), 1)'>
+            </i>
+          </div>
         </h2>
       </template>
       <template #text>
@@ -46,6 +54,10 @@ export default {
 .product {
   cursor: pointer;
   box-shadow: none;
+  .head-right-section{
+    display: inline-block;
+    float: right;
+  }
 }
 </style>
 

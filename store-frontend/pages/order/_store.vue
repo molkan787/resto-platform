@@ -37,7 +37,8 @@ export default {
     address(){
       const s = this.activeStore || {};
       const { line1, line2, postcode, city } = s.address || {};
-      return [line1, line2, postcode, city].filter(i => !!i).join('\n');
+      const _postcode = (postcode || '').toUpperCase();
+      return [line1, line2, _postcode, city].filter(i => !!i).join('\n');
     }
   },
   data: () => ({

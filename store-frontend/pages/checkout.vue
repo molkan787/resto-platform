@@ -42,6 +42,11 @@
                                     Cash on Delivery 
                                 </vs-radio>
                             </div>
+                            <br>
+                            <h3>Discount code</h3>
+                            <div class="form">
+                                <vs-input :disabled="loading" placeholder="Discount code" />
+                            </div>
                         </template>
                     </vs-card>
                     <div class="sepa" />
