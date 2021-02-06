@@ -5,6 +5,7 @@
         </td>
         <td>
             {{ item.data.name }}
+            <AllergyIcon v-if="item.data.contains_allergens" />
         </td>
         <td class="cart-items-buttons">
             <vs-button circle size="small" @click="adjustQty(-1)" class="p-button p-button-sm">
@@ -21,7 +22,6 @@
 </template>
 
 <script>
-import { CartService } from '@/services/cart-service';
 export default {
     props: {
         item: {

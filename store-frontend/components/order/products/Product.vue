@@ -5,12 +5,7 @@
         <h2>
           {{ product.name }}
           <div class="head-right-section">
-            <i 
-              v-if="product.contains_allergens"
-              title="This product contains allergens (ex: Peanuts, Wheat...)"
-              class='bx bxs-error-circle'
-              style='color: rgba(var(--vs-warn), 1)'>
-            </i>
+            <AllergyIcon v-if="product.contains_allergens" />
           </div>
         </h2>
       </template>
