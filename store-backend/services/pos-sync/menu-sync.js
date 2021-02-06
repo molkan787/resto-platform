@@ -11,12 +11,14 @@ module.exports = class MurewMenuSync{
 
         await strapi.query('category').delete({
             store_id,
-            id_nin: categories
+            id_nin: categories,
+            remote_id_null: false
         });
 
         await strapi.query('product').delete({
             store_id,
-            id_nin: products
+            id_nin: products,
+            remote_id_null: false
         });
     }
 
