@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "offers",
+  "info": {
+    "name": "offer",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60
+    },
+    "expires": {
+      "type": "datetime"
+    },
+    "condition": {
+      "type": "component",
+      "repeatable": false,
+      "component": "offer.condition"
+    },
+    "available_on_delivery": {
+      "type": "boolean",
+      "default": true
+    },
+    "available_on_pickup": {
+      "type": "boolean",
+      "default": true
+    },
+    "available_on_website": {
+      "type": "boolean",
+      "default": true
+    },
+    "available_on_pos": {
+      "type": "boolean",
+      "default": true
+    },
+    "benefits": {
+      "type": "dynamiczone",
+      "components": [
+        "offer.benefit-percent-discount",
+        "offer.benefit-free-items"
+      ],
+      "required": true
+    },
+    "store_id": {
+      "type": "string"
+    },
+    "remote_id": {
+      "type": "integer"
+    }
+  }
+}

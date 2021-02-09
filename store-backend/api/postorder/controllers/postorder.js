@@ -15,9 +15,10 @@ module.exports = {
                 order
             }
         } catch (error) {
+            console.error(error)
             if(error.isHttpError){
                 ctx.response.status = error.statusCode;
-                ctx.response.message= error.message;
+                ctx.response.message = error.message;
             }else{
                 throw error;
             }

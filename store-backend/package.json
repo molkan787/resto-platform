@@ -5,6 +5,7 @@
   "description": "Vendor app for the Murew Platform",
   "scripts": {
     "develop": "strapi develop",
+    "develop_wa": "strapi develop --watch-admin",
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi"

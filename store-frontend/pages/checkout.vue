@@ -47,11 +47,20 @@
                             <div class="form">
                                 <vs-input :disabled="loading" placeholder="Discount code" />
                             </div>
+                            <div v-if="eligibleOffers.length" class="form offer-selector-wrapper">
+                                <OfferSelector />
+                            </div>
+
+                            <div v-if="selectedOffer" class="form offer-options-wrapper">
+                                <OfferOptions :offer="selectedOffer" :bucket="checkout.offerOptions" :error="checkout.offerOptionsError" />
+                            </div>
+
                         </template>
                     </vs-card>
                     <div class="sepa" />
                     <vs-button @click="checkoutClick" :loading="loading" size="xl" block :disabled="!canPostOrder">
-                        Checkout
+                        <b>Checkout</b> &nbsp;
+                        <span style="opacity: 0.9">( Total: {{ orderTotal | price }} )</span>
                     </vs-button>
                 </div>
             </div>
@@ -66,11 +75,12 @@
 import { mapState, mapGetters } from 'vuex';
 export default {
     computed: {
-        ...mapGetters(['canPostOrder']),
+        ...mapGetters(['canPostOrder', 'orderTotal', 'selectedOffer']),
         ...mapState({
             orderType: state => state.cart.orderType,
             checkout: state => state.checkout,
-            addressForm: state => state.checkout.addressForm,
+            addressForm: state => state.checkout.delivery_address,
+            eligibleOffers: state => state.eligibleOffers
         })
     },
     data: () => ({
@@ -84,7 +94,6 @@ export default {
                 this.loading = true;
                 try {
                     const resp = await this.$orderService.postOrder({
-                        address: this.addressForm,
                         paymentMethod: this.paymentMethod,
                         note: this.note
                     });
@@ -112,7 +121,7 @@ export default {
     },
     mounted(){
         const { line1, line2, postcode, city } = (this.$strapi && this.$strapi.user && this.$strapi.user.default_address) || {};
-        this.checkout.addressForm = {
+        this.checkout.delivery_address = {
             line1,
             line2,
             postcode,
@@ -153,6 +162,10 @@ export default {
         height: 10rem;
         border-radius: 16px;
         font-family: inherit;
+    }
+    .offer-selector-wrapper{
+        padding: 1rem 1rem 1rem 0;
+        text-align: left;
     }
 }
 </style>

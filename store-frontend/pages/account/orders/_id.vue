@@ -32,7 +32,7 @@
                             {{ tr.quantity }}
                         </vs-td>
                         <vs-td>
-                            {{ (tr.unit_price || tr.price) | price }}
+                            {{ tr.unit_price | price_ft }}
                         </vs-td>
                     </vs-tr>
                 </template>

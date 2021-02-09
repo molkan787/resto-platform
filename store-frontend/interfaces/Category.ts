@@ -1,4 +1,4 @@
-import { Product } from "./Product";
+import { Product } from "murew-core/dist/interfaces";
 
 export interface Category{
     name: string;

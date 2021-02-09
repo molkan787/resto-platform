@@ -1,12 +1,12 @@
 import { Context } from '@nuxt/types';
-import { CartProductOptions } from '~/interfaces/CartProductOptions';
-import { CartProducts } from '~/interfaces/CartProducts';
 import { Category } from '~/interfaces/Category';
 import { LayoutSettings } from '~/interfaces/LayoutSettings';
 import { Page } from '~/interfaces/Page';
-import { Product } from '~/interfaces/Product';
 import { Store } from '~/interfaces/Store';
 import { StoreSettings } from '~/interfaces/StoreSettings';
+import { Cart, CartProductOptions, Checkout, Offer, Product } from 'murew-core/dist/interfaces';
+import { CartUtils, OfferUtils } from 'murew-core';
+import { OrderType } from 'murew-core/dist/types';
 
 export const strict = false;
 
@@ -18,19 +18,26 @@ export const state = () => ({
     pages: <Page[]>[],
     dataLoaded: false,
     categories: <Category[]>[],
-    cart: {
-        products: <CartProducts>{},
-        orderType: <'delivery' | 'collection'>'delivery',
-        delivery: <number>-1,
+    cart: <Cart>{
+        products: {},
+        orderType: 'delivery',
+        delivery: -1,
+        selectedOffer: null,
     },
     products: new Map<string, Product>(),
-    checkout: {
-        addressForm: {
+    offers: <Offer[]>[],
+    eligibleOffers: <Offer[]>[],
+    checkout: <Checkout>{
+        delivery_address: {
             line1: '',
             line2: '',
             postcode: '',
             city: '',
-        }
+        },
+        offerOptions: {
+            selectedItems: []
+        },
+        offerOptionsError: null,
     }
 });
 
@@ -39,36 +46,31 @@ declare type State = ReturnType<typeof state>;
 export const getters = {
     canPostOrder: (state: State, getters: any) => {
         return (
-            Object.values(state.cart.products).reduce((acc, p) => acc + p.qty, 0) > 0
+            !state.checkout.offerOptionsError
+            && Object.values(state.cart.products).reduce((acc, p) => acc + p.qty, 0) > 0
             && getters.productsTotal >= state.storeSettings.minimum_order_value
         )
     },
-    cartItems: (state: State) => {
-        return Object.entries(state.cart.products).map(([id, options]) => {
-            const product = state.products.get(id);
-            if(!product) return null;
-            return {
-                id,
-                data: product,
-                qty: options.qty,
-                total: calcItemTotal(product, options)
-            }
-        }).filter(i => !!i);
-    },
-    productsTotal: (state: State, getters: any) => {
+    cartItems: ({ cart, products }: State) => CartUtils.getCartItems(cart.products, products),
+    
+    productsTotal: (state: State, getters: any): number => {
         return getters.cartItems.reduce((t: number, i: any) => t + i.total, 0);
     },
-    orderTotal: (state: State, getters: any) => {
-        return getters.productsTotal + (
-            state.cart.orderType == 'delivery' ? state.cart.delivery : 0
+    productsDiscount: (state: State, getters: any) => {
+        return OfferUtils.getOfferDiscountAmount(getters.selectedOffer, getters.productsTotal);
+    },
+    orderTotal: (state: State, getters: any): number => {
+        let total = getters.productsTotal;
+        total += getters.productsDiscount;
+        return total + (
+            state.cart.orderType == OrderType.Delivery ? state.cart.delivery : 0
         )
+    },
+    selectedOffer: (state: State): Offer | null => {
+        const { selectedOffer } = state.cart;
+        const index = state.offers.findIndex(o => o.id === selectedOffer);
+        return state.offers[index] || null;
     }
-}
-
-function calcItemTotal(product: Product, options: CartProductOptions){
-    const extrasCost = options.extras.reduce((t, e) => t + e.price, 0);
-    const unitPrice = product.price + extrasCost;
-    return unitPrice * options.qty;
 }
 
 export const actions = {
@@ -92,8 +94,8 @@ export const actions = {
 export function bootstrap(state: State) {
     const { enable_delivery_orders, enable_pickup_orders } = state.storeSettings;
     if(!enable_delivery_orders){
-        state.cart.orderType = 'collection';
+        state.cart.orderType = OrderType.Collection;
     }else if(!enable_pickup_orders){
-        state.cart.orderType = 'delivery';
+        state.cart.orderType = OrderType.Delivery;
     }
 }

@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_offer_benefit_free_items",
+  "info": {
+    "name": "BenefitFreeItems",
+    "icon": "concierge-bell"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "string",
+      "default": "free_items"
+    },
+    "all_items": {
+      "type": "boolean",
+      "default": false
+    },
+    "items": {
+      "collection": "product"
+    },
+    "max_items": {
+      "type": "integer",
+      "min": 1,
+      "required": true,
+      "default": 1
+    },
+    "max_value": {
+      "type": "decimal",
+      "default": 0,
+      "min": 0,
+      "required": true
+    }
+  }
+}

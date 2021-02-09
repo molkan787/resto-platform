@@ -1,18 +1,31 @@
 import { Service } from "./service";
 import Vue from 'vue';
-import { CartProductOptions } from "~/interfaces/CartProductOptions";
 import { CART_LS_KEY } from "./constants";
+import { CartProductOptions } from "murew-core/dist/interfaces";
+import { Context } from "@nuxt/types";
+import { State } from "~/interfaces/State";
+import debounce from "debounce";
 
 export class CartService extends Service{
 
+    constructor(context: Context){
+        super(context);
+        if(process.client){
+            const saveCart = debounce(() => this.saveCart(), 500);
+            context.store.watch(
+                (state: State) => state.cart,
+                () => saveCart(),
+                { deep: true }
+            )
+        }
+    }
+
     public setProduct(productId: string, options: CartProductOptions){
         Vue.set(this.state.cart.products, productId, options);
-        this.saveCart();
     }
 
     public removeProduct(productId: string){
         Vue.delete(this.state.cart.products, productId);
-        this.saveCart();
     }
 
     public adjustProductQuantity(productId: string, amount: number){
@@ -35,7 +48,6 @@ export class CartService extends Service{
         }else{
             this.removeProduct(productId);
         }
-        this.saveCart();
     }
 
     public getItemOptions(productId: string){
@@ -44,7 +56,6 @@ export class CartService extends Service{
 
     public clearCart(){
         this.state.cart.products = {};
-        this.saveCart();
     }
 
     public saveCart(){

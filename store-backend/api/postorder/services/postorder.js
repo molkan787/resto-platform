@@ -3,29 +3,48 @@ const { sanitizeEntity } = require('strapi-utils');
 const { MurewMenu } = require('../../../constants/murew');
 const BadRequestError = require('../../../errors/BadRequestError');
 const { generateOrderNumber } = require('../../../murew-core/utils/order');
+const { Interfaces, OfferUtils, Types, CartUtils } = require('murew-core');
+const { arrayToMap } = require('murew-core/dist/DataUtils');
+const { OrderType } = require('murew-core/dist/types');
 
 module.exports = class PostOrderService{
 
+    /**
+     * 
+     * @param {Interfaces.PostOrderDTO} data 
+     * @param {any} user 
+     */
     static async createOrder(data, user){
-        const { type, items, delivery_address, note, store_id } = data;
+        const { cart, checkout, note, store_id, order_total } = data;
+        const { delivery_address, offerOptions } = checkout;
+        const { products: items, orderType: type, selectedOffer } = cart;
         this.validateData(data);
         const store = await strapi.query('store').findOne({ id: store_id, active: true });
         if(!store){
             throw new BadRequestError(`Store with id "${store_id}" not found.`);
         }
-        const isDelivery = type == 'delivery';
-        const products_ids = items.map(item => item.id);
+        const offer = selectedOffer ? await strapi.query('offer').findOne({ id: selectedOffer }) : null;
+        const isDelivery = type == OrderType.Delivery;
+        const products_ids = Object.keys(items).concat(offerOptions.selectedItems);
         const products = await this.fetchProducts(products_ids, store_id);
-        const productsItems = this.fillProductsInfo(items, products);
+        const productsMap = arrayToMap(products, 'id');
+        const productsTotal = CartUtils.calcProductsTotal(items, productsMap);
+        this.validateOrder(data, productsMap, productsTotal, offer);
+        const orderTotal = CartUtils.calcOrderTotal(cart, productsMap, offer);
+        if(orderTotal != order_total){
+            throw new BadRequestError('Prices may have changed, Please try reloading the page. Error: TNET');
+        }
+
+        const productsItems = this.fillProductsInfo(items, productsMap);
         const allHaveRemoteId = productsItems.reduce((b, p) => b && !!p.remote_id, true);
         const orderNo = await this.generateOrderNumber();
         const order = {
             no: orderNo,
             store_id: store_id,
             type,
-            products: productsItems,
+            products: productsItems.concat(this.fillOfferProductsInfo(offerOptions.selectedItems, productsMap)),
             status: 'placed',
-            total: this.calculateOrderTotal(productsItems),
+            total: orderTotal,
             created_by: user.id,
             owner: user.id,
             menu: allHaveRemoteId ? MurewMenu.POS : MurewMenu.ONLINE,
@@ -37,7 +56,7 @@ module.exports = class PostOrderService{
             await strapi.query('user', 'users-permissions').update({ id: user.id }, { default_address: delivery_address });
         }
         const _order = await this.createOrderEntry(order);
-        await this.manageStock(productsItems, -1);
+        await this.alterStock(productsItems, -1);
         const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
         strapi.services.posSyncService.sendOrder(sanitizedOrderData);
         return sanitizedOrderData;
@@ -51,18 +70,21 @@ module.exports = class PostOrderService{
         const order = await strapi.query('order').update({ _id: orderId }, { status });
         if(['declined', 'canceled'].includes(status)){
             const { products } = order;
-            await this.manageStock(products, 1);
+            await this.alterStock(products, 1);
         }
     }
 
-    static fillProductsInfo(items, products){
-        const productsMap = products.reduce((m, p) => (m[p.id] = p) && m, {});
+    /**
+     * 
+     * @param {Interfaces.CartProducts} items 
+     * @param {Types.ProductsMap} productsMap 
+     */
+    static fillProductsInfo(items, productsMap){
         const result = [];
-        for(let item of items){
-            const { id, quantity, note } = item;
-            const extras_ids = item.extras.map(e => e.id);
-            console.log(id, extras_ids)
-            const p = productsMap[id];
+        for(let [id, options] of Object.entries(items)){
+            const { qty, note } = options;
+            const extras_ids = options.extras.map(e => e.id);
+            const p = productsMap.get(id);
             if(!p) continue;
             const { name, price, enable_stock, extras: extras_av } = p;
             const extras = extras_av.filter(ea => extras_ids.includes(ea.id)).map(e => ({
@@ -72,7 +94,7 @@ module.exports = class PostOrderService{
             const unit_price = extras.reduce((t, e) => t + e.price, price);
             result.push({
                 pid: id,
-                quantity: parseInt(quantity),
+                quantity: parseInt(qty),
                 note,
                 name,
                 price,
@@ -85,17 +107,33 @@ module.exports = class PostOrderService{
         return result;
     }
 
-    static calculateOrderTotal(items){
-        let total = 0;
-        for(let item of items){
-            const qty = parseInt(item.quantity);
-            const localTotal = item.unit_price * qty;
-            total += localTotal;
+    /**
+     * 
+     * @param {String[]} items 
+     * @param {Types.ProductsMap} productsMap 
+     */
+    static fillOfferProductsInfo(items, productsMap){
+        const result = [];
+        for(let id of items){
+            const p = productsMap.get(id);
+            if(!p) continue;
+            const { name, price, enable_stock } = p;
+            result.push({
+                pid: id,
+                quantity: 1,
+                note: '',
+                name: name + ' (Offer)',
+                price,
+                unit_price: 0,
+                extras: [],
+                enable_stock: enable_stock,
+                remote_id: p.remote_id
+            })
         }
-        return total;
+        return result;
     }
 
-    static async manageStock(items, direction){
+    static async alterStock(items, direction){
         const eligible = items.filter(item => item.enable_stock);
         const queries = eligible
             .map(item => (
@@ -110,6 +148,11 @@ module.exports = class PostOrderService{
         await Promise.all(queries);
     }
     
+    /**
+     * @param {String[]} ids 
+     * @param {String} store_id 
+     * @returns {Interfaces.Product[]}
+     */
     static fetchProducts(ids, store_id){
         return strapi.query('product').find({
             id_in: ids,
@@ -127,18 +170,40 @@ module.exports = class PostOrderService{
         return generateOrderNumber(order_no_pointer, 'N');
     }
 
+    /**
+     * 
+     * @param {Interfaces.PostOrderDTO} data 
+     */
     static validateData(data){
-        const { type, items, delivery_address } = data;
-        if(!['delivery', 'collection'].includes(type)){
-            throw new BadRequestError(`Invalid order type "${type}"`);
+        const { cart, checkout } = data;
+        const { delivery_address } = checkout;
+        const { products, orderType } = cart;
+        if(!['delivery', 'collection'].includes(orderType)){
+            throw new BadRequestError(`Invalid order type "${orderType}"`);
         }
-        if(!(items instanceof Array) || items.length == 0){
+        if(typeof products !== 'object' || Object.keys(products).length == 0){
             throw new BadRequestError('At least one product should be included');
         }
-        if(type == 'delivery' && typeof delivery_address != 'object'){
+        if(orderType == 'delivery' && typeof delivery_address != 'object'){
             throw new BadRequestError('Please provide delivery address');
         }
         return true;
+    }
+
+
+    /**
+     * 
+     * @param {Interfaces.PostOrderDTO} data 
+     * @param {Types.ProductsMap} products 
+     * @param {Number} productsTotal 
+     * @param {Interfaces.Offer} offer 
+     */
+    static validateOrder(data, products, productsTotal, offer){
+        const { cart, checkout } = data;
+        const error = OfferUtils.validateOffer(offer, cart, checkout, productsTotal, products);
+        if(error){
+            throw new BadRequestError(error);
+        }
     }
     
 }

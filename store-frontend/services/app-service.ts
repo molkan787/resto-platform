@@ -15,7 +15,7 @@ export class AppService extends Service{
             this.state.activeStore = store;
             try {
                 window.addEventListener('load', () => {
-                    context.$dataService.getCategories(store.slug)
+                    context.$dataService.getStoreMenu(store.slug)
                     .then(() => {
                         context.$cartService.loadCart();
                         bootstrap(this.state);

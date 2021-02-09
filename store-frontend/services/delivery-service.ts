@@ -20,7 +20,7 @@ export class DeliveryService extends Service {
     }
 
     public getDeliveryPostcode(): string{
-        return this.state.checkout.addressForm.postcode || this.context.$strapi.user?.default_address?.postcode;
+        return this.state.checkout.delivery_address.postcode || this.context.$strapi.user?.default_address?.postcode;
     }
 
     

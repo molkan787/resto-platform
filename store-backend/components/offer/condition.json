@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_offer_conditions",
+  "info": {
+    "name": "condition",
+    "icon": "file-contract",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "minimum_order_value": {
+      "type": "decimal",
+      "default": 0,
+      "required": true,
+      "min": 0
+    },
+    "minimum_items_count": {
+      "type": "integer",
+      "default": 0,
+      "required": true,
+      "min": 0
+    }
+  }
+}

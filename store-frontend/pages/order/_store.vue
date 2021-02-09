@@ -25,7 +25,7 @@
 import { mapState } from 'vuex';
 export default {
   async asyncData(ctx){
-    const categories = await ctx.$dataService.getCategories(ctx.params.store);
+    const { categories } = await ctx.$dataService.getStoreMenu(ctx.params.store);
     return { categories };
   },
   computed: {

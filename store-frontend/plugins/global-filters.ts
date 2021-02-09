@@ -1,16 +1,8 @@
 import Vue from 'vue';
+import { formatPrice } from 'murew-core/dist/TextUtils';
 
-const CURRENCY_SYMBOL = '£';
-
-Vue.filter('price', (val: number | string) => {
-  let _val = typeof val == 'string' ? parseFloat(val) : val;
-  const negative = _val < 0;
-  if(negative){
-    _val *= -1;
-  }
-  const str_val = _val.toFixed(2);
-  return (negative ? '- ' : '').concat(CURRENCY_SYMBOL).concat(str_val);
-});
+Vue.filter('price', (val: number | string) => formatPrice(val));
+Vue.filter('price_ft', (val: number | string) => parseFloat(<any>val) == 0 ? 'Free' : formatPrice(val));
 
 Vue.filter('capitalize', (str: string) => {
   return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();

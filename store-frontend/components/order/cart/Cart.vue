@@ -42,13 +42,18 @@
                     </tbody>
                 </table>
                 <label class="min-left">
-                    <template v-if="canPostOrder">
+                    <template v-if="amountLeft <= 0">
                         You've reached the minimum order value!
                     </template>
                     <template v-else>
                         <b>{{ amountLeft | price }}</b> out of {{ minOrderValue | price }} left before placing order
                     </template>
                 </label>
+
+                <div class="available-offers" v-if="showOrderButton && eligibleOffers.length">
+                    <OfferSelector />
+                </div>
+
                 <div v-if="showOrderButton" class="controlls">
                     <vs-button @click="orderClick" size="large" radius="6" :disabled="!canPostOrder">
                         Order
@@ -75,7 +80,8 @@ export default {
             cart: state => state.cart,
             delivery: state => state.cart.delivery,
             storeSettings: state => state.storeSettings,
-            minOrderValue: state => state.storeSettings.minimum_order_value
+            minOrderValue: state => state.storeSettings.minimum_order_value,
+            eligibleOffers: state => state.eligibleOffers
         }),
         amountLeft(){
             return this.minOrderValue - this.productsTotal;
@@ -153,6 +159,9 @@ $pad: 1rem;
         justify-content: space-evenly;
         padding: 5px 15px 9px 15px;
         font-size: 15px;
+    }
+    .available-offers{
+        padding: 2rem 1rem 0 1rem;
     }
 }
 </style>
