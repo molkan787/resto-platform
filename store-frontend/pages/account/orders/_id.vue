@@ -29,7 +29,7 @@
                             </div>
                         </vs-td>
                         <vs-td>
-                            {{ tr.quantity }}
+                            {{ tr.pid == 'discount' ? '-' : tr.quantity }}
                         </vs-td>
                         <vs-td>
                             {{ tr.unit_price | price_ft }}

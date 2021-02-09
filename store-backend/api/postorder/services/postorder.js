@@ -36,13 +36,31 @@ module.exports = class PostOrderService{
         }
 
         const productsItems = this.fillProductsInfo(items, productsMap);
-        const allHaveRemoteId = productsItems.reduce((b, p) => b && !!p.remote_id, true);
-        const orderNo = await this.generateOrderNumber();
+        const offerItems = this.fillOfferProductsInfo(offerOptions.selectedItems, productsMap)
+        const orderItems = productsItems.concat(offerItems);
+        const allHaveRemoteId = orderItems.reduce((b, p) => b && !!p.remote_id, true);
+
+        if(offer){
+            const discount = OfferUtils.getOfferDiscountAmount(offer, productsTotal);
+            if(discount < 0){
+                orderItems.push({
+                    pid: 'discount',
+                    quantity: 1,
+                    note: '',
+                    name: offer.name,
+                    price: discount,
+                    unit_price: discount,
+                    extras: [],
+                    enable_stock: false,
+                    remote_id: null
+                })
+            }
+        }
+
         const order = {
-            no: orderNo,
             store_id: store_id,
             type,
-            products: productsItems.concat(this.fillOfferProductsInfo(offerOptions.selectedItems, productsMap)),
+            products: orderItems,
             status: 'placed',
             total: orderTotal,
             created_by: user.id,
@@ -50,7 +68,8 @@ module.exports = class PostOrderService{
             menu: allHaveRemoteId ? MurewMenu.POS : MurewMenu.ONLINE,
             note,
             delivery_address: isDelivery ? delivery_address : {},
-            payment_method: 'cod'
+            payment_method: 'cod',
+            no: await this.generateOrderNumber(),
         }
         if(isDelivery){
             await strapi.query('user', 'users-permissions').update({ id: user.id }, { default_address: delivery_address });
