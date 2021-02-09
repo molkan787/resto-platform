@@ -94,7 +94,7 @@ export default Vue.extend({})
   .content-block{
     h1{
       font-size: 42px;
-      color: #695028;
+      color: rgba(var(--vs-primary), 1);
     }
     img{
       height: 420px;

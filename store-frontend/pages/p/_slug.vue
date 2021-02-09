@@ -1,7 +1,7 @@
 <template>
     <Page>
         <div class="wrapper">
-            <div class="content" v-html="content"></div>
+            <div class="content dynamic-page-content" v-html="content"></div>
         </div>
     </Page>
 </template>
@@ -25,6 +25,14 @@ export default {
         display: table-cell;
         vertical-align: middle;
         padding: 4rem 2rem;
+    }
+}
+</style>
+
+<style lang="scss">
+.dynamic-page-content{
+    h1, h2{
+        color: rgba(var(--vs-primary), 1);
     }
 }
 </style>

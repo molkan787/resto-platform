@@ -62,9 +62,8 @@ textarea{
     font-size: 15px !important;
 }
 
-$textColor: #695028;
 .vs-navbar__item, .vs-navbar__group__item{
-    color: $textColor;
+    color: rgba(var(--vs-primary), 1);
 }
 
 .defanim-enter-active, .defanim-leave-active {

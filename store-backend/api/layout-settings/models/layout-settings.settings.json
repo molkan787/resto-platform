@@ -19,6 +19,11 @@
       ],
       "default": "tabs",
       "required": true
+    },
+    "primary_color": {
+      "type": "colorpicker",
+      "columnType": "string",
+      "required": true
     }
   }
 }

@@ -17,10 +17,13 @@ module.exports = {
       })
     ])
     const [ layout, store, pages ] = data;
-    const { order_page_layout } = layout;
+    const { order_page_layout, primary_color } = layout;
     const { delivery_cost, free_delivery_maximum_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
     return {
-      layout: { order_page_layout },
+      layout: {
+        order_page_layout,
+        primary_color: JSON.parse(primary_color).rgb,
+      },
       store: { delivery_cost,
         free_delivery_maximum_distance,
         enable_delivery_orders,
@@ -28,7 +31,7 @@ module.exports = {
         enable_preorders,
         minimum_order_value
       },
-      pages: pages.map(({ show_in_navigation_menu, name, slug }) => ({ show_in_navigation_menu, name, slug }))
+      pages: pages.map(({ show_in_navigation_menu, name, slug }) => ({ show_in_navigation_menu, name, slug })),
     }
   }
 };

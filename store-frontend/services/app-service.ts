@@ -25,6 +25,12 @@ export class AppService extends Service{
             } catch (error) {
                 console.log(error);
             }
+            const color = this.state.layoutSettings.primary_color;
+            const rootEl = document && document.documentElement;
+            if(color && rootEl){
+                const { r, g, b } = color;
+                rootEl.style.setProperty('--vs-primary', [r, g, b].join(','), 'important');
+            }
         }
         if(process.env.NODE_ENV == 'development' && process.client){
             // @ts-ignore

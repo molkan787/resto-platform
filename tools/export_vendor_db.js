@@ -1,7 +1,7 @@
 const { MongoClient, Db, Collection } = require('mongodb');
 const { exec: _exec } = require('child_process');
 const path = require('path');
-const { DATA_COLLECTIONS } = require('./config');
+const { DATA_COLLECTIONS } = require('./config/config');
 
 const BIN_MONGODUMP = 'C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump.exe';
 const BIN_MONGORESTORE = 'C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongorestore.exe';
@@ -62,7 +62,14 @@ async function populateDefaultData(db){
         $set: {
             order_no_pointer: 1
         }
-    })
+    });
+    const  layoutSettingsColl = db.collection('layout_settings');
+    await layoutSettingsColl.updateOne({}, {
+        $set: {
+            order_page_layout: 'tabs',
+            primary_color: '{"hex":"#695028ff","rgb":{"r":105,"g":80,"b":40,"a":1},"css":"rgba(105,80,40,1)"}',
+        }
+    });
 }
 
 /**

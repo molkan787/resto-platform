@@ -58,7 +58,7 @@ export default {
         cursor: pointer;
         user-select: none;
         font-size: 18px;
-        border-radius: 6px;
+        border-radius: 0 12px 12px 0;
         transition: background-color 0.15s;
         &:hover{
             background-color: #ebe5dd;

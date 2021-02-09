@@ -82,7 +82,7 @@ export default {
   .store-info{
     padding: 1rem;
     h1{
-      color: #695028;
+      color: rgba(var(--vs-primary), 1);
     }
     p{
       white-space: pre-line;
