@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 .vertical-tab-tree-item{
-    border-top: 1px solid #e0ddd8;
+    border-top: 1px solid rgb(230, 230, 230);
     &:first-child, &.selected, &.selected + &, &.expanded + &{
         border-color: white;
     }
@@ -61,7 +61,7 @@ export default {
         border-radius: 0 12px 12px 0;
         transition: background-color 0.15s;
         &:hover{
-            background-color: #ebe5dd;
+            background-color: rgba(var(--vs-primary), 0.2);
         }
         &.bold{
             font-weight: bold;
