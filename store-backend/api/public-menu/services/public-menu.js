@@ -21,7 +21,11 @@ module.exports = {
                 map[parentId].children.push(cat);
             }
         }
-        const offers = await strapi.query('offer').find({ store_id, published_at_null: false });
+        const offers = await strapi.query('offer').find({
+            store_id,
+            published_at_null: false,
+            activated_by_promo_code_ne: true
+        });
         return {
             categories: categories.filter(c => !c.parent),
             offers

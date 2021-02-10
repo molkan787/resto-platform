@@ -53,6 +53,16 @@
     },
     "remote_id": {
       "type": "integer"
+    },
+    "activated_by_promo_code": {
+      "type": "boolean",
+      "default": false
+    },
+    "promo_code": {
+      "type": "string",
+      "unique": true,
+      "maxLength": 25,
+      "minLength": 2
     }
   }
 }

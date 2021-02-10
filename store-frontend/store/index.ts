@@ -4,7 +4,7 @@ import { LayoutSettings } from '~/interfaces/LayoutSettings';
 import { Page } from '~/interfaces/Page';
 import { Store } from '~/interfaces/Store';
 import { StoreSettings } from '~/interfaces/StoreSettings';
-import { Cart, CartProductOptions, Checkout, Offer, Product } from 'murew-core/dist/interfaces';
+import { Cart, Checkout, Offer, Product } from 'murew-core/dist/interfaces';
 import { CartUtils, OfferUtils } from 'murew-core';
 import { OrderType } from 'murew-core/dist/types';
 
@@ -34,10 +34,14 @@ export const state = () => ({
             postcode: '',
             city: '',
         },
+        promo_code: '',
         offerOptions: {
             selectedItems: []
         },
         offerOptionsError: null,
+    },
+    fetchState: {
+        promo_code: false,
     }
 });
 

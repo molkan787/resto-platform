@@ -23,6 +23,8 @@ export class OfferUtils {
                 minimum_order_value: 0
             },
             benefits: [benefit],
+            activated_by_promo_code: true,
+            promo_code: discountCode
         }
     }
 

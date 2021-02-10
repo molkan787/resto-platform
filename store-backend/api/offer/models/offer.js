@@ -5,4 +5,20 @@
  * to customize this model
  */
 
-module.exports = {};
+module.exports = {
+
+    lifecycles: {
+        beforeCreate(data){
+            if(typeof data.promo_code == 'string'){
+                data.promo_code = data.promo_code.toUpperCase();
+            }
+        },
+    
+        beforeUpdate(params, data){
+            if(typeof data.promo_code == 'string'){
+                data.promo_code = data.promo_code.toUpperCase();
+            }
+        }
+    }
+
+};

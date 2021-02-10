@@ -10,6 +10,8 @@ export interface Offer{
     available_on_website: boolean;
     available_on_pos: boolean;
     benefits: OfferBenefit[];
+    activated_by_promo_code: boolean;
+    promo_code?: string;
 }
 
 export interface OfferCondition{

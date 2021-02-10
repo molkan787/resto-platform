@@ -45,7 +45,10 @@
                             <br>
                             <h3>Discount code</h3>
                             <div class="form">
-                                <vs-input :disabled="loading" placeholder="Discount code" />
+                                <vs-input
+                                    v-model="checkout.promo_code" :loading="fetchState.promo_code"
+                                    :disabled="loading" placeholder="Discount code"
+                                />
                             </div>
                             <div v-if="eligibleOffers.length" class="form offer-selector-wrapper">
                                 <OfferSelector />
@@ -80,7 +83,8 @@ export default {
             orderType: state => state.cart.orderType,
             checkout: state => state.checkout,
             addressForm: state => state.checkout.delivery_address,
-            eligibleOffers: state => state.eligibleOffers
+            eligibleOffers: state => state.eligibleOffers,
+            fetchState: state => state.fetchState
         })
     },
     data: () => ({
