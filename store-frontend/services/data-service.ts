@@ -8,7 +8,7 @@ export class DataService extends Service{
         if(!this.state.dataLoaded){
             const storeId = this.context.$appService.getStoreIdBySlug(storeSlug);
             if(!storeId) throw new Error('Store Not found');
-            const data = await this.$strapi.find('public-menus/' + storeId);
+            const data: any = await this.$strapi.find('public-menus/' + storeId);
             const categories: Category[] = data.categories;
             const offers: Offer[] = data.offers;
             this.state.categories = categories;

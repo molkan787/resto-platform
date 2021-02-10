@@ -24,6 +24,15 @@
       "type": "colorpicker",
       "columnType": "string",
       "required": true
+    },
+    "website_logo": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": true
     }
   }
 }

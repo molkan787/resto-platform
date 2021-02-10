@@ -1,49 +1,32 @@
 <template>
-  <Page :background="require('~/assets/images/landing_page_bg.jpg')" :header="{ large: true, sticky: true }" :noFooter="true">
+  <Page :background="background_image" :header="{ large: true, sticky: true }" :noFooter="true">
     <div class="home-page">
       <section class="welcome" v-rellax="{speed: 2}">
         <div class="container center-content">
-          <h1 class="hd1">Chocolate</h1>
-          <h1 class="hd2">Murew</h1>
-          <p class="bp1">
-            Donec mattis sapien vel sagittis dictum. Nulla ut diam egestas, consequat massa eget,
-            porta enim. Vivamus vitae libero eget justo venenatis pellentesque in vel odio.
-          </p>
+          <h1 class="hd1">{{ header }}</h1>
+          <h1 class="hd2">{{ subheader }}</h1>
+          <p class="bp1">{{ text }}</p>
         </div>
       </section>
       <section v-rellax="{speed: 10}">
-        <div class="container center-content">
+
+        <div v-for="(block, index) in content_sections" :key="block.id" class="container center-content">
           <div class="content-block">
+            <template v-if="index % 2 == 0">
+              <img v-for="img in block.images" :key="img.id" :src="imgUrl(img)" :alt="img.alternativeText">
+            </template>
             <div class="fluid center-content">
-              <h1>MODERNITY</h1>
-              <p>
-                The Mint Room have built a reputation of providing dishes which are daringly different,
-                high-end, with first-rate British ingredients brought to an enticing level of Indian flair.
-                Emphasizing the luxurious combinations of flavours with a great sense of innovation that
-                draws upon both traditional and modern Indian cuisine.
-              </p>
+              <h1>{{ block.title | uppercase }}</h1>
+              <div v-html="block.content" />
             </div>
-            <img src="~/assets/images/dish-1.png" alt="">
-            <img src="~/assets/images/dish-2.png" alt="">
+            <template v-if="index % 2 == 1">
+              <img v-for="img in block.images" :key="img.id" :src="imgUrl(img)" :alt="img.alternativeText">
+            </template>
           </div>
         </div>
-        <div class="container center-content">
-          <div class="content-block">
-            <img src="~/assets/images/dish-2.png" alt="">
-            <img src="~/assets/images/dish-1.png" alt="">
-            <div class="fluid center-content">
-              <h1>MODERNITY</h1>
-              <p>
-                The Mint Room have built a reputation of providing dishes which are daringly different,
-                high-end, with first-rate British ingredients brought to an enticing level of Indian flair.
-                Emphasizing the luxurious combinations of flavours with a great sense of innovation that
-                draws upon both traditional and modern Indian cuisine.
-              </p>
-            </div>
-          </div>
-        </div>
+
       </section>
-      <section class="footer-section" v-rellax="{speed: 10}">
+      <section class="footer-section">
         <div class="footer-wrapper">
           <Footer />
         </div>
@@ -53,9 +36,32 @@
 </template>
 
 <script>
-import Vue from 'vue'
-
-export default Vue.extend({})
+export default {
+  async asyncData({ $strapi }){
+    const { prefixUrl } = $strapi.$http._defaults;
+    const data = await $strapi.find('home-page-settings');
+    const {
+      landing_header,
+      landing_subheader,
+      landing_text,
+      background_image,
+      content_sections
+    } = data;
+    return {
+      header: landing_header,
+      subheader: landing_subheader,
+      text: landing_text,
+      background_image: `${prefixUrl}/files/${background_image.url}`,
+      content_sections,
+      prefixUrl
+    }
+  },
+  methods: {
+    imgUrl(img){
+      return `${this.prefixUrl}/files/${img.url}`;
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -86,12 +92,13 @@ export default Vue.extend({})
     padding: 3rem;
   }
   section.footer-section{
-    padding-top: 18rem;
+    margin-top: -16rem;
     .footer-wrapper{
       background-color: white;
     }
   }
   .content-block{
+    margin-bottom: 3rem;
     h1{
       font-size: 42px;
       color: rgba(var(--vs-primary), 1);

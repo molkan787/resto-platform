@@ -17,12 +17,13 @@ module.exports = {
       })
     ])
     const [ layout, store, pages ] = data;
-    const { order_page_layout, primary_color } = layout;
+    const { order_page_layout, primary_color, website_logo } = layout;
     const { delivery_cost, free_delivery_maximum_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
     return {
       layout: {
         order_page_layout,
         primary_color: JSON.parse(primary_color).rgb,
+        website_logo: website_logo.formats.thumbnail.url
       },
       store: { delivery_cost,
         free_delivery_maximum_distance,

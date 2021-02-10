@@ -1,0 +1,44 @@
+{
+  "kind": "singleType",
+  "collectionName": "home_page_settings",
+  "info": {
+    "name": "Home Page Settings",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "landing_header": {
+      "type": "string",
+      "required": true,
+      "default": "Chocolate",
+      "maxLength": 50
+    },
+    "landing_subheader": {
+      "type": "string",
+      "default": "Murew",
+      "maxLength": 50
+    },
+    "landing_text": {
+      "type": "text"
+    },
+    "background_image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": true
+    },
+    "content_sections": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.content-block",
+      "min": 1
+    }
+  }
+}

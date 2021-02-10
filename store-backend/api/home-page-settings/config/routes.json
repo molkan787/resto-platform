@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/home-page-settings",
+      "handler": "home-page-settings.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/home-page-settings",
+      "handler": "home-page-settings.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/home-page-settings",
+      "handler": "home-page-settings.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

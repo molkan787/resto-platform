@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_content_content_blocks",
+  "info": {
+    "name": "Content Block",
+    "icon": "align-justify"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "images": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "style": {
+      "type": "enumeration",
+      "enum": [
+        "default"
+      ],
+      "default": "default",
+      "required": true
+    }
+  }
+}

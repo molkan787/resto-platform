@@ -80,9 +80,11 @@ export const getters = {
 export const actions = {
     async nuxtServerInit({ state }: any, { $strapi }: Context){
         try {
+            const { prefixUrl } = $strapi.$http._defaults;
             await Promise.all([
                 $strapi.find('stores', { active: true }).then(stores => state.stores = stores),
                 $strapi.find('public/frontend-settings').then(({ layout, store, pages }: any) => {
+                    layout.website_logo = `${prefixUrl}/files/${layout.website_logo}`;
                     state.layoutSettings = layout;
                     state.storeSettings = store;
                     state.pages = pages;

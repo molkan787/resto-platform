@@ -2,7 +2,7 @@
   <vs-navbar :class="{ large, sticky }" class="navbar" center-collapsed>
     <template #left>
       <nuxt-link to="/">
-        <img src="~/assets/images/logo.jpg" alt="logo" style="height: 44px;pointer-events: none;" />
+        <img :src="layoutSettings.website_logo" alt="logo" style="height: 44px;pointer-events: none;" />
       </nuxt-link>
     </template>
     <vs-navbar-item :active="active == 'index'" to="/">
@@ -90,7 +90,7 @@ export default {
     }
   },
   computed:{
-    ...mapState(['stores', 'pages']),
+    ...mapState(['stores', 'pages', 'layoutSettings']),
     user(){
       return this.$strapi.user;
     },
