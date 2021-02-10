@@ -11,7 +11,8 @@ const DATA_COLLECTIONS = [
     'pos_sync_keys',
     'components_order_addresses',
     'public_menus',
-    'users-permissions_user'
+    'users-permissions_user',
+    'offers'
 ];
 
 module.exports = { DATA_COLLECTIONS };
