@@ -34,7 +34,7 @@ export class OfferUtils {
 
     static isOfferEligible(offer: Offer, cart: Cart, productsTotal: number): boolean {
         const { orderType, products } = cart;
-        const { available_on_delivery, available_on_pickup, condition } = offer;
+        const { available_on_delivery, available_on_pickup, condition, expires } = offer;
         const { minimum_order_value, minimum_items_count } = condition;
         const itemsIds = Object.keys(products);
 
@@ -43,6 +43,12 @@ export class OfferUtils {
 
         if(itemsIds.length < minimum_items_count) return false;
         if(productsTotal < minimum_order_value) return false;
+
+        if(typeof expires == 'string'){
+            const expiresDate = new Date(expires);
+            const expired = expiresDate < new Date();
+            if(expired) return false;
+        }
 
         return true;
     }

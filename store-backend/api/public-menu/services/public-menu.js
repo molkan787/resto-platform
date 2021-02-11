@@ -21,10 +21,14 @@ module.exports = {
                 map[parentId].children.push(cat);
             }
         }
-        const offers = await strapi.query('offer').find({
-            store_id,
-            published_at_null: false,
-            activated_by_promo_code_ne: true
+        const offers = await strapi.query('offer').model.find({
+            store_id: store_id,
+            published_at: { $ne:null },
+            activated_by_promo_code: { $ne: true },
+            $or: [
+                { expires: { $gt: new Date() } },
+                { expires: { $eq: null } }
+            ]
         });
         return {
             categories: categories.filter(c => !c.parent),

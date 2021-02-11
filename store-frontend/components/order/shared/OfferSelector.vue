@@ -17,10 +17,11 @@ export default {
     computed: mapState(['cart', 'eligibleOffers']),
     filters: {
         offerText(offer){
-            const { name, benefits } = offer;
+            const { name, benefits, activated_by_promo_code, promo_code } = offer;
             const { type, percent_amount } = benefits[0] || {};
+            const _name = activated_by_promo_code ? `${name} (${promo_code})` : name;
             const suffix = type == 'percent_discount' ? ` (-${percent_amount}%)` : '';
-            return name + suffix;
+            return _name + suffix;
         }
     }
 }

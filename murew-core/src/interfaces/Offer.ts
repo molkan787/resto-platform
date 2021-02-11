@@ -3,7 +3,7 @@ import { Product } from "./Product";
 export interface Offer{
     id?: string;
     name: string;
-    expires?: Date;
+    expires?: string;
     condition: OfferCondition;
     available_on_delivery: boolean;
     available_on_pickup: boolean;
