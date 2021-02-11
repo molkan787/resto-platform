@@ -19,6 +19,7 @@ module.exports = {
     const [ layout, store, pages ] = data;
     const { order_page_layout, primary_color, website_logo } = layout;
     const { delivery_cost, free_delivery_maximum_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
+    
     return {
       layout: {
         order_page_layout,

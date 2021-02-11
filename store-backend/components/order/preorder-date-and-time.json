@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_order_preorder_date_and_times",
+  "info": {
+    "name": "Preorder Date & Time",
+    "icon": "calendar-day"
+  },
+  "options": {},
+  "attributes": {
+    "time": {
+      "type": "time",
+      "required": true
+    },
+    "date": {
+      "type": "date"
+    },
+    "enabled": {
+      "type": "boolean"
+    }
+  }
+}

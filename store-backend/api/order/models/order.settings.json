@@ -78,6 +78,11 @@
       ],
       "default": "cod",
       "required": true
+    },
+    "preorder": {
+      "type": "component",
+      "repeatable": false,
+      "component": "order.preorder-date-and-time"
     }
   }
 }

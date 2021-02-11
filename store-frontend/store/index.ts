@@ -4,7 +4,7 @@ import { LayoutSettings } from '~/interfaces/LayoutSettings';
 import { Page } from '~/interfaces/Page';
 import { Store } from '~/interfaces/Store';
 import { StoreSettings } from '~/interfaces/StoreSettings';
-import { Cart, Checkout, Offer, Product } from 'murew-core/dist/interfaces';
+import { Cart, Checkout, DateTimeSlot, Offer, Product } from 'murew-core/dist/interfaces';
 import { CartUtils, OfferUtils } from 'murew-core';
 import { OrderType } from 'murew-core/dist/types';
 
@@ -17,6 +17,7 @@ export const state = () => ({
     storeSettings: <StoreSettings>{},
     pages: <Page[]>[],
     dataLoaded: false,
+    preorderSlots: <DateTimeSlot[]>[],
     categories: <Category[]>[],
     cart: <Cart>{
         products: {},
@@ -39,6 +40,11 @@ export const state = () => ({
             selectedItems: []
         },
         offerOptionsError: null,
+        preorder: {
+            enabled: false,
+            date: null,
+            time: ''
+        },
     },
     fetchState: {
         promo_code: false,

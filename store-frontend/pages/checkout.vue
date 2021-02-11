@@ -58,6 +58,10 @@
                                 <OfferOptions :offer="selectedOffer" :bucket="checkout.offerOptions" :error="checkout.offerOptionsError" />
                             </div>
 
+                            <div v-if="enable_preorders">
+                                <PreOrderOptions />
+                            </div>
+
                         </template>
                     </vs-card>
                     <div class="sepa" />
@@ -84,7 +88,8 @@ export default {
             checkout: state => state.checkout,
             addressForm: state => state.checkout.delivery_address,
             eligibleOffers: state => state.eligibleOffers,
-            fetchState: state => state.fetchState
+            fetchState: state => state.fetchState,
+            enable_preorders: state => state.storeSettings.enable_preorders
         })
     },
     data: () => ({
@@ -117,6 +122,11 @@ export default {
                     return false;
                 }
             }
+            const { enabled, date, time } = this.checkout.preorder;
+            if(enabled && (!date || !time)){
+                alert('Please select preorder data & time');
+                return false;
+            }
             return true;
         },
         redirectToOrderPage(order){
@@ -141,6 +151,7 @@ export default {
     flex-direction: row;
     max-width: 1300px;
     margin: auto;
+    padding-bottom: 12rem;
     .left-col{
         flex: 1;
         padding: 1rem;

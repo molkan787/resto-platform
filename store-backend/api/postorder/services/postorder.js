@@ -16,7 +16,7 @@ module.exports = class PostOrderService{
      */
     static async createOrder(data, user){
         const { cart, checkout, note, store_id, order_total } = data;
-        const { delivery_address, offerOptions } = checkout;
+        const { delivery_address, offerOptions, preorder } = checkout;
         const { products: items, orderType: type, selectedOffer } = cart;
         this.validateData(data);
         const store = await strapi.query('store').findOne({ id: store_id, active: true });
@@ -71,6 +71,16 @@ module.exports = class PostOrderService{
             payment_method: 'cod',
             no: await this.generateOrderNumber(),
         }
+
+        const { enabled, date, time } = preorder;
+        if(enabled && date && time){
+            order.preorder = {
+                enabled: true,
+                date: new Date(date).toISOString().split('T')[0],
+                time: time
+            }
+        }
+
         if(isDelivery){
             await strapi.query('user', 'users-permissions').update({ id: user.id }, { default_address: delivery_address });
         }
@@ -219,7 +229,7 @@ module.exports = class PostOrderService{
      */
     static validateOrder(data, products, productsTotal, offer){
         const { cart, checkout } = data;
-        const error = OfferUtils.validateOffer(offer, cart, checkout, productsTotal, products);
+        const error = offer && OfferUtils.validateOffer(offer, cart, checkout, productsTotal, products);
         if(error){
             throw new BadRequestError(error);
         }

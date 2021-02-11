@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_common_time_slots",
+  "info": {
+    "name": "Time Slot",
+    "icon": "clock",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "time": {
+      "type": "time",
+      "required": true
+    }
+  }
+}

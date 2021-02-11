@@ -4,7 +4,7 @@
             <h4>Select your free item</h4>
             <div class="select-items-wrapper">
                 <vs-select
-                :key="'offer-free-items-select' + selectKey"
+                    :key="'offer-free-items-select' + selectKey"
                     filter
                     multiple
                     placeholder="Select a free item"

@@ -5,5 +5,10 @@ export interface Checkout{
     delivery_address: Address;
     promo_code: string;
     offerOptions: OfferOptions;
-    offerOptionsError: String | null;
+    offerOptionsError: string | null;
+    preorder: {
+        enabled: boolean;
+        date: Date | null;
+        time: string;
+    };
 }

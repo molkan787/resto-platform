@@ -30,9 +30,11 @@ module.exports = {
                 { expires: { $eq: null } }
             ]
         });
+        const { preorder_slots, enable_preorders } = await strapi.query('store-settings').findOne();
         return {
             categories: categories.filter(c => !c.parent),
-            offers
+            offers,
+            preorder_slots: enable_preorders ? preorder_slots : []
         }
     }
 

@@ -1,3 +1,5 @@
+import { Days } from "./interfaces";
+
 export function itemsText(count: number, singular: string, plural: string): string {
     return count == 1 ? `1 ${singular}` : `${count} ${plural}`;
 }
@@ -12,4 +14,8 @@ export function formatPrice(val: number | string){
     }
     const str_val = _val.toFixed(2);
     return (negative ? '- ' : '').concat(CURRENCY_SYMBOL).concat(str_val);
+}
+
+export function getDayNameFromDate(date: Date){
+    return Days[date.getDay()];
 }

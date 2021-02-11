@@ -5,4 +5,5 @@ export * from './Cart';
 export * from './OfferOptions';
 export * from './Address';
 export * from './Checkout';
+export * from './DateTimeSlot';
 export * from './PostOrder.dto';

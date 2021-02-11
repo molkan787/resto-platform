@@ -40,6 +40,11 @@
       "default": 0,
       "required": true,
       "min": 0
+    },
+    "preorder_slots": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.date-time-slot"
     }
   }
 }

@@ -24,6 +24,7 @@ export default {
     { src: '@/plugins/vuesax' },
     { src: '@/plugins/rellax', mode: 'client' },
     { src: '@/plugins/vue-gallery', mode: 'client' },
+    { src: '@/plugins/vuejs-datepicker', mode: 'client' },
     { src: '@/plugins/global-filters' },
     { src: '@/plugins/services' },
     { src: '@/plugins/cookie-expire-time' },
