@@ -4,10 +4,11 @@ const WebsocketServer = require("./websocket-server")
 
 module.exports = class PosSyncService{
 
-    async setOrderStatus(orderId, action){
+    async setOrderStatus(data, action){
+        const { id: orderId } = data;
         const status = action == MurewActions.AcceptOrder ? 'accepted' : 'declined';
         await strapi.services.postorder.setOrderStatus(orderId, status);
-        this.sendAction(MurewActions.OrderStatusChanged, { id: orderId, status })
+        this.sendAction(MurewActions.OrderStatusChanged, { id: orderId, status });
     }
 
     sendOrder(order){
@@ -32,7 +33,7 @@ module.exports = class PosSyncService{
     onMessage({ store_id }, message){
         const { action, data } = message;
         if([MurewActions.AcceptOrder, MurewActions.DeclineOrder].includes(action)){
-            this.setOrderStatus(data.id, action);
+            this.setOrderStatus(data, action);
         }else if(action == MurewActions.SetMenu){
             MurewMenuSync.setMenu(store_id, data);
         }else if(action == MurewActions.SyncStock){

@@ -86,6 +86,13 @@ module.exports = class PostOrderService{
         }
         const _order = await this.createOrderEntry(order);
         await this.alterStock(productsItems, -1);
+
+        try {
+            await strapi.services.notifier.sendOrderStatusUpdate(user, _order);
+        } catch (error) {
+            console.error(error);
+        }
+
         const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
         strapi.services.posSyncService.sendOrder(sanitizedOrderData);
         return sanitizedOrderData;
@@ -96,10 +103,19 @@ module.exports = class PostOrderService{
     }
 
     static async setOrderStatus(orderId, status){
+        const _order = await strapi.query('order').findOne({ _id: orderId });
         const order = await strapi.query('order').update({ _id: orderId }, { status });
         if(['declined', 'canceled'].includes(status)){
             const { products } = order;
             await this.alterStock(products, 1);
+        }
+        if(order.status != _order.status){
+            _order.status = status;
+            try {
+                await strapi.services.notifier.sendOrderStatusUpdate(order.owner, _order, '30 Minutes');
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 
