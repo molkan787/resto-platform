@@ -1,0 +1,28 @@
+{
+  "name": "strapi-plugin-booking",
+  "version": "0.0.1",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "Booking",
+    "icon": "calendar-alt",
+    "description": "Description of booking plugin."
+  },
+  "dependencies": {},
+  "author": {
+    "name": "Seghier Dahmane",
+    "email": "worw787@gmail.com",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer",
+      "email": "",
+      "url": ""
+    }
+  ],
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

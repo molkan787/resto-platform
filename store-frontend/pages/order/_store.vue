@@ -1,13 +1,8 @@
 <template>
-  <Page class="order-page">
+  <Page class="order-page" :title="title">
     <div class="content">
       <div class="left-column">
-        <div class="store-info">
-          <h1>Murew - {{ storeName | capitalize }}</h1>
-          <p>
-            {{ address }}
-          </p>
-        </div>
+        <StoreInfo :store="activeStore" />
 
         <OrderStackLayout v-if="layoutSettings.order_page_layout == 'stack'" :categories="categories" @productClick="productClick" />
         <OrderTabsLayout v-else :categories="categories" @productClick="productClick" />
@@ -25,20 +20,14 @@
 import { mapState } from 'vuex';
 export default {
   async asyncData(ctx){
+    ctx.$appService.setActiveStoreBySlug(ctx.params.store);
     const { categories } = await ctx.$dataService.getStoreMenu(ctx.params.store);
     return { categories };
   },
   computed: {
-    ...mapState(['activeStore', 'layoutSettings']),
-    storeName(){
-      const s = this.activeStore;
-      return s && s.slug == this.$route.params.store ? s.name : '';
-    },
-    address(){
-      const s = this.activeStore || {};
-      const { line1, line2, postcode, city } = s.address || {};
-      const _postcode = (postcode || '').toUpperCase();
-      return [line1, line2, _postcode, city].filter(i => !!i).join('\n');
+    ...mapState(['activeStore', 'layoutSettings', 'appName']),
+    title(){
+      return `Order online from ${(this.activeStore || {}).name || this.appName}`;
     }
   },
   data: () => ({
@@ -49,9 +38,6 @@ export default {
     productClick(product){
       this.$refs.productOptionsModal.open(product);
     }
-  },
-  mounted(){
-    this.$appService.setActiveStoreBySlug(this.$route.params.store);
   }
 }
 </script>
@@ -78,15 +64,6 @@ export default {
     position: sticky;
     top: 0;
     z-index: 1;
-  }
-  .store-info{
-    padding: 1rem;
-    h1{
-      color: rgba(var(--vs-primary), 1);
-    }
-    p{
-      white-space: pre-line;
-    }
   }
 }
 </style>

@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bookings",
+  "info": {
+    "name": "booking",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false,
+    "timestamps": true,
+    "increments": true,
+    "comment": ""
+  },
+  "attributes": {
+    "store_id": {
+      "type": "string",
+      "index": true
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_phone": {
+      "type": "string"
+    },
+    "owner": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "date": {
+      "type": "date",
+      "required": true,
+      "index": true
+    },
+    "time": {
+      "type": "time"
+    },
+    "number_of_persons": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "booked",
+        "canceled"
+      ],
+      "required": true,
+      "default": "booked"
+    },
+    "comment": {
+      "type": "text"
+    }
+  }
+}

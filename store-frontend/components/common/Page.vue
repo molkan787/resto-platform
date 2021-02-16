@@ -19,6 +19,11 @@
 <script>
 import BasePage from '../base/BasePage';
 export default {
+  head(){
+    return {
+      title: `${this.title} - ${this.$store.state.appName}`
+    }
+  },
   components: {
     BasePage
   },
@@ -34,6 +39,10 @@ export default {
     noFooter: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String,
+      default: 'Home'
     }
   },
   computed: {

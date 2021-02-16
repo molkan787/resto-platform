@@ -8,7 +8,6 @@
     <vs-navbar-item :active="active == 'index'" to="/">
       HOME
     </vs-navbar-item>
-
     <template v-if="stores.length > 1">
       <vs-navbar-group>
         ORDER ONLINE
@@ -22,6 +21,23 @@
     <template v-else>
       <vs-navbar-item :active="active == 'order'" :to="`/order/${(stores[0] || {}).slug}`">
         ORDER ONLINE
+      </vs-navbar-item>
+    </template>
+
+    
+    <template v-if="bookableStores.length > 1">
+      <vs-navbar-group>
+        BOOK TABLE
+        <template #items>
+          <vs-navbar-item v-for="store in stores" :key="store.id" :active="activeStoreSlug == store.slug" :to="`/book/${store.slug}`">
+            {{ store.name | capitalize }}
+          </vs-navbar-item>
+        </template>
+      </vs-navbar-group>
+    </template>
+    <template v-else-if="bookableStores.length == 1">
+      <vs-navbar-item :active="active == 'order'" :to="`/book/${(stores[0] || {}).slug}`">
+        BOOK TABLE
       </vs-navbar-item>
     </template>
 
@@ -76,7 +92,7 @@ export default {
   },
   methods: {
     itemClick(value){
-      console.log()
+      console.log(value)
     },
     registerClick(){
       openAuthModal('register');
@@ -102,6 +118,9 @@ export default {
     },
     navPages(){
       return this.pages.filter(p => p.show_in_navigation_menu);
+    },
+    bookableStores(){
+      return this.stores.filter(s => s.enable_booking);
     }
   }
 };
@@ -131,6 +150,9 @@ export default {
   }
   .vs-button{
     margin-left: 6px;
+  }
+  .vs-navbar__group__item{
+    font-size: 15px !important;
   }
 }
 </style>

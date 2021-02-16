@@ -8,7 +8,7 @@
             </p>
 
             <label for="import_store"><b>Select store</b></label> <br>
-            <vSelect v-model="selectedStore" class="store-select" :options="stores" /> <br>
+            <vSelect v-model="selectedStore" class="store-select" :options="stores" :clearable="false" /> <br>
             <label for="import_store"><b>Name</b></label> <br>
             <input v-model.trim="keyName" /> <br>
 
@@ -136,11 +136,17 @@ export default {
                 console.error(error);
                 strapi.notification.error(error.toString());
             }
+        },
+        setStores(stores){
+            this.stores = stores || [];
+            if(!this.selectedStore){
+                this.selectedStore = this.stores[0] || null;
+            }
         }
     },
     mounted(){
-        this.stores = strapi.stores || [];
-        strapi.onStoresLoaded.push(stores => this.stores = stores);
+        this.setStores(strapi.stores)
+        strapi.onStoresLoaded.push(stores => this.setStores(stores));
         request('/pos-sync/all-keys', { method: 'GET' })
         .then(keys => this.keys = keys);
     }

@@ -12,18 +12,20 @@ export class AppService extends Service{
             const storeId = window.localStorage.getItem('m_sid_key');
             const storeIndex = this.state.stores.findIndex(s => s.id === storeId);
             const store = this.state.stores[storeIndex];
-            this.state.activeStore = store;
-            try {
-                window.addEventListener('load', () => {
-                    context.$dataService.getStoreMenu(store.slug)
-                    .then(() => {
-                        context.$cartService.loadCart();
-                        bootstrap(this.state);
-                        context.$cartService.saveCart();
-                    });
-                })
-            } catch (error) {
-                console.log(error);
+            if(store){
+                this.state.activeStore = store;
+                try {
+                    window.addEventListener('load', () => {
+                        context.$dataService.getStoreMenu(store.slug)
+                        .then(() => {
+                            context.$cartService.loadCart();
+                            bootstrap(this.state);
+                            context.$cartService.saveCart();
+                        });
+                    })
+                } catch (error) {
+                    console.log(error);
+                }
             }
             const color = this.state.layoutSettings.primary_color;
             const rootEl = document && document.documentElement;
@@ -44,10 +46,11 @@ export class AppService extends Service{
     }
 
     public setActiveStore(store: Store | null){
+        this.state.activeStore = store;
+        if(process.server) return;
         const newSid = store && store.id;
         const sid = window.localStorage.getItem(ACTIVE_STORE_LS_KEY);
         window.localStorage.setItem(ACTIVE_STORE_LS_KEY, newSid || '');
-        this.state.activeStore = store;
         if(newSid != sid){
             this.context.$cartService.clearCart();
         }

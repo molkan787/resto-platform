@@ -1,0 +1,36 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/bookings",
+      "handler": "booking.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/bookings/cancel/:id",
+      "handler": "booking.cancel",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/bookings/my",
+      "handler": "booking.findMy",
+      "config": {
+        "policies": ["global::isOwner"]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/bookings",
+      "handler": "booking.create",
+      "config": {
+        "policies": ["global::isOwner"]
+      }
+    }
+  ]
+}

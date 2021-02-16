@@ -11,6 +11,7 @@ import { OrderType } from 'murew-core/dist/types';
 export const strict = false;
 
 export const state = () => ({
+    appName: 'Murew',
     activeStore: <Store | null>null,
     stores: <Store[]>[],
     layoutSettings: <LayoutSettings>{},

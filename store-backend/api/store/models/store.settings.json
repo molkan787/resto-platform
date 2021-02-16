@@ -27,6 +27,15 @@
     "slug": {
       "type": "uid",
       "targetField": "name"
+    },
+    "booking_slots": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.date-time-slot"
+    },
+    "enable_booking": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
