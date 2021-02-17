@@ -73,11 +73,11 @@ module.exports = class PostOrderService{
         }
 
         const { enabled, date, time } = preorder;
-        if(enabled && date && time){
+        if(enabled && typeof date == 'string' && typeof time == 'string'){
             order.preorder = {
                 enabled: true,
                 date: new Date(date).toISOString().split('T')[0],
-                time: time
+                time: time.split(':').slice(0, 2).concat(['00.000']).join(':')
             }
         }
 

@@ -36,6 +36,11 @@
     "enable_booking": {
       "type": "boolean",
       "default": false
+    },
+    "opening_days": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.day-time-range"
     }
   }
 }

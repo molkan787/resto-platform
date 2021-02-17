@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_common_day_time_ranges",
+  "info": {
+    "name": "Day Time Range",
+    "icon": "calendar-check"
+  },
+  "options": {},
+  "attributes": {
+    "day": {
+      "type": "enumeration",
+      "enum": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "required": true
+    },
+    "opens_at": {
+      "type": "time",
+      "default": "00:00:00",
+      "required": true
+    },
+    "closes_at": {
+      "type": "time",
+      "required": true
+    }
+  }
+}

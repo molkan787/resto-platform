@@ -16,11 +16,12 @@
             <vs-select
                 :key="timeSelectKey"
                 v-if="day"
-                placeholder="Select Time"
                 v-model="preorder.time"
+                placeholder="Select Time"
+                filter
             >
-                <vs-option v-for="slot in timeSlots" :key="slot.id" :value="slot.time" :label="slot | timeSlotText">
-                    {{ slot | timeSlotText }}
+                <vs-option v-for="slot in timeSlots" :key="slot" :value="slot" :label="slot">
+                    {{ slot }}
                 </vs-option>
 
             </vs-select>
@@ -34,16 +35,36 @@ import { TextUtils, Interfaces, DataUtils } from 'murew-core';
 export default {
     computed: {
         ...mapState({
-            preorderSlots: state => state.preorderSlots,
+            activeStore: state => state.activeStore,
             preorder: state => state.checkout.preorder
         }),
+        preorderSlots(){
+            const s = this.activeStore;
+            return (s && s.opening_days) || []
+        },
         day(){
             return this.preorder.date ? TextUtils.getDayNameFromDate(this.preorder.date) : null
         },
         timeSlots(){
             const daySlot = this.slots.get(this.day);
-            return daySlot && daySlot.time_slots || [];
-        }
+            if(daySlot){
+                const { opens_at, closes_at } = daySlot;
+                const mins = opens_at.split(':'), maxs = closes_at.split(':');
+                const minHour = parseInt(mins[0]), minMinute = Math.ceil(parseInt(mins[1]) / 15) * 15;
+                const maxHour = parseInt(maxs[0]), maxMinute = Math.floor(parseInt(maxs[1]) / 15) * 15;
+                if(minHour > maxHour) return [];
+                const slots = [];
+                let h = minHour, m = minMinute;
+                while(h < maxHour || (h == maxHour && m < maxMinute)){
+                    m += 15;
+                    if(m == 60){ m = 0; h++; }
+                    slots.push(`${('0'+h).substr(-2)}:${('0'+m).substr(-2)}`);
+                }
+                return slots;
+            }else{
+                return [];
+            }
+        },
     },
     data: () => ({
         disabledDates: {},
@@ -80,7 +101,7 @@ export default {
     created(){
         if(process.client){
             const weekLater = new Date();
-            weekLater.setDate(weekLater.getDate() + 7);
+            weekLater.setMonth(weekLater.getMonth() + 1);
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
             this.disabledDates = {
