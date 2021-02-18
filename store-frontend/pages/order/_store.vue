@@ -3,21 +3,23 @@
     <div class="content">
       <div class="left-column">
         <StoreInfo :store="activeStore" />
-
+        
         <OrderStackLayout v-if="layoutSettings.order_page_layout == 'stack'" :categories="categories" @productClick="productClick" />
         <OrderTabsLayout v-else :categories="categories" @productClick="productClick" />
 
       </div>
-      <div class="right-column">
+      <div v-if="!isMobile" class="right-column">
         <Cart />
       </div>
     </div>
     <ProductOptionsModal ref="productOptionsModal" />
+    <FloatingCart v-if="isMobile" />
   </Page>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+// import FAB from ''
 export default {
   async asyncData(ctx){
     ctx.$appService.setActiveStoreBySlug(ctx.params.store);

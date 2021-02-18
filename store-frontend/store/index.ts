@@ -49,7 +49,9 @@ export const state = () => ({
     },
     fetchState: {
         promo_code: false,
-    }
+    },
+
+    _isMobile: false,
 });
 
 declare type State = ReturnType<typeof state>;
@@ -85,7 +87,8 @@ export const getters = {
 }
 
 export const actions = {
-    async nuxtServerInit({ state }: any, { $strapi }: Context){
+    async nuxtServerInit({ state }: any, { $strapi, $device }: Context){
+        state._isMobile = $device.isMobile;
         try {
             const { prefixUrl } = $strapi.$http._defaults;
             await Promise.all([

@@ -1,6 +1,6 @@
 <template>
     <div class="cart">
-          <vs-card>
+          <vs-card :class="{ flat, fluid }">
             <template #title>
                 <div class="title bb">
                     Cart
@@ -71,6 +71,14 @@ export default {
         showOrderButton: {
             type: Boolean,
             default: true
+        },
+        flat: {
+            type: Boolean,
+            default: false
+        },
+        fluid: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {

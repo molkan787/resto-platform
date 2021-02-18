@@ -18,6 +18,7 @@ declare module '@nuxt/types'{
         $deliveryService: DeliveryService;
         $offerService: OfferService;
         $strapi: Strapi;
+        $device: any;
     }
 }
 

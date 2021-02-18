@@ -25,6 +25,7 @@ export default {
     { src: '@/plugins/rellax', mode: 'client' },
     { src: '@/plugins/vue-gallery', mode: 'client' },
     { src: '@/plugins/vuejs-datepicker', mode: 'client' },
+    { src: '@/plugins/is-mobile' },
     { src: '@/plugins/global-filters' },
     { src: '@/plugins/services' },
     { src: '@/plugins/cookie-expire-time' },
@@ -38,6 +39,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    '@nuxtjs/device'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)

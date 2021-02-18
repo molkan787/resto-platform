@@ -34,6 +34,23 @@ html, button, input{
         box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity)) !important;
         transform: none !important;
     }
+    &.flat{
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+}
+
+.vs-card-content{
+    &.flat .vs-card{
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+    &.fluid .vs-card{
+        width: 100%;
+        max-width: none;
+    }
 }
 
 
