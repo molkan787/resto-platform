@@ -16,7 +16,7 @@
                             </p>
                         </div>
                     </div>
-                    <div>
+                    <div class="card-col">
                         <vs-card>
                             <template #text>
                                 <BookingOptions :store="store" v-model="booking" :loading="loading" />
@@ -102,13 +102,26 @@ export default {
     .my-content{
         width: fit-content;
         min-width: 800px;
+        @media only screen and (max-width: 768px) {
+            min-width: 0;
+            width: 100%;
+        }
         margin: auto;
         padding-top: 2rem;
         & > .row{
             display: flex;
+            flex-direction: row;
             justify-content: space-between;
             &.center{
                 justify-content: space-around;
+            }
+            @media only screen and (max-width: 768px) {
+                flex-direction: column;
+                .card-col{
+                    padding-bottom: 3rem;
+                    width: fit-content;
+                    margin: auto;
+                }
             }
         }
     }
@@ -121,7 +134,7 @@ export default {
         margin-top: 1rem;
         width: 300px;
     }
-    .vs-card{
+    .card-col .vs-card{
         width: 333px;
     }
 }

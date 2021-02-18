@@ -12,6 +12,15 @@
                 </nuxt-link>
             </template>
 
+            <template v-if="bookableStores.length == 1">
+                <nuxt-link :to="`/book/${bookableStores[0].slug}`">BOOK TABLE</nuxt-link>
+            </template>
+            <template v-else-if="bookableStores.length > 1">
+                <nuxt-link v-for="store in bookableStores" :key="store.slug" :to="'/book/' + store.slug">
+                    BOOK TABLE IN {{ store.name | uppercase }}
+                </nuxt-link>
+            </template>
+
             <nuxt-link to="/gallery">GALLERY</nuxt-link>
 
             <nuxt-link v-for="page in pages" :key="page.slug" :to="'/p/' + page.slug">
@@ -24,7 +33,13 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-    computed: mapState(['pages', 'stores'])
+    computed: {
+        ...mapState(['pages', 'stores']),
+        bookableStores(){
+            return this.stores.filter(s => s.enable_booking);
+        }
+    },
+
 }
 </script>
 

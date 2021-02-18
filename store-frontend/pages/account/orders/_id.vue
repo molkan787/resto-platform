@@ -1,15 +1,17 @@
 <template>
     <Page>
         <div class="content-wrapper">
-            <h1>Order #: {{ order.no }}</h1>
-            <div class="info">
-                <h3>Status: {{ order.status | capitalize }}</h3>
-                <h3>Type: {{ order.type | capitalize }}</h3>
-                <h3>Total: {{ order.total | price }}</h3>
-                <h3>Placed on: {{ order.createdAt | date }}</h3>
-                <h3>Note: {{ order.note || '---' }}</h3>
+            <div class="top-section">
+                <h1 class="p-color">Order #: {{ order.no }}</h1>
+                <div class="info">
+                    <h3>Status: {{ order.status | capitalize }}</h3>
+                    <h3>Type: {{ order.type | capitalize }}</h3>
+                    <h3>Total: {{ order.total | price }}</h3>
+                    <h3 class="created-date">Placed on: {{ order.createdAt | date }}</h3>
+                    <h3>Note: {{ order.note || '---' }}</h3>
+                </div>
+                <h3>Items</h3>
             </div>
-            <h3>Items</h3>
             <vs-table>
                 <template #thead>
                     <vs-tr>
@@ -60,11 +62,30 @@ export default {
 <style lang="scss" scoped>
 .content-wrapper {
     padding: 4rem;
+    @media only screen and (max-width: 768px) {
+        padding: 0rem;
+    }
+    .top-section{
+        h1{
+            font-size: 2rem;
+        }
+        h3{
+            font-size: 1rem;
+        }
+        padding: 1rem;
+    }
 }
 .info{
     display: grid;
     width: 100%;
+    color: rgb(39, 39, 39);
     grid-template-columns: repeat(3, calc(100% / 3));
+    @media only screen and (max-width: 768px) {
+        grid-template-columns: repeat(2, calc(100% / 2));
+    }
+    .created-date{
+        grid-column: span 2;
+    }
 }
 .extras{
     padding-left: 1rem;

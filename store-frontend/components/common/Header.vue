@@ -1,6 +1,14 @@
 <template>
   <vs-navbar :class="{ large, sticky }" class="navbar" center-collapsed>
     <template #left>
+      <template v-if="isMobile">
+        <div class="open-sidebar-wrapper">
+          <vs-button @click="sideBarOpen = !sideBarOpen" flat icon>
+            <i class='bx bx-menu'></i>
+          </vs-button>
+        </div>
+        <SideBar v-model="sideBarOpen" />
+      </template>
       <nuxt-link to="/">
         <img :src="layoutSettings.website_logo" alt="logo" style="height: 44px;pointer-events: none;" />
       </nuxt-link>
@@ -69,11 +77,14 @@
           </template>
         </vs-navbar-group>
       </template>
+
       <template v-else>
         <vs-button @click="loginClick" flat>Login</vs-button>
         <vs-button @click="registerClick">Register</vs-button>
       </template>
+      
     </template>
+
   </vs-navbar>
 </template>
 
@@ -90,6 +101,9 @@ export default {
       default: false
     }
   },
+  data: () => ({
+    sideBarOpen: false,
+  }),
   methods: {
     itemClick(value){
       console.log(value)
@@ -135,6 +149,9 @@ export default {
   &.sticky{
     position: sticky !important;
     top: 0;
+  }
+  .open-sidebar-wrapper{
+    margin-right: 1rem;
   }
 }
 </style>

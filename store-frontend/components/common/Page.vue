@@ -20,8 +20,9 @@
 import BasePage from '../base/BasePage';
 export default {
   head(){
+    const { appName } = this.$store.state;
     return {
-      title: `${this.title} - ${this.$store.state.appName}`
+      title: this.title ? `${this.title} - ${appName}` : appName
     }
   },
   components: {
@@ -42,7 +43,7 @@ export default {
     },
     title: {
       type: String,
-      default: 'Home'
+      default: null
     }
   },
   computed: {

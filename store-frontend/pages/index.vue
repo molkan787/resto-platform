@@ -12,16 +12,16 @@
 
         <div v-for="(block, index) in content_sections" :key="block.id" class="container center-content">
           <div class="content-block">
-            <template v-if="index % 2 == 0">
+            <div class="imgs-wrapper" v-if="index % 2 == 0 && !isMobile">
               <img v-for="img in block.images" :key="img.id" :src="imgUrl(img)" :alt="img.alternativeText">
-            </template>
-            <div class="fluid center-content">
+            </div>
+            <div class="fluid center-content text">
               <h1>{{ block.title | uppercase }}</h1>
               <div v-html="block.content" />
             </div>
-            <template v-if="index % 2 == 1">
+            <div class="imgs-wrapper" v-if="index % 2 == 1 || isMobile">
               <img v-for="img in block.images" :key="img.id" :src="imgUrl(img)" :alt="img.alternativeText">
-            </template>
+            </div>
           </div>
         </div>
 
@@ -51,14 +51,14 @@ export default {
       header: landing_header,
       subheader: landing_subheader,
       text: landing_text,
-      background_image: `${prefixUrl}/files/${background_image.url}`,
+      background_image: `${prefixUrl}${background_image.url}`,
       content_sections,
       prefixUrl
     }
   },
   methods: {
     imgUrl(img){
-      return `${this.prefixUrl}/files/${img.url}`;
+      return `${this.prefixUrl}${img.url}`;
     }
   }
 }
@@ -83,6 +83,11 @@ export default {
     .bp1{
       font-size: 20px;
       max-width: 500px;
+      @media only screen and (max-width: 768px){
+        max-width: none;
+        width: 100%;
+        padding: 1rem;
+      }
     }
     filter: blur(0.45px);
     text-shadow: 0 0 2px #3e3e3e;
@@ -90,6 +95,9 @@ export default {
   section:not(:first-child):not(.footer-section){
     background-color: white;
     padding: 3rem;
+    @media only screen and (max-width: 768px){
+      padding: 1.2rem;
+    }
   }
   section.footer-section{
     margin-top: -16rem;
@@ -105,6 +113,21 @@ export default {
     }
     img{
       height: 420px;
+    }
+    @media only screen and (max-width: 768px) {
+      flex-wrap: wrap;
+      .text, .imgs-wrapper{
+        width: 100%;
+      }
+      .imgs-wrapper{
+        display: flex;
+        flex-direction: row;
+        overflow-y: scroll;
+        img{
+          height: auto;
+          padding: 0.2rem;
+        }
+      }
     }
   }
 }

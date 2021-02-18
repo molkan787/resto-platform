@@ -33,14 +33,16 @@ export default {
     overflow-x: scroll;
     overflow-y: hidden;
     position: sticky;
+    top: 0;
     background-color: white;
     padding: 6px;
     border-bottom: 1px solid #cecece;
     margin-bottom: 2rem;
+    z-index: 1;
 
     @media (max-width: 768px){
-        position: fixed !important;
-        left: 0 !important;
+        margin-left: -1rem !important;
+        width: calc(100% + 2rem);
     }
 
     .items {

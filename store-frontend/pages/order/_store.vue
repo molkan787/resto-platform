@@ -4,7 +4,7 @@
       <div class="left-column">
         <StoreInfo :store="activeStore" />
         
-        <OrderStackLayout v-if="layoutSettings.order_page_layout == 'stack'" :categories="categories" @productClick="productClick" />
+        <OrderStackLayout v-if="layoutSettings.order_page_layout == 'stack' || isMobile" :categories="categories" @productClick="productClick" />
         <OrderTabsLayout v-else :categories="categories" @productClick="productClick" />
 
       </div>

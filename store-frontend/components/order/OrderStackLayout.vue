@@ -1,6 +1,6 @@
 <template>
     <div class="order-stack-layout">
-        <CategoriesHeader :items="categories" />
+        <CategoriesHeader v-if="isMobile" :items="categories" />
         <Category v-for="cat in categories" :key="cat.slug" :category="cat" @productClick="productClick" />
     </div>
 </template>
