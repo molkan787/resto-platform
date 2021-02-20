@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_order_order_attributes",
+  "info": {
+    "name": "Order Attributes",
+    "icon": "book-medical"
+  },
+  "options": {},
+  "attributes": {
+    "delivery_cost": {
+      "type": "decimal",
+      "min": 0
+    }
+  }
+}

@@ -1,5 +1,6 @@
 'use strict';
 
+const { TextUtils } = require('murew-core');
 const { send } = require("../../email/services/email");
 
 /**
@@ -16,7 +17,7 @@ module.exports = {
         content = `Your order # ${no} was successfully placed, and it is pending approval by the restaurant.`;
         break;
       case 'accepted':
-        content = `Your order # ${no} was accepted, and will be ready in ${readyTime}.`;
+        content = `Your order # ${no} was accepted, and will be ready in ${TextUtils.minutesToText(readyTime)}.`;
         break;
       case 'declined':
         content = `Your order # ${no} was declined, We are sorry for the inconvenience.`;

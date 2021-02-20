@@ -83,6 +83,11 @@
       "type": "component",
       "repeatable": false,
       "component": "order.preorder-date-and-time"
+    },
+    "attrs": {
+      "type": "component",
+      "repeatable": false,
+      "component": "order.order-attributes"
     }
   }
 }

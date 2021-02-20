@@ -69,6 +69,9 @@ module.exports = class PostOrderService{
             note,
             delivery_address: isDelivery ? delivery_address : {},
             payment_method: 'cod',
+            attrs: {
+                delivery_cost: cart.delivery
+            },
             no: await this.generateOrderNumber(),
         }
 
@@ -102,7 +105,8 @@ module.exports = class PostOrderService{
         return strapi.query('order').create(order);
     }
 
-    static async setOrderStatus(orderId, status){
+    static async setOrderStatus(data, status){
+        const { id: orderId, ready_time } = data;
         const _order = await strapi.query('order').findOne({ _id: orderId });
         const order = await strapi.query('order').update({ _id: orderId }, { status });
         if(['declined', 'canceled'].includes(status)){
@@ -112,7 +116,7 @@ module.exports = class PostOrderService{
         if(order.status != _order.status){
             _order.status = status;
             try {
-                await strapi.services.notifier.sendOrderStatusUpdate(order.owner, _order, '30 Minutes');
+                await strapi.services.notifier.sendOrderStatusUpdate(order.owner, _order, ready_time);
             } catch (error) {
                 console.error(error);
             }

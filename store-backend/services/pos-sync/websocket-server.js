@@ -42,6 +42,7 @@ module.exports = class WebsocketServer extends EventEmitter{
                 const index = this.clients.indexOf(connection);
                 this.clients.splice(index, 1);
             });
+            this.emit('client-connected', connection);
         });
     }
 

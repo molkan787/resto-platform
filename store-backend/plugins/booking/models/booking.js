@@ -29,5 +29,6 @@ async function fillCustomerData(data){
             data.customer_phone = phone;
         }
     }
+    if(!data.status) data.status = 'booked';
     return data;
 }

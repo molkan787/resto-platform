@@ -19,3 +19,12 @@ export function formatPrice(val: number | string){
 export function getDayNameFromDate(date: Date){
     return Days[date.getDay()];
 }
+
+export function minutesToText(totalMinutes: number){
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes - hours * 60;
+    return [
+        hours > 0 ? (hours > 1 ? `${hours} Hours` : '1 Hour') : '',
+        minutes > 0 ? (minutes > 1 ? `${minutes} Minutes` : '1 Minute') : ''
+    ].join(' ').trim();
+}
