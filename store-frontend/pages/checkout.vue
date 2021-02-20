@@ -136,10 +136,10 @@ export default {
     mounted(){
         const { line1, line2, postcode, city } = (this.$strapi && this.$strapi.user && this.$strapi.user.default_address) || {};
         this.checkout.delivery_address = {
-            line1,
-            line2,
-            postcode,
-            city
+            line1: line1 || '',
+            line2: line2 || '',
+            postcode: postcode || '',
+            city: city || ''
         }
     }
 }
