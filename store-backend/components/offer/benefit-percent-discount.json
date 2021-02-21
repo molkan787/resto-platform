@@ -1,8 +1,9 @@
 {
   "collectionName": "components_offer_benefit_percent_discounts",
   "info": {
-    "name": "BenefitPercentDiscount",
-    "icon": "percent"
+    "name": "Percent discount",
+    "icon": "percent",
+    "description": ""
   },
   "options": {},
   "attributes": {

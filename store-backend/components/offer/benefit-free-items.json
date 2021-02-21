@@ -1,8 +1,9 @@
 {
   "collectionName": "components_offer_benefit_free_items",
   "info": {
-    "name": "BenefitFreeItems",
-    "icon": "concierge-bell"
+    "name": "Free items",
+    "icon": "concierge-bell",
+    "description": ""
   },
   "options": {},
   "attributes": {
