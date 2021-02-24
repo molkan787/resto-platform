@@ -46,7 +46,8 @@
         "offer.benefit-percent-discount",
         "offer.benefit-free-items"
       ],
-      "required": true
+      "required": true,
+      "max": 1
     },
     "store_id": {
       "type": "string"
