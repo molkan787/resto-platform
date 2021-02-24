@@ -12,7 +12,11 @@ const DATA_COLLECTIONS = [
     'components_order_addresses',
     'public_menus',
     'users-permissions_user',
-    'offers'
+    'offers',
+    'bookings'
 ];
 
-module.exports = { DATA_COLLECTIONS };
+const SUPER_ADMIN_ROLE_CODE = 'strapi-super-admin';
+const EDITOR_ROLE_CODE = 'strapi-editor';
+
+module.exports = { DATA_COLLECTIONS, SUPER_ADMIN_ROLE_CODE, EDITOR_ROLE_CODE };
