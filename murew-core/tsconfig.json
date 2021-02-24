@@ -2,9 +2,9 @@
     "compileOnSave": true,
     "extends": "@tsconfig/node12/tsconfig.json",
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "CommonJS",
         "esModuleInterop": true,
-        "target": "ES2018",
+        "target": "ES2017",
         "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "dist",
@@ -16,9 +16,6 @@
             "@types/node"
         ]
     },
-    "lib": [
-        "ES2018"
-    ],
     "include": [
       "src/**/*.ts",
     ],
