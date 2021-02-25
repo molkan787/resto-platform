@@ -9,13 +9,13 @@ async function createVendorApp(req, res, next){
         return next(new errors.BadRequestError('Missing app data'));
     }
     try {
-        await supervisor.createVendorApp(app, true);
+        const data = await supervisor.createVendorApp(app, false);
+        res.status(201);
+        res.send(data);
     } catch (error) {
         console.error(error);
         return next(new errors.InternalError());
     }
-    res.status(201);
-    res.send({});
     return next();
 }
 

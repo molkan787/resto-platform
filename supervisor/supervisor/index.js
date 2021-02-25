@@ -1,10 +1,11 @@
 const docker = require('./docker');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ObjectId } = require('mongodb');
 const Consts = require('./constants');
 const bootstrap = require('./bootstrap');
 const { exec } = require('../helpers/shell');
 const path = require('path');
 const axios = require('axios');
+const { randomString } = require('../utils');
 
 module.exports = class MurewSupervisor{
 
@@ -15,6 +16,11 @@ module.exports = class MurewSupervisor{
     async init(){
         await bootstrap();
         this.mongoClient = await MongoClient.connect('mongodb://root:murew_is_magic@localhost:27018');
+    }
+
+    async updateVendorApp(app){
+        await this.destroyVendorApp(app);
+        await this.createVendorApp(app, true);
     }
 
     /**
@@ -33,17 +39,24 @@ module.exports = class MurewSupervisor{
     /**
      * 
      * @param {{id: string, domain: string, port_pointer: number}} app 
-     * @param {boolean} start 
      */
-    async createVendorApp(app, start){
+    async createVendorApp(app, skipDbCreation){
         const { id: appId, domain, port_pointer: _port_pointer } = app;
-        await this.createVendorDB(appId);
+        let adminRegistrationUrl = '';
+        if(!skipDbCreation){
+            console.log('Creating vendor database...');
+            await this.createVendorDB(appId);
+            console.log('Creating vendor admin registration...');
+            const urlPath = await this.createAdminAccountRegistration(appId);
+            adminRegistrationUrl = `http://backend.${domain}${urlPath}`;
+        }
         const DB_URI = this._getDbUri(appId);
         console.log('DB_URI', DB_URI);
         const port_pointer = parseInt(_port_pointer);
         const frontendPort = 8000 + port_pointer;
         const backendPort = 9000 + port_pointer;
         const backendUrl = `http://backend.${domain}`;
+        console.log('Creating vendor\'s app container...');
         const container = await this.createVendorAppContainer(appId, {
             frontend: frontendPort,
             backend: backendPort
@@ -52,11 +65,13 @@ module.exports = class MurewSupervisor{
             'HOST=0.0.0.0',
             `BACKEND_URL=${backendUrl}`,
         ]);
-        if(start){
-            await container.start();
-        }
+        await container.start();
+        console.log('Adding domain mapping to reverse proxy server...');
         await this.addProxyHostMap(domain, `http://localhost:${frontendPort}`);
         await this.addProxyHostMap(`backend.${domain}`, `http://localhost:${backendPort}`);
+        return {
+            adminRegistrationUrl
+        }
     }
 
     async createVendorDB(appId){
@@ -76,6 +91,29 @@ module.exports = class MurewSupervisor{
         const cmd = `${bin} --nsFrom="murew-store-tmp.*" --nsTo="${dbName}.*" --uri="${db_uri}" --archive="${db_archive}"`;
         console.log('importDbData:cmd', cmd);
         await exec(cmd);
+    }
+
+    async createAdminAccountRegistration(appId){
+        const { dbName } = this._getDbInfo(appId);
+        const db = this.mongoClient.db(dbName);
+        const role = await db.collection(Consts.DB_ROLES_COLLECTION_NAME).findOne({
+            code: 'strapi-editor'
+        })
+        const registrationToken = randomString(40);
+        await db.collection(Consts.DB_ADMINS_COLLECTION_NAME).insertOne({
+            isActive: false,
+            blocked: false,
+            roles: [
+                ObjectId(role._id)
+            ],
+            username: null,
+            registrationToken: registrationToken,
+            firstname: "",
+            lastname: "",
+            email: "store.admin@murew.com",
+            __v:0
+        });
+        return `/admin/auth/register?registrationToken=${registrationToken}`;
     }
 
     async createVendorAppContainer(appId, ports, envs){
