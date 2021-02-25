@@ -1,0 +1,8 @@
+*/node_modules
+*/build
+*/dist
+*/.git
+*/.vscode
+*/.cache
+*/.tmp
+*/yarn-error.log

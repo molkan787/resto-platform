@@ -2,6 +2,11 @@ FROM node:12.20.0
 
 ENV npm_config_platform=linux
 
+
+WORKDIR /usr/src/apps/murew-core
+COPY ./murew-core/package.json .
+RUN yarn install
+
 WORKDIR /usr/src/apps/store-backend
 COPY ./store-backend/package.json .
 RUN yarn install
@@ -10,12 +15,20 @@ WORKDIR /usr/src/apps/store-frontend
 COPY ./store-frontend/package.json .
 RUN yarn install
 
+
+WORKDIR /usr/src/apps/murew-core
+COPY ./murew-core .
+RUN ["yarn", "build"]
+RUN ["yarn", "link"]
+
 WORKDIR /usr/src/apps/store-backend
 COPY ./store-backend .
+RUN ["yarn", "link", "murew-core"]
 RUN ["yarn", "build"]
 
 WORKDIR /usr/src/apps/store-frontend
 COPY ./store-frontend .
+RUN ["yarn", "link", "murew-core"]
 RUN ["yarn", "build"]
 
 WORKDIR /usr/src/apps
