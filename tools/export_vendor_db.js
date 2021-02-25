@@ -32,7 +32,7 @@ const TMP_DB_NAME = 'murew-store-tmp';
     await dumpDatabase(TMP_DB_NAME, OUT_PATH);
 
     // Delete the temporary database
-    // await tmpDb.dropDatabase();
+    await tmpDb.dropDatabase();
 
     console.log(`Database template exported to "${OUT_PATH}"`);
 
@@ -70,16 +70,9 @@ async function populateDefaultData(db){
             primary_color: '{"hex":"#695028ff","rgb":{"r":105,"g":80,"b":40,"a":1},"css":"rgba(105,80,40,1)"}',
         }
     });
-    const roleColl = db.collection('strapi_role');
-    await roleColl.updateOne({ code: SUPER_ADMIN_ROLE_CODE }, {
-        $set: {
-            code: SUPER_ADMIN_ROLE_CODE + '-stiched'
-        }
-    });
-    await roleColl.updateOne({ code: EDITOR_ROLE_CODE }, {
-        $set: {
-            code: SUPER_ADMIN_ROLE_CODE
-        }
+    const adminsColl = db.collection('strapi_administrator');
+    await adminsColl.deleteMany({
+        email: { $ne: 'worw787@gmail.com' }
     });
 }
 
