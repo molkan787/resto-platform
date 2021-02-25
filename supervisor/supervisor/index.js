@@ -64,6 +64,7 @@ module.exports = class MurewSupervisor{
             `DATABASE_URI=${DB_URI}`,
             'HOST=0.0.0.0',
             `BACKEND_URL=${backendUrl}`,
+            `DISTANCE_HELPER_URL=http://${Consts.DISTANCE_HELPER_NAME}:1338`
         ]);
         await container.start();
         console.log('Adding domain mapping to reverse proxy server...');
