@@ -16,7 +16,12 @@ module.exports = {
         async afterCreate(vendor){
             try {
                 const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
-                await axios.post('http://localhost:1323/create-vendor-app', { app: sanitizedVendor });
+                const { data } = await axios.post('http://localhost:1323/create-vendor-app', { app: sanitizedVendor });
+                const { adminRegistrationUrl } = data;
+                await strapi.query('vendor').update(
+                    { id: vendor.id },
+                    { registration_url: adminRegistrationUrl }
+                );
             } catch (error) {
                 await strapi.query('vendor').delete({ id: vendor.id });
                 throw error;
