@@ -5,6 +5,7 @@ ENV npm_config_platform=linux
 
 WORKDIR /usr/src/apps/murew-core
 COPY ./murew-core/package.json .
+COPY ./murew-core/yarn.lock .
 RUN yarn install
 
 WORKDIR /usr/src/apps/store-backend
@@ -13,6 +14,7 @@ RUN yarn install
 
 WORKDIR /usr/src/apps/store-frontend
 COPY ./store-frontend/package.json .
+COPY ./store-frontend/yarn.lock .
 RUN yarn install
 
 

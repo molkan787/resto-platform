@@ -1,7 +1,7 @@
 {
   "name": "murew-supervisor",
   "version": "0.0.1",
-  "description": "Manages vendor app's",
+  "description": "Manages vendor apps",
   "main": "index.js",
   "author": "Dahmane Seghier",
   "license": "MIT",

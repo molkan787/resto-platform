@@ -2,7 +2,6 @@ const DATA_COLLECTIONS = [
     'categories',
     'orders',
     'components_common_addresses',
-    'upload_file',
     'components_products_extras',
     'stores',
     'components_order_order_item_extras',
