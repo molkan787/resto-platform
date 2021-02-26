@@ -48,13 +48,13 @@ export default {
   ],
 
   strapi: {
-    url: process.env.BACKEND_URL || 'http://172.24.128.1:1337',
+    url: process.env.BACKEND_URL || 'http://localhost:1337',
     entities: ['categories', 'products', 'orders', 'stores']
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.BACKEND_URL || 'http://172.24.128.1:1337'
+    baseURL: process.env.BACKEND_URL || 'http://localhost:1337'
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
