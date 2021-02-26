@@ -1,6 +1,6 @@
 {
   "name": "murew-frontend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
@@ -10,33 +10,33 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^2.0.0",
-    "@nuxtjs/strapi": "^0.1.8",
-    "boxicons": "^2.0.7",
-    "core-js": "^3.6.5",
-    "debounce": "^1.2.0",
-    "nuxt": "^2.14.6",
-    "primeicons": "^4.1.0",
+    "@nuxt/typescript-runtime": "2.0.0",
+    "@nuxtjs/strapi": "0.1.8",
+    "boxicons": "2.0.7",
+    "core-js": "3.6.5",
+    "debounce": "1.2.0",
+    "nuxt": "2.14.6",
+    "primeicons": "4.1.0",
     "primevue": "2.0.0",
     "vue": "2.6.12",
-    "vue-gallery-slideshow": "^1.5.2",
-    "vue-rellax": "^0.2.0",
-    "vuejs-datepicker": "^1.6.2",
-    "vuesax": "^4.0.1-alpha.25",
+    "vue-gallery-slideshow": "1.5.2",
+    "vue-rellax": "0.2.0",
+    "vuejs-datepicker": "1.6.2",
+    "vuesax": "4.0.1-alpha.25",
     "vuex-persistedstate": "3.1.0"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.14.6",
-    "@nuxt/typescript-build": "^2.0.3",
-    "@nuxtjs/device": "^2.0.0",
-    "@types/debounce": "^1.2.0",
-    "@vue/test-utils": "^1.1.0",
+    "@nuxt/types": "2.14.6",
+    "@nuxt/typescript-build": "2.0.3",
+    "@nuxtjs/device": "2.0.0",
+    "@types/debounce": "1.2.0",
+    "@vue/test-utils": "1.1.0",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^26.5.0",
-    "jest": "^26.5.0",
-    "node-sass": "^5.0.0",
-    "sass-loader": "^10.1.0",
-    "ts-jest": "^26.4.1",
-    "vue-jest": "^3.0.4"
+    "babel-jest": "26.5.0",
+    "jest": "26.5.0",
+    "node-sass": "5.0.0",
+    "sass-loader": "10.1.0",
+    "ts-jest": "26.4.1",
+    "vue-jest": "3.0.4"
   }
 }
