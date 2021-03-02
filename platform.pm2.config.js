@@ -16,7 +16,7 @@ module.exports = {
       script:'./node_modules/strapi/bin/strapi.js',
       args: 'start',
       env: {
-        'DATABASE_URI': 'mongodb://root:murew_is_magic@localhost:27018'
+        'DATABASE_URI': 'mongodb://root:murew_is_magic@localhost:27018/admin'
       }
     }
   ]
