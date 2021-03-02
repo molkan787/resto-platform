@@ -52,6 +52,11 @@
       "type": "boolean",
       "default": false,
       "required": false
+    },
+    "sort_no": {
+      "type": "integer",
+      "default": 0,
+      "required": true
     }
   }
 }

@@ -56,6 +56,11 @@
     "remote_id": {
       "type": "integer",
       "private": true
+    },
+    "sort_no": {
+      "type": "integer",
+      "default": 0,
+      "required": true
     }
   }
 }
