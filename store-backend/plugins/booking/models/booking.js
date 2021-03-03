@@ -13,6 +13,9 @@ module.exports = {
         },
         beforeUpdate(params, data){
             return fillCustomerData(data);
+        },
+        afterCreate(data){
+            strapi.services.notifier.sendBookingConfirmation(data.owner, data);
         }
     }
 

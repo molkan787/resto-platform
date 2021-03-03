@@ -8,6 +8,23 @@ const { send } = require("../../email/services/email");
  */
 
 module.exports = {
+
+  async sendBookingConfirmation(user, booking){
+    const { date, time, store_id, number_of_persons } = booking;
+    const store = await strapi.query('store').findOne({ id: store_id });
+    const text = [
+      `Hello ${user.fullname},`,
+      `Your table for ${TextUtils.itemsText(number_of_persons, 'Person', 'Persons')} at ${(store || {}).name} was successfully booked!`,
+      `Date: ${new Date(date).toLocaleDateString()}  Time: ${time.split(':').slice(0, 2).join(':')}`,
+    ].join('\n');
+    await this.send(
+      user,
+      {
+        title: 'Booking Confirmation',
+        content: text
+      }
+    )
+  },
   
   async sendOrderStatusUpdate(user, order, readyTime){
     const { no, status } = order;
