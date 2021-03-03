@@ -39,7 +39,7 @@
                         <template #text>
                             <div class="form">
                                 <vs-radio :disabled="loading" v-model="paymentMethod" val="cod">
-                                    Cash on Delivery 
+                                    {{ orderType == 'delivery' ? 'Pay on Delivery' : 'Pay on Pickup' }}
                                 </vs-radio>
                             </div>
                             <br>
