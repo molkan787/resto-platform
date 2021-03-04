@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_common_time_ranges",
+  "info": {
+    "name": "Time Range",
+    "icon": "user-clock"
+  },
+  "options": {},
+  "attributes": {
+    "opens_at": {
+      "type": "time",
+      "required": true
+    },
+    "closes_at": {
+      "type": "time",
+      "required": true
+    }
+  }
+}

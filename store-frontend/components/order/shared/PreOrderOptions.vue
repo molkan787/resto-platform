@@ -20,8 +20,8 @@
                 placeholder="Select Time"
                 filter
             >
-                <vs-option v-for="slot in timeSlots" :key="slot" :value="slot" :label="slot">
-                    {{ slot }}
+                <vs-option v-for="slot in timeSlots" :key="slot" :disabled="slot == '-'" :value="slot" :label="slot">
+                    {{ slot == '-' ? '---' : slot }}
                 </vs-option>
 
             </vs-select>
@@ -31,51 +31,50 @@
 
 <script>
 import { mapState } from 'vuex';
-import { TextUtils, Interfaces, DataUtils } from 'murew-core';
+import { TextUtils, Interfaces } from 'murew-core';
 export default {
     computed: {
         ...mapState({
             activeStore: state => state.activeStore,
             preorder: state => state.checkout.preorder
         }),
-        preorderSlots(){
+        openingDays(){
             const s = this.activeStore;
-            return (s && s.opening_days) || []
+            return (s && s.opening_hours) || {}
         },
         day(){
-            return this.preorder.date ? TextUtils.getDayNameFromDate(this.preorder.date) : null
+            return this.preorder.date ? TextUtils.getDayNameFromDate(this.preorder.date).toLowerCase() : null
         },
         timeSlots(){
-            const daySlot = this.slots.get(this.day);
-            if(daySlot){
-                const { opens_at, closes_at } = daySlot;
+            const shifts = this.openingDays[this.day] || [];
+            const slots = [];
+            for(const shift of shifts){
+                if(slots.length){
+                    slots.push('-');
+                }
+                const { opens_at, closes_at } = shift;
                 const mins = opens_at.split(':'), maxs = closes_at.split(':');
                 const minHour = parseInt(mins[0]), minMinute = Math.ceil(parseInt(mins[1]) / 15) * 15;
                 const maxHour = parseInt(maxs[0]), maxMinute = Math.floor(parseInt(maxs[1]) / 15) * 15;
-                if(minHour > maxHour) return [];
-                const slots = [];
+                if(minHour > maxHour) continue;
                 let h = minHour, m = minMinute;
                 while(h < maxHour || (h == maxHour && m < maxMinute)){
                     m += 15;
                     if(m == 60){ m = 0; h++; }
                     slots.push(`${('0'+h).substr(-2)}:${('0'+m).substr(-2)}`);
                 }
-                return slots;
-            }else{
-                return [];
             }
+            return slots;
         },
     },
     data: () => ({
         disabledDates: {},
-        slots: new Map(),
         timeSelectKey: 1
     }),
     watch: {
-        preorderSlots: {
+        openingDays: {
             immediate: true,
             handler(){
-                this.updateSlotsMap();
                 this.updateDisabledDays();
             }
         },
@@ -85,15 +84,12 @@ export default {
         }
     },
     methods: {
-        updateSlotsMap(){
-            this.slots = DataUtils.arrayToMap(this.preorderSlots, 'day');
-        },
         updateDisabledDays(){
-            const days = [].concat(Interfaces.Days);
+            const days = Interfaces.Days.map(d => d.toLowerCase());
             const disabledDays = [];
-            days.forEach((day, index) => {
-                const si = this.preorderSlots.findIndex(s => s.day == day);
-                if(si == -1) disabledDays.push(index);
+            days.forEach((dayname, index) => {
+                const day = this.openingDays[dayname];
+                if(!day || day.length < 1) disabledDays.push(index);
             })
             this.disabledDates.days = disabledDays;
         }

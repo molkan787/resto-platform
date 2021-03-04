@@ -37,10 +37,11 @@
       "type": "boolean",
       "default": false
     },
-    "opening_days": {
+    "opening_hours": {
       "type": "component",
-      "repeatable": true,
-      "component": "common.day-time-range"
+      "repeatable": false,
+      "component": "common.week-timing",
+      "required": true
     }
   }
 }

@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_common_week_timings",
+  "info": {
+    "name": "Week Timing",
+    "icon": "calendar-week",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "monday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    },
+    "tuesday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    },
+    "wednesday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    },
+    "thursday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    },
+    "friday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    },
+    "saturday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    },
+    "sunday": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.time-range"
+    }
+  }
+}
