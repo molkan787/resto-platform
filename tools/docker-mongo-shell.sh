@@ -1,0 +1,1 @@
+docker run -it --network vendor_apps_sharednetwork --rm mongo mongo --host shared_mongodb test
