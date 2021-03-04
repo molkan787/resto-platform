@@ -31,6 +31,14 @@
       "config": {
         "policies": ["global::isOwner"]
       }
+    },
+    {
+      "method": "PUT",
+      "path": "/bookings/cancelmy/:id",
+      "handler": "booking.cancelMy",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

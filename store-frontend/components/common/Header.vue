@@ -71,6 +71,9 @@
             <vs-navbar-item :active="active == 'account-orders'" to="/account/orders">
               Order history
             </vs-navbar-item>
+            <vs-navbar-item :active="active == 'account-bookings'" to="/account/bookings">
+              Bookings
+            </vs-navbar-item>
             <vs-navbar-item @click="logoutClick">
               Logout
             </vs-navbar-item>
