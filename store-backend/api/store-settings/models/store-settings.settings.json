@@ -2,7 +2,7 @@
   "kind": "singleType",
   "collectionName": "store_settings",
   "info": {
-    "name": "Store Settings",
+    "name": "Order Settings",
     "description": ""
   },
   "options": {
@@ -40,11 +40,6 @@
       "default": 0,
       "required": true,
       "min": 0
-    },
-    "preorder_slots": {
-      "type": "component",
-      "repeatable": true,
-      "component": "common.date-time-slot"
     }
   }
 }
