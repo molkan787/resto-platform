@@ -1,18 +1,23 @@
 <template>
   <div class="category" :id="'category-pane-' + category.slug">
       <div class="header">
-        <h2>
-          {{ activeName }}
-        </h2>
-        <div class="childs-tabs hide-scrollbar" v-if="childsItems.length">
-          <div class="items">
-            <div v-for="child in childsItems" :key="child.id" @click="active = child.id ? child : null">
-              {{ child.name }}
+        <vs-card class="category-header-card" @click="headerCardClick">
+          <template #text>
+            <h2>
+              {{ activeName }}
+              <i class="bx" :class="expanded ? 'bxs-down-arrow' : 'bxs-up-arrow'"></i>
+            </h2>
+            <div class="childs-tabs hide-scrollbar" v-if="expanded && childsItems.length">
+              <div class="items" cancel-toggle>
+                <div v-for="child in childsItems" :key="child.id" @click="active = child.id ? child : null" cancel-toggle>
+                  {{ child.name }}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </vs-card>
       </div>
-      <div class="content">
+      <div v-if="expanded" class="content">
         <Product v-for="p in products" :key="p.id" :product="p" @click="$emit('productClick', $event)" />
       </div>
   </div>
@@ -28,6 +33,7 @@ export default {
   },
   data: () => ({
     active: null,
+    expanded: false,
   }),
   computed: {
     activeName(){
@@ -49,6 +55,13 @@ export default {
       }
       return items;
     }
+  },
+  methods: {
+    headerCardClick(event){
+      if(event.srcElement.getAttribute('cancel-toggle') === null){
+        this.expanded = !this.expanded;
+      }
+    }
   }
 }
 </script>
@@ -56,14 +69,10 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/_vars";
 .category{
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #e4e4e4;
-  padding-bottom: 2rem;
   .header{
     display: flex;
     flex-direction: row;
     h2{
-      margin-bottom: 1.5rem;
       padding-left: 15px;
     }
     .childs-tabs{
@@ -76,7 +85,7 @@ export default {
         padding-left: 6px;
         & > div{
           font-size: 17px;
-          padding: 6px;
+          padding: 0 6px;
           cursor: pointer;
         }
       }
@@ -84,6 +93,7 @@ export default {
   }
   .content{
     width: 100%;
+    margin-bottom: 1.5rem;
     display: grid;
     grid-template-columns: repeat(2, calc((100% - 1rem) / 2));
     grid-gap: 1rem;
@@ -101,7 +111,28 @@ export default {
 </style>
 
 <style lang="scss">
-.category .p-card-title{
-  color: rgb(0, 0, 0);
+.category{
+  .p-card-title{
+    color: rgb(0, 0, 0);
+  }
+  .category-header-card{
+    width: 100%;
+    .vs-card{
+      max-width: none;
+      margin-bottom: 1rem;
+      // background-color: rgba(var(--vs-primary), 0.1);
+      // color: rgba(var(--vs-primary), 1);
+      background-color: #f3f3f3;
+      cursor: pointer;
+      .vs-card__text{
+        padding: 0;
+        line-height: 3;
+      }
+    }
+    i{
+      float: right;
+      margin: 1.2rem;
+    }
+  }
 }
 </style>
