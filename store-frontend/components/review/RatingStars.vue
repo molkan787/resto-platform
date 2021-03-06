@@ -1,6 +1,6 @@
 <template>
     <div class="rating-stars" :class="{ mutable }"
-        @mouseenter="showTempValue = true" @mouseleave="showTempValue = false">
+        @mouseenter="mouseenter" @mouseleave="mouseleave">
         <i v-for="star in [1, 2, 3, 4, 5]" :key="star"
             class='bx' :class="displayValue >= star ? 'bxs-star' : 'bx-star'"
             @mouseenter="starHover(star)"
@@ -32,10 +32,20 @@ export default {
     }),
     methods: {
         starClick(index){
-            this.$emit('input', index);
+            if(this.mutable){
+                this.$emit('input', index);
+            }
         },
         starHover(index){
             this.tempValue = index;
+        },
+        mouseenter(){
+            if(this.mutable){
+                this.showTempValue = true;
+            }
+        },
+        mouseleave(){
+            this.showTempValue = false;
         }
     }
 }
