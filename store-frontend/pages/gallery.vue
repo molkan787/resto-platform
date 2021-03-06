@@ -1,5 +1,5 @@
 <template>
-    <Page class="gallery-page">
+    <Page class="gallery-page" title="Gallery">
         <div class="page-container">
             <h1>Our Gallery</h1>
             <div class="images-grid">

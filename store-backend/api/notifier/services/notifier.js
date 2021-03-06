@@ -51,6 +51,27 @@ module.exports = {
     )
   },
 
+  async sendOrderCompletedConfirmation(user, order){
+    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const { no } = order;
+    const reviewPageUrl = `${FRONTEND_URL}/write_review?order=${no}`;
+    await this.send(
+      user,
+      {
+        title: `Order ${no} completed`,
+        content: `
+        <p>
+          Your order ${no} was completed, Please take a moment and review it. <br>
+          <a href="${reviewPageUrl}">
+            Review now
+          </a>
+        </p>
+        `,
+        isHTML: true,
+      }
+    )
+  },
+
 
   /**
    * 
@@ -59,11 +80,11 @@ module.exports = {
    */
   async send(user, message){
     const { email } = user;
-    const { title, content } = message;
+    const { title, content, isHTML } = message;
     if(typeof email != 'string' || email.length < 5){
       return;
     }
-    await strapi.services.email.send(email, title, content);
+    await strapi.services.email.send(email, title, content, isHTML);
   }
 
 };

@@ -1,5 +1,5 @@
 <template>
-    <Page>
+    <Page :title="name">
         <div class="wrapper">
             <div class="content dynamic-page-content" v-html="content"></div>
         </div>
@@ -10,7 +10,8 @@
 export default {
     async asyncData({ params, $strapi }){
         const data = await $strapi.find('pages', { slug: params.slug });
-        return { content: data[0].content };
+        const { name, content } = data[0];
+        return { name, content };
     }
 }
 </script>

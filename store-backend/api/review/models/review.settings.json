@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "name": "review",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "owner": {
+      "private": true,
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "rating": {
+      "type": "integer",
+      "required": true,
+      "max": 5,
+      "min": 0
+    },
+    "comment": {
+      "type": "text",
+      "maxLength": 600
+    },
+    "order_no": {
+      "type": "string",
+      "private": true,
+      "required": true,
+      "unique": true
+    },
+    "customer_name": {
+      "type": "string"
+    }
+  }
+}

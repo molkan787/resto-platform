@@ -52,6 +52,10 @@
     <vs-navbar-item :active="active == 'gallery'" to="/gallery">
       GALLERY
     </vs-navbar-item>
+
+    <vs-navbar-item :active="active == 'reviews'" to="/reviews">
+      REVIEWS
+    </vs-navbar-item>
     
     <vs-navbar-item v-for="page in navPages" :key="page.slug" :active="active == page.slug" :to="'/p/' + page.slug">
       {{ page.name | uppercase }}

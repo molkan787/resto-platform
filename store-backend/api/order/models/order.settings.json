@@ -21,7 +21,7 @@
         "declined",
         "ready",
         "shipped",
-        "delivered"
+        "completed"
       ],
       "required": true
     },

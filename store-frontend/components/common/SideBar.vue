@@ -64,6 +64,10 @@
             GALLERY
         </vs-sidebar-item>
 
+        <vs-sidebar-item :active="active == 'reviews'" to="/reviews">
+        REVIEWS
+        </vs-sidebar-item>
+
         <vs-sidebar-item
             v-for="page in navPages"
             :key="page.slug"

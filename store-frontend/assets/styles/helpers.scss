@@ -26,6 +26,12 @@
     margin: auto;
     min-height: 100%;
     padding: 2rem;
+    &.thinner{
+        max-width: 1000px;
+    }
+    &.thin{
+        max-width: 800px;
+    }
     @media (max-width: 768px) {
         &.no-pad-mobile{
             padding: 0;
@@ -107,4 +113,18 @@
 
 .opacity-07{
     opacity: 0.7;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.spacer{
+    display: block;
+    width: 100%;
+    &.s1{ height: 1rem; }
+    &.s2{ height: 2rem; }
+    &.s3{ height: 3rem; }
+    &.s4{ height: 4rem; }
+    &.s5{ height: 5rem; }
 }

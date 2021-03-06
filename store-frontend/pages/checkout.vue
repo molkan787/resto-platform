@@ -27,7 +27,7 @@
                         </template>
                         <template #text>
                             <div class="form">
-                                <textarea :disabled="loading" v-model="note" class="note-ta vs-input" placeholder="Remarks/Note"></textarea>
+                                <textarea :disabled="loading" v-model="note" class="vs-textarea vs-input" placeholder="Remarks/Note"></textarea>
                             </div>
                         </template>
                     </vs-card>
@@ -171,13 +171,7 @@ export default {
     .sepa{
         margin: 1rem 0;
     }
-    .note-ta{
-        resize: none;
-        width: 100%;
-        height: 10rem;
-        border-radius: 16px;
-        font-family: inherit;
-    }
+
     .offer-selector-wrapper{
         padding: 1rem 1rem 1rem 0;
         text-align: left;

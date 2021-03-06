@@ -19,12 +19,13 @@ const transport = nodemailer.createTransport({
 
 module.exports = {
 
-    send(to, subject, content){
+    send(to, subject, content, isHTML){
         return transport.sendMail({
             from: `Murew <${ACCOUNT.Address}>`,
             to: to,
             subject: subject,
-            text: content
+            text: isHTML ? undefined : content,
+            html: isHTML ? content : undefined,
         })
     }
 

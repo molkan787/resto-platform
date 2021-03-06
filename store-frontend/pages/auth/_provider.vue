@@ -1,11 +1,6 @@
 <template>
     <Page v-if="showError">
-        <div class="container">
-            <div class="content">
-                An error occured, Please try to sign in again. <br>
-                <nuxt-link to="/">Home</nuxt-link>
-            </div>
-        </div>
+        <ErrorPageContent errorText="An error occured, Please try to sign in again." />
     </Page>
     <div v-else>
         Please wait...
@@ -36,15 +31,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-.container{
-    height: calc(100vh - 50px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .content{
-        text-align: center;
-    }
-}
-</style>
