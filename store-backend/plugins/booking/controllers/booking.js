@@ -34,8 +34,8 @@ module.exports = {
     return {};
   },
   create: async (ctx) => {
-    const { store_id, date, time, number_of_persons, owner } = ctx.request.body;
-    const data = { store_id, date, time, number_of_persons, owner };
+    const { store_id, date, time, number_of_persons, owner, category } = ctx.request.body;
+    const data = { store_id, date, time, number_of_persons, owner, category };
     await strapi.query('booking', 'booking').create(data);
     return {};
   }

@@ -39,6 +39,15 @@
       "required": true,
       "min": 1
     },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "breakfast",
+        "lunch",
+        "dinner"
+      ],
+      "required": true
+    },
     "status": {
       "type": "enumeration",
       "enum": [

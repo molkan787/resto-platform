@@ -13,6 +13,7 @@
                 :disabled="loading"
             />
         </client-only>
+
         <vs-select
             :key="timeSelectKey"
             :disabled="!day || loading"
@@ -26,7 +27,12 @@
 
         </vs-select>
 
-        <!-- <vs-input v-model="booking.number_of_persons" label="Number of persons" class="nop-input" type="number" min="1" /> -->
+        <vs-select label="Category" v-model="booking.category" :disabled="loading" >
+            <vs-option value="breakfast" label="Breakfast">Breakfast</vs-option>
+            <vs-option value="lunch" label="Lunch">Lunch</vs-option>
+            <vs-option value="dinner" label="Dinner">Dinner</vs-option>
+        </vs-select>
+
         <vs-select
             label="Number of persons"
             placeholder="Number of persons"

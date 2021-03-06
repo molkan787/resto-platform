@@ -44,6 +44,7 @@
                         <th>Time</th>
                         <th>Number of persons</th>
                         <th>Status</th>
+                        <th>Category</th>
                         <th>Customer</th>
                         <th> </th>
                     </tr>
@@ -57,6 +58,7 @@
                         <td>{{ k.time | timeText }}</td>
                         <td>{{ k.number_of_persons }}</td>
                         <td>{{ k.status }}</td>
+                        <td>{{ k.category }}</td>
                         <td><b>{{ k.customer_name }}</b></td>
                         <td>
                             <button v-if="k.status != 'canceled'" @click="cancelClick(k)" class="danger">

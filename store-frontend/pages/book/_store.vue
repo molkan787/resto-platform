@@ -41,9 +41,10 @@ export default {
     data: () => ({
         loading: false,
         booking: {
+            category: 'dinner',
             date: null,
             time: '',
-            number_of_persons: 'n2n'
+            number_of_persons: 'n2n',
         },
     }),
     methods: {
@@ -67,9 +68,10 @@ export default {
         },
         clearForm(){
             this.booking = {
-                 date: null,
+                date: null,
                 time: '',
-                number_of_persons: 'n2n'
+                number_of_persons: 'n2n',
+                category: 'dinner'
             }
         }
     }
