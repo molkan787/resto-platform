@@ -7,6 +7,8 @@ const path = require('path');
 const axios = require('axios');
 const { randomString } = require('../utils');
 
+const WEB_PROTOCOL = 'http';
+
 module.exports = class MurewSupervisor{
 
     constructor(){
@@ -48,14 +50,15 @@ module.exports = class MurewSupervisor{
             await this.createVendorDB(appId);
             console.log('Creating vendor admin registration...');
             const urlPath = await this.createAdminAccountRegistration(appId);
-            adminRegistrationUrl = `http://backend.${domain}${urlPath}`;
+            adminRegistrationUrl = `${WEB_PROTOCOL}://backend.${domain}${urlPath}`;
         }
         const DB_URI = this._getDbUri(appId);
         console.log('DB_URI', DB_URI);
         const port_pointer = parseInt(_port_pointer);
         const frontendPort = 8000 + port_pointer;
         const backendPort = 9000 + port_pointer;
-        const backendUrl = `http://backend.${domain}`;
+        const backendUrl = `${WEB_PROTOCOL}://backend.${domain}`;
+        const frontendUrl = `${WEB_PROTOCOL}://${domain}`;
         console.log('Creating vendor\'s app container...');
         const container = await this.createVendorAppContainer(appId, {
             frontend: frontendPort,
@@ -64,12 +67,13 @@ module.exports = class MurewSupervisor{
             `DATABASE_URI=${DB_URI}`,
             'HOST=0.0.0.0',
             `BACKEND_URL=${backendUrl}`,
-            `DISTANCE_HELPER_URL=http://${Consts.DISTANCE_HELPER_NAME}:1338`
+            `FRONTEND_URL=${frontendUrl}`,
+            `DISTANCE_HELPER_URL=${WEB_PROTOCOL}://${Consts.DISTANCE_HELPER_NAME}:1338`
         ]);
         await container.start();
         console.log('Adding domain mapping to reverse proxy server...');
-        await this.addProxyHostMap(domain, `http://localhost:${frontendPort}`);
-        await this.addProxyHostMap(`backend.${domain}`, `http://localhost:${backendPort}`);
+        await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://localhost:${frontendPort}`);
+        await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://localhost:${backendPort}`);
         return {
             adminRegistrationUrl
         }
