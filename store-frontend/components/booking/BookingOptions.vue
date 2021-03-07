@@ -102,7 +102,6 @@ export default {
             const bookedSlots = (this.bookedSlots[selectedDate] || {}).slots || {};
             const time = (this.booking.time || '').split(':').slice(0, 2).join(':');
             const bookedTables = bookedSlots[time] || 0;
-            console.log('bookedTables', bookedTables)
             const remaningTables = (number_of_tables || 10) - bookedTables;
             const max = remaningTables * (number_of_people_per_table || 4);
             return '-'.repeat(max).split('').map((c, i) => {

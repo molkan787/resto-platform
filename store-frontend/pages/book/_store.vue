@@ -96,7 +96,6 @@ export default {
                     dayslot.isFull = false;
                 }
             }
-            console.log(map);
             this.bookedSlots = map;
         },
         monthPageChanged(date){
