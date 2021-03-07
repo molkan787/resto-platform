@@ -11,6 +11,7 @@
                 maximum-view="day"
                 :inline="true"
                 :disabled="loading"
+                @changedMonth="onMonthChanged"
             />
         </client-only>
 
@@ -39,7 +40,7 @@
             filter
             :multiple="false"
             v-model="booking.number_of_persons"
-            :disabled="loading"
+            :disabled="loading || !booking.time"
         >
             <vs-option v-for="n in numbers" :key="'n-' + n.value" :value="n.value" :label="n.label">
                 {{ n.label }}
@@ -52,6 +53,7 @@
 
 <script>
 import { TextUtils, Interfaces, DataUtils } from 'murew-core';
+import { dateToStringValue } from '~/helpers/DateHelpers';
 export default {
     props: {
         store: {
@@ -66,6 +68,10 @@ export default {
                 number_of_persons: 'n2n'
             })
         },
+        bookedSlots: {
+            type: Object,
+            required: true
+        },
         loading: {
             type: Boolean,
             default: false
@@ -79,21 +85,39 @@ export default {
             return this.booking.date ? TextUtils.getDayNameFromDate(this.booking.date) : null
         },
         timeSlots(){
+            const number_of_tables = this.store.number_of_tables || 99999;
+            const selectedDate = this.booking.date ? dateToStringValue(this.booking.date) : null;
+            const bookedSlots = (this.bookedSlots[selectedDate] || {}).slots || {};
             const daySlot = this.slots.get(this.day);
-            return daySlot && daySlot.time_slots || [];
+            const slots = daySlot && daySlot.time_slots || [];
+            return slots.filter(slot => {
+                const time = slot.time.split(':').slice(0, 2).join(':');
+                const bookedTables = bookedSlots[time];
+                return !(typeof bookedTables == 'number' && bookedTables >= number_of_tables);
+            })
+        },
+        numbers(){
+            const { number_of_tables, number_of_people_per_table } = this.store;
+            const selectedDate = this.booking.date ? dateToStringValue(this.booking.date) : null;
+            const bookedSlots = (this.bookedSlots[selectedDate] || {}).slots || {};
+            const time = (this.booking.time || '').split(':').slice(0, 2).join(':');
+            const bookedTables = bookedSlots[time] || 0;
+            console.log('bookedTables', bookedTables)
+            const remaningTables = (number_of_tables || 10) - bookedTables;
+            const max = remaningTables * (number_of_people_per_table || 4);
+            return '-'.repeat(max).split('').map((c, i) => {
+                const n = i + 1;
+                return {
+                    value: 'n' + (i + 1).toString() + 'n',
+                    label: n == 1 ? '1 Person' : `${n} Persons`
+                }
+            })
         }
     },
     data: () => ({
         disabledDates: {},
         slots: new Map(),
         timeSelectKey: 1,
-        numbers: '-'.repeat(50).split('').map((c, i) => {
-            const n = i + 1;
-            return {
-                value: 'n' + (i + 1).toString() + 'n',
-                label: n == 1 ? '1 Person' : `${n} Persons`
-            }
-        }),
         booking: null
     }),
     watch: {
@@ -108,6 +132,12 @@ export default {
             immediate: true,
             handler(){
                 this.updateSlotsMap();
+                this.updateDisabledDays();
+            }
+        },
+        bookedSlots: {
+            immediate: false,
+            handler(){
                 this.updateDisabledDays();
             }
         },
@@ -130,7 +160,23 @@ export default {
                 const si = this.bookingSlots.findIndex(s => s.day == day);
                 if(si == -1) disabledDays.push(index);
             })
+
+            const disabledDates = [];
+            const bookedDates = Object.entries(this.bookedSlots);
+            const len = bookedDates.length;
+            for(let i = 0; i < len; i++){
+                const [ date, props ] = bookedDates[i];
+                if(props.isFull){
+                    disabledDates.push(new Date(date));
+                }
+            }
+
+
             this.disabledDates.days = disabledDays;
+            this.disabledDates.dates = disabledDates;
+        },
+        onMonthChanged(event){
+            this.$emit('monthPageChanged', event);
         }
     },
     created(){
@@ -142,7 +188,8 @@ export default {
             this.disabledDates = {
                 to: yesterday,
                 from: laterDate,
-                days: this.disabledDates.days || Array.from(Interfaces.Days.keys())
+                days: this.disabledDates.days || Array.from(Interfaces.Days.keys()),
+                dates: this.disabledDates.dates || []
             }
         }
     },

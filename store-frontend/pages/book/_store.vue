@@ -19,7 +19,7 @@
                     <div class="card-col">
                         <vs-card>
                             <template #text>
-                                <BookingOptions :store="store" v-model="booking" :loading="loading" />
+                                <BookingOptions :store="store" :bookedSlots="bookedSlots" v-model="booking" :loading="loading" @monthPageChanged="monthPageChanged" />
                                 <vs-button @click="bookClick" :loading="loading" :disabled="!booking.time" class="book-button" size="large">Book</vs-button>
                             </template>
                         </vs-card>
@@ -32,7 +32,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
+    computed: mapState({
+        number_of_tables: state => state.activeStore.number_of_tables,
+        store_id: state => state.activeStore.id
+    }),
     asyncData(ctx){
         return {
             store: ctx.$appService.getStoreBySlug(ctx.params.store)
@@ -46,6 +51,7 @@ export default {
             time: '',
             number_of_persons: 'n2n',
         },
+        bookedSlots: {}
     }),
     methods: {
         bookClick(){
@@ -73,7 +79,32 @@ export default {
                 number_of_persons: 'n2n',
                 category: 'dinner'
             }
+        },
+        async loadBookedSlots(monthDate){
+            const d = monthDate;
+            const mm = ('0' + (d.getMonth()+1).toString()).substr(-2);
+            const month = `${d.getFullYear()}-${mm}`;
+            const number_of_tables = this.number_of_tables || 99999;
+            const bookedSlots = await this.$strapi.find('booking/booked-slots/' + month, { store_id: this.store_id });
+            const map = {};
+            const len = bookedSlots.length;
+            for(let i = 0; i < len; i++){
+                const { date, time, tables } = bookedSlots[i];
+                const dayslot = map[date] || (map[date] = { isFull: true, slots: {} });
+                dayslot.slots[time] = tables;
+                if(tables < number_of_tables){
+                    dayslot.isFull = false;
+                }
+            }
+            console.log(map);
+            this.bookedSlots = map;
+        },
+        monthPageChanged(date){
+            this.loadBookedSlots(date)
         }
+    },
+    mounted(){
+        this.loadBookedSlots(new Date())
     }
 }
 </script>

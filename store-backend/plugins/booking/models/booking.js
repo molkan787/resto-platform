@@ -14,8 +14,21 @@ module.exports = {
         beforeUpdate(params, data){
             return fillCustomerData(data);
         },
-        afterCreate(data){
+        async afterCreate(data){
             strapi.services.notifier.sendBookingConfirmation(data.owner, data);
+            await strapi.plugins.booking.services.bookedslots.addBooking(data);
+        },
+        async beforeUpdate(params, data){
+            const booking = await strapi.query('booking', 'booking').findOne(params);
+            const currentStatus = booking.status;
+            const newStatus = data.status;
+            if(currentStatus !== newStatus){
+                if(newStatus === 'booked'){
+                    await strapi.plugins.booking.services.bookedslots.addBooking(booking);
+                }else if(newStatus === 'canceled'){
+                    await strapi.plugins.booking.services.bookedslots.removeBooking(booking);
+                }
+            }
         }
     }
 

@@ -39,6 +39,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/booked-slots/:month",
+      "handler": "bookedslots.getBookedSlots",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

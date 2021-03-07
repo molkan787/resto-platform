@@ -42,6 +42,16 @@
       "repeatable": false,
       "component": "common.week-timing",
       "required": true
+    },
+    "number_of_tables": {
+      "type": "integer",
+      "min": 1,
+      "default": 25
+    },
+    "number_of_people_per_table": {
+      "type": "integer",
+      "default": 4,
+      "min": 1
     }
   }
 }

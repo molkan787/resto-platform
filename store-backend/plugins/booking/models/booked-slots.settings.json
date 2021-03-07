@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "booked_slots",
+  "info": {
+    "name": "booked-slots",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false,
+    "timestamps": false,
+    "increments": false,
+    "comment": ""
+  },
+  "attributes": {
+    "date": {
+      "type": "date",
+      "index": true
+    },
+    "time": {
+      "type": "time"
+    },
+    "tables": {
+      "type": "integer"
+    },
+    "store_id": {
+      "type": "string",
+      "index": true
+    }
+  }
+}
