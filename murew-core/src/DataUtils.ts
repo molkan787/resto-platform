@@ -11,3 +11,13 @@ export function arrayToMap<T>(array: T[], key: keyof T): Map<String, T> {
     }
     return map;
 }
+
+export function arrayToObjectMap<T>(array: T[], key: keyof T): {[key: string]: T} {
+    const map: any = {};
+    const len = array.length;
+    for(let i = 0; i < len; i++) {
+        const item = array[i];
+        map[item[key]] = item;
+    }
+    return map;
+}

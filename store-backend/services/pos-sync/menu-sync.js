@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { OfferGetType } = require('murew-core/dist/interfaces/Offer');
-const { off } = require('strapi-utils/lib/logger');
 
 module.exports = class MurewMenuSync{
 

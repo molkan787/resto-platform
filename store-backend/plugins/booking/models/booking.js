@@ -9,10 +9,10 @@ module.exports = {
 
     lifecycles: {
         beforeCreate(data){
-            return fillCustomerData(data);
+            return fillAdditionalBookingData(data, true);
         },
         beforeUpdate(params, data){
-            return fillCustomerData(data);
+            return fillAdditionalBookingData(data);
         },
         async afterCreate(data){
             strapi.services.notifier.sendBookingConfirmation(data.owner, data);
@@ -35,7 +35,7 @@ module.exports = {
 };
 
 
-async function fillCustomerData(data){
+async function fillAdditionalBookingData(data, assignRefNo){
     const { owner } = data;
     if(typeof owner == 'string' && owner.length > 10){
         const user = await strapi.query('user', 'users-permissions').findOne({ id: owner });
@@ -46,5 +46,8 @@ async function fillCustomerData(data){
         }
     }
     if(!data.status) data.status = 'booked';
+    if(assignRefNo){
+        data.no = await strapi.services.metadata.generateReferenceNumber('booking', 'NB');
+    }
     return data;
 }

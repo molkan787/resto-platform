@@ -2,8 +2,7 @@
 const { sanitizeEntity } = require('strapi-utils');
 const { MurewMenu } = require('../../../constants/murew');
 const BadRequestError = require('../../../errors/BadRequestError');
-const { generateOrderNumber } = require('../../../murew-core/utils/order');
-const { Interfaces, OfferUtils, Types, CartUtils } = require('murew-core');
+const { Interfaces, OfferUtils, Types, CartUtils, generateReferenceNumber } = require('murew-core');
 const { arrayToMap } = require('murew-core/dist/DataUtils');
 const { OrderType } = require('murew-core/dist/types');
 
@@ -210,13 +209,7 @@ module.exports = class PostOrderService{
     }
 
     static async generateOrderNumber(){
-        const doc = await strapi.query('metadata').model.findOneAndUpdate({}, {
-            $inc: {
-                order_no_pointer: 1
-            }
-        });
-        const { order_no_pointer } = doc;
-        return generateOrderNumber(order_no_pointer, 'N');
+        return await strapi.services.metadata.generateReferenceNumber('order', 'N');
     }
 
     /**

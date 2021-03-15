@@ -12,6 +12,10 @@
     "comment": ""
   },
   "attributes": {
+    "no": {
+      "type": "string",
+      "unique": true
+    },
     "store_id": {
       "type": "string",
       "index": true

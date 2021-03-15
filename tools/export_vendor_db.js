@@ -60,7 +60,8 @@ async function populateDefaultData(db){
     const metadataColl = db.collection('metadata');
     await metadataColl.updateOne({}, { 
         $set: {
-            order_no_pointer: 1
+            order_no_pointer: 1,
+            booking_no_pointer: 1
         }
     });
     const layoutSettingsColl = db.collection('layout_settings');

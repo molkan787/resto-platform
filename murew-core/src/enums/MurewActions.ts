@@ -8,4 +8,7 @@ export enum MurewActions{
     SyncStock = 'sync-stock',
     RequestBookingsList = 'request-bookings-list',
     SendBookingsList = 'send-bookings-list',
+    BookingsReceivedConfirmation = 'bookings-received-confirmation',
+    StartBookingsSyncingProcess = 'start-bookings-syncing-process',
+    SetBookingSlots = 'set-booking-slots',
 }

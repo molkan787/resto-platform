@@ -2,7 +2,9 @@ const MurewMenuSync = require("./menu-sync");
 const MurewStockSync = require("./stock-sync");
 const WebsocketServer = require("./websocket-server");
 const { MurewActions } = require('murew-core/dist/enums');
+const { generateReferenceNumber } = require('murew-core');
 const { sanitizeEntity } = require("strapi-utils/lib");
+const Time = require('../../utils/time');
 
 module.exports = class PosSyncService{
 
@@ -18,6 +20,7 @@ module.exports = class PosSyncService{
     init(httpServer){
         const server = this.server = new WebsocketServer(httpServer);
         server.on('message', (client, msg) => this.onMessage(client, msg));
+        // server.on('message', (_client, msg) => console.log(msg));
 
         // ---------- DEV ----------
         // server.on('client-connected', async (client) => {
@@ -38,19 +41,70 @@ module.exports = class PosSyncService{
             MurewStockSync.setStocks(data);
         }else if(action == MurewActions.RequestBookingsList){
             this.requestedBookingsList(client, data);
+        }else if(action == MurewActions.SendBookingsList){
+            this.gotUpdatedBookings(client, data);
+        }else if(action == MurewActions.SetBookingSlots){
+            this.setBookingSlots(client, data);
         }
     }
 
     // ----------------------------------------------------
 
-    async requestedBookingsList({ store_id }, { dates }){
+    async setBookingSlots({ store_id }, { booking_slots }){
+        const slots = booking_slots.filter(s => s.time_slots && s.time_slots.length > 0);
+        slots.forEach(slot => slot.time_slots = slot.time_slots.map(ts => ({ time: ts + ':00.000' })));
+        console.log('store_id', store_id)
+        await strapi.query('store').update({
+            id: store_id
+        },{
+            booking_slots: slots
+        });
+    }
+
+    async requestBookingsSyncing(){
+        this.sendAction(MurewActions.StartBookingsSyncingProcess, {});
+    }
+
+    async requestedBookingsList({ store_id }, { timestamp }){
         const query = strapi.query('booking', 'booking');
-        let bookings = await query.find({
+        const date = new Date(timestamp * 1000);
+        const now = Time.now();
+        let bookings = await query.model.find({
             store_id,
-            date_in: dates
+            updatedAt: {
+                $gte: date.toJSON()
+            }
         });
         bookings = bookings.map(b => sanitizeEntity(b, { model: query.model }));
-        this.sendAction(MurewActions.SendBookingsList, bookings);
+        this.sendAction(MurewActions.SendBookingsList, {
+            bookings,
+            timestamp: now
+        });
+    }
+
+    async gotUpdatedBookings({ store_id }, { bookings, timestamp }){
+        const { model } = strapi.query('booking', 'booking');
+        const nos = bookings.map(b => b.no);
+        const existingBookings = await model.find({ no: { $in: nos } });
+        const queries = bookings.map(booking => model.findOneAndUpdate(
+            {
+                no: booking.no
+            },
+            {
+                ...booking,
+                store_id
+            },
+            {
+                upsert: true,
+                new: true
+            }
+        ));
+        const upsertedBookings = await Promise.all(queries);
+        await strapi.plugins.booking.services.bookedslots.updateDiffrences(upsertedBookings, existingBookings);
+
+        this.sendAction(MurewActions.BookingsReceivedConfirmation, { 
+            timestamp
+        })
     }
 
     async setOrderStatus(data, action){

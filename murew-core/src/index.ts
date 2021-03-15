@@ -5,3 +5,4 @@ export * as DataUtils from './DataUtils';
 export * as TextUtils from './TextUtils';
 export * from './CartUtils';
 export * from './OfferUtils';
+export * from './CommonUtils';

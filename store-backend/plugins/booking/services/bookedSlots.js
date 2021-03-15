@@ -1,4 +1,5 @@
 'use strict';
+const { arrayToMap } = require("murew-core/dist/DataUtils");
 
 /**
  * bookedSlots.js service
@@ -75,6 +76,28 @@ module.exports = {
                 }
             )
         }
+    },
+
+    async updateDiffrences(bookings, existingBookings){
+        const tasks = [];
+        const ebmap = arrayToMap(existingBookings, 'no');
+        for(let b of bookings){
+            const eb = ebmap.get(b.no);
+            if(eb){
+                const { status: eStatus } = eb;
+                const { status: uStatus } = b;
+                if(eStatus !== uStatus){
+                    if(uStatus == 'booked'){
+                        tasks.push( this.addBooking(b) );
+                    }else{
+                        tasks.push( this.removeBooking(b) );
+                    }
+                }
+            }else{
+                tasks.push( this.addBooking(b) );
+            }
+        }
+        await Promise.all(tasks);
     }
 
 };

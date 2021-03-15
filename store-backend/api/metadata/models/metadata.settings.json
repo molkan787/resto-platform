@@ -2,7 +2,8 @@
   "kind": "singleType",
   "collectionName": "metadata",
   "info": {
-    "name": "metadata"
+    "name": "metadata",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -11,6 +12,9 @@
   },
   "attributes": {
     "order_no_pointer": {
+      "type": "integer"
+    },
+    "booking_no_pointer": {
       "type": "integer"
     }
   }
