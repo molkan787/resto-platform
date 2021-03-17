@@ -2,7 +2,7 @@
 const { sanitizeEntity } = require('strapi-utils');
 const { MurewMenu } = require('../../../constants/murew');
 const BadRequestError = require('../../../errors/BadRequestError');
-const { Interfaces, OfferUtils, Types, CartUtils, generateReferenceNumber } = require('murew-core');
+const { Interfaces, OfferUtils, Types, CartUtils } = require('murew-core');
 const { arrayToMap } = require('murew-core/dist/DataUtils');
 const { OrderType } = require('murew-core/dist/types');
 
@@ -14,9 +14,10 @@ module.exports = class PostOrderService{
      * @param {any} user 
      */
     static async createOrder(data, user){
-        const { cart, checkout, note, store_id, order_total } = data;
+        const { cart, checkout, note, store_id, order_total, payment_method } = data;
         const { delivery_address, offerOptions, preorder } = checkout;
         const { products: items, orderType: type, selectedOffer } = cart;
+        const isOnlinePayment = payment_method === 'online_card';
         this.validateData(data);
         const store = await strapi.query('store').findOne({ id: store_id, active: true });
         if(!store){
@@ -60,14 +61,14 @@ module.exports = class PostOrderService{
             store_id: store_id,
             type,
             products: orderItems,
-            status: 'placed',
+            status: 'pending',
             total: orderTotal,
             created_by: user.id,
             owner: user.id,
             menu: allHaveRemoteId ? MurewMenu.POS : MurewMenu.ONLINE,
             note,
             delivery_address: isDelivery ? delivery_address : {},
-            payment_method: 'cod',
+            payment_method: payment_method,
             attrs: {
                 delivery_cost: cart.delivery
             },
@@ -89,15 +90,54 @@ module.exports = class PostOrderService{
         const _order = await this.createOrderEntry(order);
         await this.alterStock(productsItems, -1);
 
+        const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
+        const response = {
+            order: sanitizedOrderData,
+            payment_intent: {
+                client_secret: ''
+            }
+        }
+        if(isOnlinePayment){
+            const paymentIntent = await strapi.services.payment.createPaymentIntent(_order);
+            response.payment_intent.client_secret = paymentIntent.client_secret;
+        }else{
+            await this.confirmPendingOrder(_order);
+        }
+
+        return response;
+    }
+
+    static async confirmOrderPayment(orderId){
+        const orderQuery = strapi.query('order');
+        const paymentQuery = strapi.query('payment');
+        const order = await orderQuery.findOne({ id: orderId });
+        const payment = await paymentQuery.findOne({ order_id: orderId });
+        if(!order) throw new Error('Order not found');
+        if(!payment) throw new Error('Payment not found');
+        if(order.status !== 'pending') throw new Error('Order already processed');
+        if(payment.status !== 'requires_payment_method') throw new Error('Payment already processed be confirmed');
+        const paymentSucceeded = await strapi.services.payment.confirmPayment(payment);
+        if(paymentSucceeded){
+            await this.confirmPendingOrder(order);
+        }
+        return {
+            success: paymentSucceeded
+        }
+    }
+
+    static async confirmPendingOrder(order){
+        if(typeof order == 'string'){
+            order = await strapi.query('order').findOne({ id: order });
+        }
+        await strapi.query('order').update({ id: order.id }, { status: 'placed' });
+        order.status = 'placed';
+        const sanitizedOrderData = sanitizeEntity(order, { model: strapi.models.order });
         try {
-            await strapi.services.notifier.sendOrderStatusUpdate(user, _order);
+            strapi.services.posSyncService.sendOrder(sanitizedOrderData);
+            await strapi.services.notifier.sendOrderStatusUpdate(user, order);
         } catch (error) {
             console.error(error);
         }
-
-        const sanitizedOrderData = sanitizeEntity(_order, { model: strapi.models.order });
-        strapi.services.posSyncService.sendOrder(sanitizedOrderData);
-        return sanitizedOrderData;
     }
 
     static createOrderEntry(order){
@@ -217,9 +257,12 @@ module.exports = class PostOrderService{
      * @param {Interfaces.PostOrderDTO} data 
      */
     static validateData(data){
-        const { cart, checkout } = data;
+        const { cart, checkout, payment_method } = data;
         const { delivery_address } = checkout;
         const { products, orderType } = cart;
+        if(!['cod', 'online_card'].includes(payment_method)){
+            throw new BadRequestError(`Invalid payment method "${payment_method}"`);
+        }
         if(!['delivery', 'collection'].includes(orderType)){
             throw new BadRequestError(`Invalid order type "${orderType}"`);
         }

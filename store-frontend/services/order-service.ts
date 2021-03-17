@@ -13,11 +13,16 @@ export class OrderService extends Service{
             order_total: this.getters.orderTotal,
             cart: cart,
             note,
-            checkout
+            checkout,
+            payment_method: paymentMethod
         }
         const resp = await this.$strapi.$http.$post('/postorder', orderData);
-        this.state.cart.products = {};
         return resp;
+    }
+
+    async confirmOrderPayment(orderId: string){
+        const { success } = await this.$strapi.$http.$post(`/confirm_order_payment/${orderId}`, {});
+        return success;
     }
 
 }

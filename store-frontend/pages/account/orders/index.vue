@@ -44,6 +44,7 @@ export default {
     async asyncData({ $strapi }) {
         const orders = await $strapi.find("orders", {
             _sort: "id:DESC",
+            status_ne: 'pending'
         });
         return {
             orders,

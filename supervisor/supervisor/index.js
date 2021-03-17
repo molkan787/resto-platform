@@ -64,6 +64,7 @@ module.exports = class MurewSupervisor{
             frontend: frontendPort,
             backend: backendPort
         }, [
+            `VENDOR_ID=${appId}`,
             `DATABASE_URI=${DB_URI}`,
             'HOST=0.0.0.0',
             `BACKEND_URL=${backendUrl}`,

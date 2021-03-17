@@ -14,6 +14,7 @@
     "status": {
       "type": "enumeration",
       "enum": [
+        "pending",
         "placed",
         "confirmed",
         "canceled",

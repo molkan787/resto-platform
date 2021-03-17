@@ -12,6 +12,9 @@ export const strict = false;
 
 export const state = () => ({
     appName: 'Murew',
+    paymentSettings: {
+        stripePk: 'pk_test_e5779kyCYCS0VBUYj8WfQrxO'
+    },
     activeStore: <Store | null>null,
     stores: <Store[]>[],
     layoutSettings: <LayoutSettings>{},

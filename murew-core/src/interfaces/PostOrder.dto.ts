@@ -7,4 +7,5 @@ export interface PostOrderDTO{
     cart: Cart;
     note: string;
     checkout: Checkout;
+    payment_method: string;
 }

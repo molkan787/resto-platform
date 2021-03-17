@@ -9,9 +9,9 @@
       }
     },
     {
-      "method": "PUT",
-      "path": "/postorder/:id",
-      "handler": "postorder.editOrder",
+      "method": "POST",
+      "path": "/confirm_order_payment/:order_id",
+      "handler": "postorder.confirmOrderPayment",
       "config": {
         "policies": []
       }

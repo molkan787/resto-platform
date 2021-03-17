@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/strapi": "^0.1.8",
+    "@stripe/stripe-js": "^1.13.1",
     "boxicons": "^2.0.7",
     "core-js": "^3.6.5",
     "debounce": "^1.2.0",

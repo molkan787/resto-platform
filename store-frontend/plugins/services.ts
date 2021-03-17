@@ -7,6 +7,7 @@ import { DataService } from '~/services/data-service';
 import { DeliveryService } from '~/services/delivery-service';
 import { OfferService } from '~/services/offer-service';
 import { OrderService } from '~/services/order-service';
+import { PaymentService } from '~/services/payment-service';
 
 declare module '@nuxt/types'{
     interface Context{
@@ -17,6 +18,7 @@ declare module '@nuxt/types'{
         $appService: AppService;
         $deliveryService: DeliveryService;
         $offerService: OfferService;
+        $paymentService: PaymentService;
         $strapi: Strapi;
         $device: any;
     }
@@ -31,6 +33,7 @@ declare module 'vue/types/vue'{
         $appService: AppService;
         $deliveryService: DeliveryService;
         $offerService: OfferService;
+        $paymentService: PaymentService;
     }
 }
 
@@ -42,6 +45,7 @@ const ServicesPlugin: Plugin = (context, inject) => {
     context.$appService = new AppService(context);
     context.$deliveryService = new DeliveryService(context);
     context.$offerService = new OfferService(context);
+    context.$paymentService = new PaymentService(context);
     inject('cartService', context.$cartService);
     inject('dataService', context.$dataService);
     inject('orderService', context.$orderService);
@@ -49,6 +53,7 @@ const ServicesPlugin: Plugin = (context, inject) => {
     inject('appService', context.$appService);
     inject('deliveryService', context.$deliveryService);
     inject('offerService', context.$offerService);
+    inject('paymentService', context.$paymentService);
 }
 
 export default ServicesPlugin;

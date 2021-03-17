@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "name": "payment",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "type": {
+      "type": "string",
+      "required": true
+    },
+    "order_id": {
+      "type": "string",
+      "required": true
+    },
+    "payment_intent_id": {
+      "type": "string",
+      "required": true
+    },
+    "status": {
+      "type": "string",
+      "required": true
+    },
+    "amount": {
+      "type": "integer",
+      "required": true
+    },
+    "currency": {
+      "type": "string",
+      "required": true
+    },
+    "client_secret": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

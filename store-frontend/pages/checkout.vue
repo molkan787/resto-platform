@@ -37,10 +37,18 @@
                             <h2>Payment method</h2>
                         </template>
                         <template #text>
-                            <div class="form">
-                                <vs-radio :disabled="loading" v-model="paymentMethod" val="cod">
-                                    {{ orderType == 'delivery' ? 'Pay on Delivery' : 'Pay on Pickup' }}
-                                </vs-radio>
+                            <div class="form payment-methods">
+                                <div>
+                                    <vs-radio :disabled="loading" v-model="paymentMethod" val="cod">
+                                        {{ orderType == 'delivery' ? 'Pay on Delivery' : 'Pay on Pickup' }}
+                                    </vs-radio>
+                                </div>
+                                <div>
+                                    <vs-radio :disabled="loading" v-model="paymentMethod" val="online_card">
+                                        Credit/Debit Card
+                                    </vs-radio>
+                                </div>
+                                <div></div>
                             </div>
                             <br>
                             <h3>Discount code</h3>
@@ -65,8 +73,20 @@
                         </template>
                     </vs-card>
                     <div class="sepa" />
-                    <vs-button @click="checkoutClick" :loading="loading" size="xl" block :disabled="!canPostOrder">
-                        <b>Checkout</b> &nbsp;
+                    <vs-card v-if="paymentMethod == 'online_card'">
+                        <template #title>
+                            <h2>Payment details</h2>
+                        </template>
+                        <template #text>
+                            <div class="sepa" />
+                            <label>Card information</label>
+                            <div class="sepa" />
+                            <CardForm :state="cardFormState" />
+                            <div class="sepa" />
+                        </template>
+                    </vs-card>
+                    <vs-button @click="checkoutClick" :loading="loading" size="xl" block :disabled="!canPostOrder || (paymentMethod == 'online_card' && !cardFormState.ready)">
+                        <b>{{ paymentMethod == 'online_card' ? 'Pay & Submit order' : 'Checkout' }}</b> &nbsp;
                         <span style="opacity: 0.9">( Total: {{ orderTotal | price }} )</span>
                     </vs-button>
                 </div>
@@ -94,25 +114,60 @@ export default {
     },
     data: () => ({
         loading: false,
-        paymentMethod: 'cod',
         note: '',
+        paymentMethod: 'cod',
+        cardFormState: {
+            card: null,
+            ready: false,
+            error: null
+        }
     }),
     methods: {
         async checkoutClick(){
             if(this.validateForms()){
                 this.loading = true;
                 try {
+                    const paymentMethod = this.paymentMethod;
                     const resp = await this.$orderService.postOrder({
-                        paymentMethod: this.paymentMethod,
+                        paymentMethod: paymentMethod,
                         note: this.note
                     });
-                    this.redirectToOrderPage(resp.order);
+                    let paymentSuccess = false;
+                    if(paymentMethod == 'online_card'){
+                        paymentSuccess = await this.submitPayment(resp.payment_intent);
+                        paymentSuccess = await this.$orderService.confirmOrderPayment(resp.order.id);
+                    }else{
+                        paymentSuccess = true;
+                    }
+                    if(paymentSuccess){
+                        this.$cartService.clearCart();
+                        this.redirectToOrderPage(resp.order);
+                    }
                 } catch (error) {
                     console.error(error);
                     alert('An error occured, Please make sure you are connected to the internet.');
                 }
                 this.loading = false;
             }
+        },
+        async submitPayment(paymentIntent){
+            const { client_secret } = paymentIntent;
+            if(!client_secret) throw 'Missing client_secret in PaymentIntent';
+            const stripe = await this.$paymentService.getStripe();
+            const result = await stripe.confirmCardPayment(client_secret, {
+                payment_method: {
+                    card: this.cardFormState.card,
+                    billing_details: {
+                        name: this.$strapi.user.fullname
+                    }
+                }
+            });
+            if(result.error){
+                alert(result.error.message, 'Payment failed');
+            }else if(result.paymentIntent.status === 'succeeded'){
+                return true;
+            }
+            return false;
         },
         validateForms(){
             if(this.orderType == 'delivery'){
@@ -175,6 +230,10 @@ export default {
     .offer-selector-wrapper{
         padding: 1rem 1rem 1rem 0;
         text-align: left;
+    }
+    .payment-methods{
+        display: flex;
+        flex-direction: row;
     }
 }
 </style>
