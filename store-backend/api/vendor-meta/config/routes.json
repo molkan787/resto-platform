@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/vendor-meta",
+      "handler": "vendor-meta.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/vendor-meta",
+      "handler": "vendor-meta.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/vendor-meta",
+      "handler": "vendor-meta.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

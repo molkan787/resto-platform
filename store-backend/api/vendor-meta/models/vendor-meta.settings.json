@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "vendor_metas",
+  "info": {
+    "name": "vendor_meta",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "stripe_connected_account_id": {
+      "type": "string"
+    },
+    "stripe_connected_account_email": {
+      "type": "string"
+    },
+    "stripe_connected_account_ready": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

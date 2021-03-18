@@ -1,0 +1,36 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/state",
+      "handler": "stripe-connect.getStripeState",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/create-account-link",
+      "handler": "stripe-connect.createAccountLink",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/update-connected-account-status",
+      "handler": "stripe-connect.updateConnectedAccountStatus",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/disconnect-account",
+      "handler": "stripe-connect.disconnectAccount",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
