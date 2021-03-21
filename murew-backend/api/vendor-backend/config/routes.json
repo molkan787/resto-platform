@@ -1,0 +1,13 @@
+{
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/vendor_backend/:vendor_id",
+        "handler": "vendor-backend.index",
+        "config": {
+          "policies": []
+        }
+      }
+    ]
+  }
+  

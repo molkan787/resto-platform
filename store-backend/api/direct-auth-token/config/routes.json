@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/direct-auth/:token",
+      "handler": "direct-auth-token.auth",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

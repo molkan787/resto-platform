@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/platform-paid-amounts",
+      "handler": "platform-paid-amounts.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/platform-paid-amounts/count",
+      "handler": "platform-paid-amounts.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/platform-paid-amounts/:id",
+      "handler": "platform-paid-amounts.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/platform-paid-amounts",
+      "handler": "platform-paid-amounts.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/platform-paid-amounts/:id",
+      "handler": "platform-paid-amounts.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/platform-paid-amounts/:id",
+      "handler": "platform-paid-amounts.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/add-paid-amounts",
+      "handler": "platform-paid-amounts.test",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

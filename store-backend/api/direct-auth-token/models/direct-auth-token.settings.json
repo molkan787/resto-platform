@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "direct_auth_tokens",
+  "info": {
+    "name": "direct_auth_token"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "token": {
+      "type": "string"
+    },
+    "user_email": {
+      "type": "string"
+    }
+  }
+}

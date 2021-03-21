@@ -1,10 +1,9 @@
 'use strict';
 
-const stripe = require('stripe')('sk_test_4LCSqX9JvZ6nHYNB0yVlnUYi');
-
 module.exports = {
 
     async createAccountLink({ refresh_url, return_url }){
+        const stripe = await strapi.services.stripe.getInstance();
         const account = await stripe.accounts.create({
             type: 'express',
         });
@@ -38,6 +37,7 @@ module.exports = {
         if(typeof stripe_connected_account_id !== 'string'){
             throw new Error('No account id found');
         }
+        const stripe = await strapi.services.stripe.getInstance();
         const account = await stripe.accounts.retrieve(stripe_connected_account_id);
         const { details_submitted, charges_enabled, email } = account;
         const isReady = !!(details_submitted && charges_enabled);

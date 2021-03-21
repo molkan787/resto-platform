@@ -15,6 +15,7 @@ module.exports = {
         },
         async afterCreate(vendor){
             try {
+                await setVendorPlanInSharedDb(vendor);
                 const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
                 const { data } = await axios.post('http://localhost:1323/create-vendor-app', { app: sanitizedVendor });
                 const { adminRegistrationUrl } = data;
@@ -30,9 +31,27 @@ module.exports = {
         async afterDelete(vendor){
             const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
             await axios.post('http://localhost:1323/destroy-vendor-app', { app: sanitizedVendor });
+        },
+        async afterUpdate(vendor){
+            await setVendorPlanInSharedDb(vendor);
         }
     }
 };
+
+async function setVendorPlanInSharedDb(vendor){
+    const { id, plan_type, fee_amount } = vendor;
+    const db = await strapi.services.shareddb.getDb();
+    await db.collection('vendor_plans').updateOne({
+        _id: id
+    }, {
+        $set: {
+            plan: plan_type,
+            amount: fee_amount
+        }
+    }, {
+        upsert: true
+    });
+}
 
 async function generatePortPointer(){
     const doc = await strapi.query('metadata').model.findOneAndUpdate({}, {

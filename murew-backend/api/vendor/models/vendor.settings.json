@@ -27,6 +27,21 @@
     },
     "registration_url": {
       "type": "string"
+    },
+    "plan_type": {
+      "type": "enumeration",
+      "enum": [
+        "monthly_fee",
+        "percentage"
+      ],
+      "default": "monthly_fee",
+      "required": true
+    },
+    "fee_amount": {
+      "type": "decimal",
+      "default": 0,
+      "required": true,
+      "min": 0
     }
   }
 }

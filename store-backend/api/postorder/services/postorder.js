@@ -134,7 +134,7 @@ module.exports = class PostOrderService{
         const sanitizedOrderData = sanitizeEntity(order, { model: strapi.models.order });
         try {
             strapi.services.posSyncService.sendOrder(sanitizedOrderData);
-            await strapi.services.notifier.sendOrderStatusUpdate(user, order);
+            await strapi.services.notifier.sendOrderStatusUpdate(order.owner, order);
         } catch (error) {
             console.error(error);
         }

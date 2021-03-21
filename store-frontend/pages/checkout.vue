@@ -43,7 +43,7 @@
                                         {{ orderType == 'delivery' ? 'Pay on Delivery' : 'Pay on Pickup' }}
                                     </vs-radio>
                                 </div>
-                                <div>
+                                <div v-if="stripe_enabled">
                                     <vs-radio :disabled="loading" v-model="paymentMethod" val="online_card">
                                         Credit/Debit Card
                                     </vs-radio>
@@ -109,7 +109,8 @@ export default {
             addressForm: state => state.checkout.delivery_address,
             eligibleOffers: state => state.eligibleOffers,
             fetchState: state => state.fetchState,
-            enable_preorders: state => state.storeSettings.enable_preorders
+            enable_preorders: state => state.storeSettings.enable_preorders,
+            stripe_enabled: state => state.paymentSettings.stripe_enabled
         })
     },
     data: () => ({

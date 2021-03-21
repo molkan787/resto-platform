@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "platform_paid_amounts",
+  "info": {
+    "name": "platform_paid_amounts"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "month": {
+      "type": "string",
+      "unique": true,
+      "required": true,
+      "index": true
+    },
+    "paid_amount": {
+      "type": "decimal"
+    }
+  }
+}

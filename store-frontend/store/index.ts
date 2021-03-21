@@ -13,7 +13,8 @@ export const strict = false;
 export const state = () => ({
     appName: 'Murew',
     paymentSettings: {
-        stripePk: 'pk_test_e5779kyCYCS0VBUYj8WfQrxO'
+        stripePk: '',
+        stripe_enabled: false
     },
     activeStore: <Store | null>null,
     stores: <Store[]>[],
@@ -96,10 +97,11 @@ export const actions = {
             const { prefixUrl } = $strapi.$http._defaults;
             await Promise.all([
                 $strapi.find('stores', { active: true }).then(stores => state.stores = stores),
-                $strapi.find('public/frontend-settings').then(({ layout, store, pages }: any) => {
+                $strapi.find('public/frontend-settings').then(({ layout, store, payment_settings, pages }: any) => {
                     layout.website_logo = `${prefixUrl}/files/${layout.website_logo}`;
                     state.layoutSettings = layout;
                     state.storeSettings = store;
+                    state.paymentSettings = payment_settings;
                     state.pages = pages;
                     bootstrap(state);
                 })

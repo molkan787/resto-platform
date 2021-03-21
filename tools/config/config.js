@@ -12,7 +12,8 @@ const DATA_COLLECTIONS = [
     'public_menus',
     'users-permissions_user',
     'offers',
-    'bookings'
+    'bookings',
+    'payments'
 ];
 
 const SUPER_ADMIN_ROLE_CODE = 'strapi-super-admin';

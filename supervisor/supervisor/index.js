@@ -83,8 +83,12 @@ module.exports = class MurewSupervisor{
     async createVendorDB(appId){
         const { dbName, dbUser, dbPwd } = this._getDbInfo(appId);
         const db = this.mongoClient.db(dbName);
+        const sharedDb = this.mongoClient.db('murew-shared');
         await db.addUser(dbUser, dbPwd, {
             roles: [ "readWrite", "dbAdmin" ]
+        });
+        await sharedDb.addUser(dbUser, dbPwd, {
+            roles: [ "read" ]
         });
         await this.importDbData(appId);
     }

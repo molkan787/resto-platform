@@ -73,7 +73,7 @@ async function populateDefaultData(db){
     });
     const adminsColl = db.collection('strapi_administrator');
     await adminsColl.deleteMany({
-        email: { $ne: 'worw787@gmail.com' }
+        email: { $nin: ['worw787@gmail.com', 'platform@muerw.xyz'] }
     });
 }
 
