@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/stripe-settings",
+      "handler": "stripe-settings.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/stripe-settings",
+      "handler": "stripe-settings.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/stripe-settings",
+      "handler": "stripe-settings.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
