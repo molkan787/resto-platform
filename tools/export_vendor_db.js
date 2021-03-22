@@ -75,6 +75,13 @@ async function populateDefaultData(db){
     await adminsColl.deleteMany({
         email: { $nin: ['worw787@gmail.com', 'platform@muerw.xyz'] }
     });
+    const vendorMetasColl = db.collection('vendor_metas');
+    await vendorMetasColl.deleteMany({});
+    await vendorMetasColl.insertOne({
+        stripe_connected_account_id: null,
+        stripe_connected_account_email: null,
+        stripe_connected_account_ready: false
+    })
 }
 
 /**

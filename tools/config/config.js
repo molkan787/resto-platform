@@ -16,7 +16,6 @@ const DATA_COLLECTIONS = [
     'payments',
     'direct_auth_tokens',
     'platform_paid_amounts',
-    'vendor_metas',
     'reviews'
 ];
 
