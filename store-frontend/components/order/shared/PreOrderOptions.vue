@@ -1,6 +1,9 @@
 <template>
     <div class="preorder-options">
-        <vs-checkbox v-model="preorder.enabled" class="enable-checkbox">Preorder for later?</vs-checkbox>
+        <vs-checkbox v-model="preorder.enabled" :disabled="!isStoreOpen" class="enable-checkbox">Preorder for later?</vs-checkbox>
+        <vs-alert v-if="!isStoreOpen">
+            The restaurant is currently closed, You can only pre order.
+        </vs-alert>
         <div v-if="preorder.enabled" class="options">
             <client-only>
                 <Datepicker
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { TextUtils, Interfaces } from 'murew-core';
 export default {
     computed: {
@@ -38,6 +41,7 @@ export default {
             activeStore: state => state.activeStore,
             preorder: state => state.checkout.preorder
         }),
+        ...mapGetters(['isStoreOpen']),
         openingDays(){
             const s = this.activeStore;
             return (s && s.opening_hours) || {}
@@ -81,6 +85,14 @@ export default {
         'preorder.date'(){
             this.preorder.time = '';
             this.timeSelectKey++;
+        },
+        isStoreOpen: {
+            immediate: true,
+            handler(val){
+                if(!val){
+                    this.preorder.enabled = true;
+                }
+            }
         }
     },
     methods: {

@@ -37,6 +37,8 @@ export class AppService extends Service{
         if(process.env.NODE_ENV == 'development' && process.client){
             // @ts-ignore
             window.state = this.state;
+            // @ts-ignore
+            window.getters = context.store.getters;
         }
     }
 

@@ -1,6 +1,11 @@
 <template>
     <div class="store-info">
-        <h1>{{ $store.state.appName }} - {{ storeName | capitalize }}</h1>
+        <h1>
+            {{ storeName | capitalize }}
+            <span class="status" :class="{ closed: !isOpen }">
+                {{ isOpen ? '( CURRENTLY OPEN )' : 'CURRENTLY CLOSED (Pre order only)' }}
+            </span>
+        </h1>
         <p>
         {{ address }}
         </p>
@@ -8,6 +13,7 @@
 </template>
 
 <script>
+import { isStoreOpen } from '~/store';
 export default {
     props: {
         store: {
@@ -16,6 +22,9 @@ export default {
         }
     },
     computed: {
+        isOpen(){
+            return isStoreOpen(this.store, new Date());
+        },
         storeName(){
             return this.store.name;
         },
@@ -33,10 +42,21 @@ export default {
 .store-info{
     padding: 1rem;
     h1{
-      color: rgba(var(--vs-primary), 1);
+        color: rgba(var(--vs-primary), 1);
+        .status{
+            float: right;
+            display: inline-block;
+            font-size: 1.2rem;
+            color: #545454;
+            padding-left: .2rem;
+            transform: translateY(5px);
+            &.closed{
+                color: rgba(var(--vs-danger), 1);
+            }
+        }
     }
     p{
-      white-space: pre-line;
+        white-space: pre-line;
     }
 }
 </style>

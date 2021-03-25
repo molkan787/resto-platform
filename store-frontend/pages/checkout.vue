@@ -67,6 +67,7 @@
                             </div>
 
                             <div v-if="enable_preorders">
+                                <br>
                                 <PreOrderOptions />
                             </div>
 
@@ -98,6 +99,7 @@
                 <Cart :showOrderButton="false" />
             </div>
         </div>
+        <FloatingCart v-if="isMobile" :showOrderButton="false" />
     </Page>
 </template>
 

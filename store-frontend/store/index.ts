@@ -7,6 +7,7 @@ import { StoreSettings } from '~/interfaces/StoreSettings';
 import { Cart, Checkout, DateTimeSlot, Offer, Product } from 'murew-core/dist/interfaces';
 import { CartUtils, OfferUtils } from 'murew-core';
 import { OrderType } from 'murew-core/dist/types';
+import { getDayNameFromDate } from 'murew-core/dist/TextUtils';
 
 export const strict = false;
 
@@ -87,6 +88,11 @@ export const getters = {
         const { selectedOffer } = state.cart;
         const index = state.offers.findIndex(o => o.id === selectedOffer);
         return state.offers[index] || null;
+    },
+    isStoreOpen: (state: State) => {
+        const s = state.activeStore;
+        if(!s) return null;
+        return isStoreOpen(s, new Date());
     }
 }
 
@@ -119,4 +125,25 @@ export function bootstrap(state: State) {
     }else if(!enable_pickup_orders){
         state.cart.orderType = OrderType.Delivery;
     }
+}
+
+export function isStoreOpen(store: Store, currentTime: Date){
+    const s = store;
+    const now = currentTime;
+    const day = getDayNameFromDate(now).toLowerCase();
+    const opening_shifts = (s.opening_hours || {})[day] || [];
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+    for(let shift of opening_shifts){
+        const { opens_at, closes_at } = shift;
+        const [openHour, openMinute] = opens_at.split(':').map((p: string) => parseInt(p));
+        const [closeHour, closeMinute] = closes_at.split(':').map((p: string) => parseInt(p));
+        if(
+            ( hour > openHour || ( hour == openHour && minute >= openMinute ) ) &&
+            ( hour < closeHour || ( hour == closeHour && minute < closeMinute ) )
+        ){
+            return true;
+        }
+    }
+    return false;
 }

@@ -6,13 +6,19 @@
             not-close
             not-padding
         >
-            <Cart flat fluid />
+            <Cart flat fluid :showOrderButton="showOrderButton" />
         </vs-dialog>
     </div>
 </template>
 
 <script>
 export default {
+    props: {
+        showOrderButton: {
+            type: Boolean,
+            default: true
+        }
+    },
     data: () => ({
         open: false
     }),
