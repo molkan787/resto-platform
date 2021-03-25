@@ -3,7 +3,7 @@
         <h1>
             {{ storeName | capitalize }}
             <span class="status" :class="{ closed: !isOpen }">
-                {{ isOpen ? '( CURRENTLY OPEN )' : 'CURRENTLY CLOSED (PRE ORDERS ONLY)' }}
+                {{ statusText }}
             </span>
         </h1>
         <p>
@@ -14,6 +14,7 @@
 
 <script>
 import { isStoreOpen } from '~/store';
+import { mapState } from 'vuex';
 export default {
     props: {
         store: {
@@ -22,8 +23,20 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            enable_preorders: state => state.storeSettings.enable_preorders
+        }),
         isOpen(){
             return isStoreOpen(this.store, new Date());
+        },
+        statusText(){
+            if(this.isOpen){
+                return 'CURRENTLY OPEN';
+            }else if(this.enable_preorders){
+                return 'CURRENTLY CLOSED (PRE ORDERS ONLY)';
+            }else{
+                return 'CURRENTLY CLOSED';
+            }
         },
         storeName(){
             return this.store.name;
