@@ -16,6 +16,12 @@
                                         <vs-input :disabled="loading" v-model="addressForm.line2" placeholder="Address line 2"/>
                                         <vs-input :disabled="loading" v-model="addressForm.city" placeholder="City"/>
                                     </div>
+                                    <div v-if="!isDeliveryWithinRange">
+                                        <br>
+                                        <vs-alert color="warn">
+                                            We're sorry but we don't cover your delivery area.
+                                        </vs-alert>
+                                    </div>
                                 </template>
                             </vs-card>
                             <div class="sepa" />
@@ -107,7 +113,7 @@
 import { mapState, mapGetters } from 'vuex';
 export default {
     computed: {
-        ...mapGetters(['canPostOrder', 'orderTotal', 'selectedOffer']),
+        ...mapGetters(['canPostOrder', 'orderTotal', 'selectedOffer', 'isDeliveryWithinRange']),
         ...mapState({
             orderType: state => state.cart.orderType,
             checkout: state => state.checkout,
@@ -115,7 +121,7 @@ export default {
             eligibleOffers: state => state.eligibleOffers,
             fetchState: state => state.fetchState,
             enable_preorders: state => state.storeSettings.enable_preorders,
-            stripe_enabled: state => state.paymentSettings.stripe_enabled
+            stripe_enabled: state => state.paymentSettings.stripe_enabled,
         }),
         user(){
             return this.$strapi.user;

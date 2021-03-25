@@ -32,6 +32,7 @@ export class DeliveryService extends Service {
         const deliveryPostcode = this.getDeliveryPostcode();
         const distance = await this.getDeliveryDistance(deliveryPostcode);
         const { free_delivery_maximum_distance, delivery_cost } = this.state.storeSettings;
+        this.state.cart.deliveryDistance = distance;
         if(distance >= 0 && distance < free_delivery_maximum_distance){
             this.state.cart.delivery = 0;
         }else{

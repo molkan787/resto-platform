@@ -29,6 +29,7 @@ export const state = () => ({
         products: {},
         orderType: 'delivery',
         delivery: -1,
+        deliveryDistance: 0,
         selectedOffer: null,
     },
     products: new Map<string, Product>(),
@@ -62,11 +63,20 @@ export const state = () => ({
 declare type State = ReturnType<typeof state>;
 
 export const getters = {
+    isDeliveryWithinRange: (state: State) => {
+        const { cart, storeSettings } = state;
+        if(cart.orderType != 'delivery') return true;
+        const { maximum_delivery_distance } = storeSettings;
+        if(maximum_delivery_distance == 0) return true; // 0 => UNLIMITED
+        const { deliveryDistance } = cart;
+        return deliveryDistance < 0 ? false : deliveryDistance <= maximum_delivery_distance;
+    },
     canPostOrder: (state: State, getters: any) => {
         return (
             !state.checkout.offerOptionsError
             && Object.values(state.cart.products).reduce((acc, p) => acc + p.qty, 0) > 0
             && getters.productsTotal >= state.storeSettings.minimum_order_value
+            && getters.isDeliveryWithinRange
         )
     },
     cartItems: ({ cart, products }: State) => CartUtils.getCartItems(cart.products, products),

@@ -5,6 +5,7 @@ export interface Cart{
     products: CartProducts;
     orderType: OrderType;
     delivery: number;
+    deliveryDistance: number;
     selectedOffer: String | null;
 }
 

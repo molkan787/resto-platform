@@ -20,7 +20,7 @@ module.exports = {
     ])
     const [ layout, store, vendor_meta, shared_settings, pages ] = data;
     const { order_page_layout, primary_color, website_logo } = layout;
-    const { delivery_cost, free_delivery_maximum_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
+    const { delivery_cost, free_delivery_maximum_distance, maximum_delivery_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
     const { stripe_connected_account_ready: stripe_ready, stripe_connected_account_id } = vendor_meta;
     return {
       layout: {
@@ -31,6 +31,7 @@ module.exports = {
       store: {
         delivery_cost,
         free_delivery_maximum_distance,
+        maximum_delivery_distance,
         enable_delivery_orders,
         enable_pickup_orders,
         enable_preorders,
