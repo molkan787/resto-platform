@@ -1,13 +1,13 @@
 <template>
     <div class="vertical-tab-tree-item" :class="{ expanded, selected }">
-        <div class="content" :class="classes" @click="$emit('click', item)">
+        <div class="content" :class="classes" @click="$emit('click', { item: item, deepLevel: deepLevel })">
             {{ item.name }}
         </div>
         <div class="children" v-if="expanded">
             <VerticalTabTreeItem
                 v-for="child in item.children" :key="child.id" :item="child"
                 :state="state" :deepLevel="deepLevel + 1"
-                @click="$emit('click', child)"
+                @click="$emit('click', { item: child, deepLevel: deepLevel + 1 })"
             />
         </div>
     </div>

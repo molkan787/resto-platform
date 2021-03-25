@@ -23,10 +23,12 @@ export default {
         }
     }),
     methods: {
-        itemClick(item){
+        itemClick({ item, deepLevel }){
             this.state.selected = item;
             if(item.children.length){
                 this.state.expanded = item;
+            }else if(deepLevel == 0){
+                this.state.expanded = null;
             }
             this.$emit('selected', item);
         }
