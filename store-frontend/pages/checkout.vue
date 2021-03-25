@@ -236,7 +236,7 @@ export default {
         margin-top: 1rem;
         &.address{
             display: grid;
-            grid-template-columns: 300px 200px;
+            grid-template-columns: 58% 38%;
             grid-row-gap: 6px;
             grid-column-gap: 12px;
         }
@@ -252,6 +252,12 @@ export default {
     .payment-methods{
         display: flex;
         flex-direction: row;
+        @media only screen and (max-width: 786px) {
+            flex-direction: column;
+            & > div{
+                margin-bottom: 0.5rem;
+            }
+        }
     }
 }
 </style>
