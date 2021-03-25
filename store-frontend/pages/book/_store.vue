@@ -20,7 +20,13 @@
                         <vs-card>
                             <template #text>
                                 <BookingOptions :store="store" :bookedSlots="bookedSlots" v-model="booking" :loading="loading" @monthPageChanged="monthPageChanged" />
-                                <vs-button @click="bookClick" :loading="loading" :disabled="!booking.time" class="book-button" size="large">Book</vs-button>
+                                <template v-if="showLoginAlert">
+                                    <br>
+                                    <vs-alert color="warn">
+                                        You must <a @click="loginClick" href="#">login</a> or <a @click="registerClick" href="#">register</a> before placing an Order
+                                    </vs-alert>
+                                </template>
+                                <vs-button @click="bookClick" :loading="loading" :disabled="!canBook" class="book-button" size="large">Book</vs-button>
                             </template>
                         </vs-card>
                     </div>
@@ -34,10 +40,18 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-    computed: mapState({
-        number_of_tables: state => state.activeStore.number_of_tables,
-        store_id: state => state.activeStore.id
-    }),
+    computed: {
+        ...mapState({
+            number_of_tables: state => state.activeStore.number_of_tables,
+            store_id: state => state.activeStore.id
+        }),
+        showLoginAlert(){
+            return !!this.booking.time && !this.$strapi.user
+        },
+        canBook(){
+            return !!this.booking.time && this.$strapi.user;
+        }
+    },
     asyncData(ctx){
         return {
             store: ctx.$appService.getStoreBySlug(ctx.params.store)
@@ -100,7 +114,15 @@ export default {
         },
         monthPageChanged(date){
             this.loadBookedSlots(date)
-        }
+        },
+        registerClick(e){
+            e.preventDefault();
+            openAuthModal('register');
+        },
+        loginClick(e){
+            e.preventDefault();
+            openAuthModal('login');
+        },
     },
     mounted(){
         this.loadBookedSlots(new Date())

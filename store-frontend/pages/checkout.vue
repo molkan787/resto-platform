@@ -85,7 +85,10 @@
                             <div class="sepa" />
                         </template>
                     </vs-card>
-                    <vs-button @click="checkoutClick" :loading="loading" size="xl" block :disabled="!canPostOrder || (paymentMethod == 'online_card' && !cardFormState.ready)">
+                    <vs-alert v-if="!user" color="warn">
+                        You must <a @click="loginClick" href="#">login</a> or <a @click="registerClick" href="#">register</a> before placing an Order
+                    </vs-alert>
+                    <vs-button @click="checkoutClick" :loading="loading" size="xl" block :disabled="!mycanPostOrder">
                         <b>{{ paymentMethod == 'online_card' ? 'Pay & Submit order' : 'Checkout' }}</b> &nbsp;
                         <span style="opacity: 0.9">( Total: {{ orderTotal | price }} )</span>
                     </vs-button>
@@ -111,7 +114,13 @@ export default {
             fetchState: state => state.fetchState,
             enable_preorders: state => state.storeSettings.enable_preorders,
             stripe_enabled: state => state.paymentSettings.stripe_enabled
-        })
+        }),
+        user(){
+            return this.$strapi.user;
+        },
+        mycanPostOrder(){
+            return this.user && this.canPostOrder && (this.paymentMethod !== 'online_card' || this.cardFormState.ready);
+        }
     },
     data: () => ({
         loading: false,
@@ -187,7 +196,15 @@ export default {
         },
         redirectToOrderPage(order){
             this.$router.push(`/account/orders/${order.id}`);
-        }
+        },
+        registerClick(e){
+            e.preventDefault();
+            openAuthModal('register');
+        },
+        loginClick(e){
+            e.preventDefault();
+            openAuthModal('login');
+        },
     },
     mounted(){
         const { line1, line2, postcode, city } = (this.$strapi && this.$strapi.user && this.$strapi.user.default_address) || {};
