@@ -3,7 +3,7 @@
         <h1>
             {{ storeName | capitalize }}
             <span class="status" :class="{ closed: !isOpen }">
-                {{ isOpen ? '( CURRENTLY OPEN )' : 'CURRENTLY CLOSED (Pre order only)' }}
+                {{ isOpen ? '( CURRENTLY OPEN )' : 'CURRENTLY CLOSED (PRE ORDERS ONLY)' }}
             </span>
         </h1>
         <p>
@@ -51,7 +51,7 @@ export default {
             padding-left: .2rem;
             transform: translateY(5px);
             &.closed{
-                color: rgba(var(--vs-danger), 1);
+                color: #da5b5b;
             }
         }
     }
