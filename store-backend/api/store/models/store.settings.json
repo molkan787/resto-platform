@@ -52,6 +52,16 @@
       "type": "integer",
       "default": 4,
       "min": 1
+    },
+    "menu_file": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
     }
   }
 }

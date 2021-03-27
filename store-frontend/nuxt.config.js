@@ -44,12 +44,18 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    '@nuxtjs/strapi'
+    '@nuxtjs/strapi',
+    'vuejs-google-maps/nuxt'
   ],
 
   strapi: {
     url: process.env.BACKEND_URL || 'http://localhost:1337',
     entities: ['categories', 'products', 'orders', 'stores']
+  },
+
+  googleMaps: {
+    apiKey: 'AIzaSyA_NUNyAIGRql39ijC3rDqt0D8PAf00GKs',
+    libraries: []
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

@@ -10897,6 +10897,13 @@ vuejs-datepicker@^1.6.2:
   resolved "https://registry.yarnpkg.com/vuejs-datepicker/-/vuejs-datepicker-1.6.2.tgz#83c1e8fd4108e7f1d01c061a7e344918f25e47ae"
   integrity sha512-PkC4vxzFBo7i6FSCUAJfnaWOx6VkKbOqxijSGHHlWxh8FIUKEZVtFychkonVWtK3iwWfhmYtqHcwsmgxefLpLQ==
 
+vuejs-google-maps@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/vuejs-google-maps/-/vuejs-google-maps-0.0.13.tgz#2db45cab7b2f1562b6790aa2eea8f52dcb7057d8"
+  integrity sha512-i5wtZlLvLIST9aQncEXa3ODYi2NzRf7GMLgm28OwwnZDQpXV/1ytgCv6teowbK9c9ql5N29IydNfNbJ9ufAP2Q==
+  dependencies:
+    vue "^2.6.12"
+
 vuesax@^4.0.1-alpha.25:
   version "4.0.1-alpha.25"
   resolved "https://registry.yarnpkg.com/vuesax/-/vuesax-4.0.1-alpha.25.tgz#2fb97ac8e4f3d479622d2dc6b498e5e57d44495d"

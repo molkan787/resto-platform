@@ -6,6 +6,13 @@
           <h1 class="hd1">{{ header }}</h1>
           <h1 class="hd2">{{ subheader }}</h1>
           <p class="bp1">{{ text }}</p>
+          <p class="menu-buttons">
+            <a v-for="btn in menuButtons" :key="btn.id" :href="btn.url" target="_blank">
+              <vs-button border size="large">
+                {{ btn.name }}
+              </vs-button>
+            </a>
+          </p>
         </div>
       </section>
       <section v-rellax="{speed: 10}">
@@ -36,7 +43,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
+  computed: {
+    ...mapState(['stores']),
+    menuButtons(){
+      const stores = this.stores.filter(s => !!s.menu_file);
+      return stores.map(({ id, name, menu_file }) => {
+        const _name = stores.length == 1 ? 'Menu' : `${name} Menu`;
+        return {
+          id: id,
+          name: _name,
+          url: `/mir?u=${encodeURIComponent(menu_file.url)}&title=${_name}`
+        }
+      })
+    }
+  },
   async asyncData({ $strapi }){
     const { prefixUrl } = $strapi.$http._defaults;
     const data = await $strapi.find('home-page-settings');
@@ -129,6 +151,9 @@ export default {
         }
       }
     }
+  }
+  .menu-buttons{
+    padding-top: 1rem;
   }
 }
 </style>

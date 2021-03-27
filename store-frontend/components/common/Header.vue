@@ -61,6 +61,10 @@
       {{ page.name | uppercase }}
     </vs-navbar-item>
 
+    <vs-navbar-item :active="active == 'contact'" to="/contact">
+      CONTACT US
+    </vs-navbar-item>
+
     <template #right>
       <template v-if="user">
         <vs-navbar-group>

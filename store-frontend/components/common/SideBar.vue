@@ -77,6 +77,10 @@
             {{ page.name | uppercase }}
         </vs-sidebar-item>
 
+        <vs-sidebar-item :active="active == 'contact'" to="/contact">
+            CONTACT US
+        </vs-sidebar-item>
+
         <!-- <template #footer>
             <template v-if="user">
                 <vs-sidebar-group>
