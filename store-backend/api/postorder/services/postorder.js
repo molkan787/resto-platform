@@ -189,7 +189,8 @@ module.exports = class PostOrderService{
                 unit_price: unit_price,
                 extras,
                 enable_stock: enable_stock,
-                remote_id: p.remote_id
+                remote_id: p.remote_id,
+                category_type: (p.category || {}).type || 'food'
             })
         }
         return result;
@@ -245,7 +246,7 @@ module.exports = class PostOrderService{
         return strapi.query('product').find({
             id_in: ids,
             store_id: store_id,
-        }, []);
+        }, ['category', 'category.type']);
     }
 
     static async generateOrderNumber(){

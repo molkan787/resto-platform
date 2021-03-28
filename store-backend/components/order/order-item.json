@@ -36,6 +36,13 @@
     },
     "remote_id": {
       "type": "integer"
+    },
+    "category_type": {
+      "type": "enumeration",
+      "enum": [
+        "food",
+        "drinks"
+      ]
     }
   }
 }
