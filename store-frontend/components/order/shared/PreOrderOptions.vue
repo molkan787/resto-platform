@@ -1,6 +1,6 @@
 <template>
     <div class="preorder-options">
-        <vs-checkbox v-model="preorder.enabled" :disabled="!isStoreOpen" class="enable-checkbox">Preorder for later?</vs-checkbox>
+        <vs-checkbox v-model="preorder.enabled" class="enable-checkbox">Preorder for later?</vs-checkbox>
         <vs-alert v-if="!isStoreOpen">
             The restaurant is currently closed, You can only pre order.
         </vs-alert>
@@ -73,7 +73,7 @@ export default {
     },
     data: () => ({
         disabledDates: {},
-        timeSelectKey: 1
+        timeSelectKey: 1,
     }),
     watch: {
         openingDays: {
@@ -86,11 +86,18 @@ export default {
             this.preorder.time = '';
             this.timeSelectKey++;
         },
+        'preorder.enabled'(enabled){
+            if(!enabled && !this.isStoreOpen){
+                this.$nextTick(() => this.preorder.enabled = true);
+            }
+        },
         isStoreOpen: {
             immediate: true,
             handler(val){
-                if(!val){
-                    this.preorder.enabled = true;
+                if(process.client){
+                    if(!val){
+                        this.preorder.enabled = true;
+                    }
                 }
             }
         }

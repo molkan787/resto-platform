@@ -101,7 +101,7 @@ export const getters = {
     },
     isStoreOpen: (state: State) => {
         const s = state.activeStore;
-        if(!s) return null;
+        if(!s) return false;
         return isStoreOpen(s, new Date());
     }
 }
