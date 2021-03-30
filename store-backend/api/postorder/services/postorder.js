@@ -30,7 +30,8 @@ module.exports = class PostOrderService{
         const productsMap = arrayToMap(products, 'id');
         const productsTotal = CartUtils.calcProductsTotal(items, productsMap);
         this.validateOrder(data, productsMap, productsTotal, offer);
-        const orderTotal = CartUtils.calcOrderTotal(cart, productsMap, offer);
+        const totals = CartUtils.calcOrderTotalsValues(cart, productsMap, offer);
+        const orderTotal = totals.total;
         if(orderTotal != order_total){
             throw new BadRequestError('Prices may have changed, Please try reloading the page. Error: TNET');
         }
@@ -40,22 +41,22 @@ module.exports = class PostOrderService{
         const orderItems = productsItems.concat(offerItems);
         const allHaveRemoteId = orderItems.reduce((b, p) => b && !!p.remote_id, true);
 
-        if(offer){
-            const discount = OfferUtils.getOfferDiscountAmount(offer, productsTotal);
-            if(discount < 0){
-                orderItems.push({
-                    pid: 'discount',
-                    quantity: 1,
-                    note: '',
-                    name: offer.name,
-                    price: discount,
-                    unit_price: discount,
-                    extras: [],
-                    enable_stock: false,
-                    remote_id: null
-                })
-            }
-        }
+        // if(offer){
+        //     const discount = OfferUtils.getOfferDiscountAmount(offer, productsTotal);
+        //     if(discount < 0){
+        //         orderItems.push({
+        //             pid: 'discount',
+        //             quantity: 1,
+        //             note: '',
+        //             name: offer.name,
+        //             price: discount,
+        //             unit_price: discount,
+        //             extras: [],
+        //             enable_stock: false,
+        //             remote_id: null
+        //         })
+        //     }
+        // }
 
         const order = {
             store_id: store_id,
@@ -69,9 +70,7 @@ module.exports = class PostOrderService{
             note,
             delivery_address: isDelivery ? delivery_address : {},
             payment_method: payment_method,
-            attrs: {
-                delivery_cost: cart.delivery
-            },
+            attrs: totals,
             no: await this.generateOrderNumber(),
         }
 

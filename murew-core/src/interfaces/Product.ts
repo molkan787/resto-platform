@@ -1,9 +1,11 @@
+import { Category } from "./Category";
+
 export interface Product{
     id: string;
     name: string;
     price: number;
     description?: string;
-    category?: string;
+    category?: string | Category;
     remote_id: number;
     enable_stock: boolean;
     stock: number;

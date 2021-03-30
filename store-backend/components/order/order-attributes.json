@@ -2,13 +2,29 @@
   "collectionName": "components_order_order_attributes",
   "info": {
     "name": "Order Attributes",
-    "icon": "book-medical"
+    "icon": "book-medical",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "delivery_cost": {
       "type": "decimal",
       "min": 0
+    },
+    "food_total": {
+      "type": "decimal"
+    },
+    "drinks_total": {
+      "type": "decimal"
+    },
+    "sub_total": {
+      "type": "decimal"
+    },
+    "discount": {
+      "type": "decimal"
+    },
+    "total": {
+      "type": "decimal"
     }
   }
 }
