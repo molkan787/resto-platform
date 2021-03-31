@@ -2,7 +2,8 @@
   "collectionName": "components_common_addresses",
   "info": {
     "name": "Address",
-    "icon": "address-book"
+    "icon": "address-book",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -20,6 +21,13 @@
     },
     "city": {
       "type": "string"
+    },
+    "latitude": {
+      "type": "float",
+      "required": false
+    },
+    "longitude": {
+      "type": "float"
     }
   }
 }

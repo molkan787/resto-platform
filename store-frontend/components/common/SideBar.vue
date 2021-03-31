@@ -78,7 +78,7 @@
         </vs-sidebar-item>
 
         <vs-sidebar-item :active="active == 'contact'" to="/contact">
-            CONTACT US
+            CONTACT
         </vs-sidebar-item>
 
         <!-- <template #footer>

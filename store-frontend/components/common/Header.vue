@@ -62,7 +62,7 @@
     </vs-navbar-item>
 
     <vs-navbar-item :active="active == 'contact'" to="/contact">
-      CONTACT US
+      CONTACT
     </vs-navbar-item>
 
     <template #right>
