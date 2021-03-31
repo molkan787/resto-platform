@@ -16,7 +16,8 @@ const DATA_COLLECTIONS = [
     'payments',
     'direct_auth_tokens',
     'platform_paid_amounts',
-    'reviews'
+    'reviews',
+    'contact_messages'
 ];
 
 const SUPER_ADMIN_ROLE_CODE = 'strapi-super-admin';
