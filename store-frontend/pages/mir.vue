@@ -1,5 +1,8 @@
 <template>
-    <iframe class="frame" :src="url" frameborder="0"></iframe>
+    <!-- <iframe class="frame" :src="url" frameborder="0"></iframe> -->
+    <object class="frame"  :data="url" type="application/pdf">
+        <embed :src="url" type="application/pdf" />
+    </object>
 </template>
 
 <script>
