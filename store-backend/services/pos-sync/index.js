@@ -69,10 +69,11 @@ module.exports = class PosSyncService{
         const query = strapi.query('booking', 'booking');
         const date = new Date(timestamp * 1000);
         const now = Time.now();
+        console.log('requestedBookingsList', date)
         let bookings = await query.model.find({
             store_id,
             updatedAt: {
-                $gte: date.toJSON()
+                $gte: date
             }
         });
         bookings = bookings.map(b => sanitizeEntity(b, { model: query.model }));

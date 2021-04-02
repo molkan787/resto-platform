@@ -56,7 +56,8 @@
       "type": "enumeration",
       "enum": [
         "booked",
-        "canceled"
+        "canceled",
+        "arrived"
       ],
       "required": true,
       "default": "booked"
