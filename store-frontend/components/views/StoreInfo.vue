@@ -1,11 +1,16 @@
 <template>
     <div class="store-info">
-        <h1>
-            {{ storeName | capitalize }}
-            <span class="status" :class="{ closed: !isOpen }">
-                {{ statusText }}
-            </span>
-        </h1>
+        <div class="header">
+            <template v-if="showOpenStatus">
+                <vs-button class="status" :color="isOpen ? 'success' : 'danger'" :class="{closed: !isOpen}">
+                    {{ isOpen ? 'OPEN' : 'CLOSED' }}
+                </vs-button>
+                <div class="preorder-text" v-if="enable_preorders">
+                    PRE ORDERS ONLY
+                </div>
+            </template>
+            <h1 v-else>{{ storeName | capitalize }}</h1>
+        </div>
         <p>
         {{ address }}
         </p>
@@ -20,6 +25,10 @@ export default {
         store: {
             type: Object,
             required: true
+        },
+        showOpenStatus: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -28,15 +37,6 @@ export default {
         }),
         isOpen(){
             return isStoreOpen(this.store, new Date());
-        },
-        statusText(){
-            if(this.isOpen){
-                return 'CURRENTLY OPEN';
-            }else if(this.enable_preorders){
-                return 'CURRENTLY CLOSED (PRE ORDERS ONLY)';
-            }else{
-                return 'CURRENTLY CLOSED';
-            }
         },
         storeName(){
             return this.store.name;
@@ -54,18 +54,22 @@ export default {
 <style lang="scss" scoped>
 .store-info{
     padding: 1rem;
-    h1{
+    .header{
         color: rgba(var(--vs-primary), 1);
         .status{
-            float: right;
             display: inline-block;
-            font-size: 1.2rem;
-            color: #545454;
-            padding-left: .2rem;
-            transform: translateY(5px);
+            padding: 0 1rem;
+            pointer-events: none;
+            font-weight: bold;
+            margin-left: -0.2rem;
             &.closed{
-                color: #da5b5b;
+                background-color: #e86363 !important;
             }
+        }
+        .preorder-text{
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: rgb(58, 58, 58);
         }
     }
     p{

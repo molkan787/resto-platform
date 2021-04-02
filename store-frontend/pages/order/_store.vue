@@ -2,7 +2,7 @@
   <Page class="order-page" :title="title">
     <div class="content">
       <div class="left-column">
-        <StoreInfo :store="activeStore" />
+        <StoreInfo :store="activeStore" showOpenStatus/>
         
         <OrderStackLayout v-if="layoutSettings.order_page_layout == 'stack' || isMobile" :categories="categories" @productClick="productClick" />
         <OrderTabsLayout v-else :categories="categories" @productClick="productClick" />
