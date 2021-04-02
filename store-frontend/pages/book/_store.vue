@@ -23,7 +23,7 @@
                                 <template v-if="showLoginAlert">
                                     <br>
                                     <vs-alert color="warn">
-                                        You must <a @click="loginClick" href="#">login</a> or <a @click="registerClick" href="#">register</a> before placing an Order
+                                        You must <a @click="loginClick" href="#">login</a> or <a @click="registerClick" href="#">register</a> before booking a table
                                     </vs-alert>
                                 </template>
                                 <vs-button @click="bookClick" :loading="loading" :disabled="!canBook" class="book-button" size="large">Book</vs-button>
@@ -46,7 +46,7 @@ export default {
             store_id: state => state.activeStore.id
         }),
         showLoginAlert(){
-            return !!this.booking.time && !this.$strapi.user
+            return !this.$strapi.user
         },
         canBook(){
             return !!this.booking.time && this.$strapi.user;
