@@ -55,7 +55,7 @@
                 </div>
 
                 <div v-if="showOrderButton" class="controlls">
-                    <vs-button @click="orderClick" size="large" radius="6" :disabled="!canPostOrder">
+                    <vs-button @click="orderClick" size="large" radius="6" :disabled="!canCheckout">
                         Order
                     </vs-button>
                 </div>
@@ -82,7 +82,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['canPostOrder', 'cartItems', 'productsTotal', 'orderTotal']),
+        ...mapGetters(['canCheckout', 'cartItems', 'productsTotal', 'orderTotal']),
         ...mapState({
             cartProducts: state => state.cart.products,
             cart: state => state.cart,

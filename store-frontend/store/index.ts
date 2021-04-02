@@ -73,10 +73,15 @@ export const getters = {
     },
     canPostOrder: (state: State, getters: any) => {
         return (
-            !state.checkout.offerOptionsError
-            && Object.values(state.cart.products).reduce((acc, p) => acc + p.qty, 0) > 0
-            && getters.productsTotal >= state.storeSettings.minimum_order_value
+            getters.canCheckout
+            && !state.checkout.offerOptionsError
             && getters.isDeliveryWithinRange
+        )
+    },
+    canCheckout: (state: State, getters: any) => {
+        return (
+            Object.values(state.cart.products).reduce((acc, p) => acc + p.qty, 0) > 0
+            && getters.productsTotal >= state.storeSettings.minimum_order_value
         )
     },
     cartItems: ({ cart, products }: State) => CartUtils.getCartItems(cart.products, products),
