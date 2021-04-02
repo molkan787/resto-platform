@@ -1,4 +1,4 @@
-const { MongoClient, Db, Collection } = require('mongodb');
+const { MongoClient, Db, Collection, ObjectID } = require('mongodb');
 const { exec: _exec } = require('child_process');
 const path = require('path');
 const { DATA_COLLECTIONS, SUPER_ADMIN_ROLE_CODE, EDITOR_ROLE_CODE } = require('./config/config');
@@ -55,7 +55,12 @@ async function populateDefaultData(db){
         createdAt: new Date(),
         updatedAt: new Date(),
         slug: 'main',
-        menu_sync_enabled: false
+        menu_sync_enabled: false,
+        opening_hours: [{
+            _id: new ObjectID('60674a4b12ad47296c14a3cb'),
+            kind: 'ComponentCommonWeekTiming',
+            ref: new ObjectID('6040d8c7f1b8f901bcae307b'),
+        }]
     });
     const metadataColl = db.collection('metadata');
     await metadataColl.updateOne({}, { 
