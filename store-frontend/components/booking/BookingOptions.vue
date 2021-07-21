@@ -48,6 +48,9 @@
 
         </vs-select>
 
+        <TextArea v-model="value.comment" label="Note (optional)" placeholder="Type note / comment here..." />
+        {{ value.comment }}
+
     </div>
 </template>
 
@@ -63,9 +66,11 @@ export default {
         value: {
             type: Object,
             default: () => ({
+                category: 'dinner',
                 date: null,
                 time: '',
-                number_of_persons: 'n2n'
+                number_of_persons: 'n2n',
+                comment: ''
             })
         },
         bookedSlots: {
@@ -203,10 +208,10 @@ export default {
 
 <style lang="scss">
 .booking-options{
-    .vs-select, .nop-input{
+    .vs-select, .nop-input, .vs-textarea{
         width: 300px;
         margin-top: 1.5rem;
-        input{
+        input, textarea{
             width: 300px;
         }
     }

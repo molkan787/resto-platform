@@ -64,6 +64,7 @@ export default {
             date: null,
             time: '',
             number_of_persons: 'n2n',
+            comment: ''
         },
         bookedSlots: {}
     }),
@@ -91,7 +92,8 @@ export default {
                 date: null,
                 time: '',
                 number_of_persons: 'n2n',
-                category: 'dinner'
+                category: 'dinner',
+                comment: ''
             }
         },
         async loadBookedSlots(monthDate){

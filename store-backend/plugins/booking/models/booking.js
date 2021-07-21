@@ -11,14 +11,12 @@ module.exports = {
         beforeCreate(data){
             return fillAdditionalBookingData(data, true);
         },
-        beforeUpdate(params, data){
-            return fillAdditionalBookingData(data);
-        },
         async afterCreate(data){
             strapi.services.notifier.sendBookingConfirmation(data.owner, data);
             await strapi.plugins.booking.services.bookedslots.addBooking(data);
         },
         async beforeUpdate(params, data){
+            await fillAdditionalBookingData(data);
             const booking = await strapi.query('booking', 'booking').findOne(params);
             const currentStatus = booking.status;
             const newStatus = data.status;
