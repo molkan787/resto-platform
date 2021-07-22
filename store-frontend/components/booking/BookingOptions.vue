@@ -49,7 +49,6 @@
         </vs-select>
 
         <TextArea v-model="value.comment" label="Note (optional)" placeholder="Type note / comment here..." />
-        {{ value.comment }}
 
     </div>
 </template>
