@@ -35,6 +35,12 @@ module.exports = {
     strapi.services.posSyncService.requestBookingsSyncing();
     return {};
   },
+  arrived: async (ctx) => {
+    const { id } = ctx.params;
+    await strapi.query('booking', 'booking').update({ id }, { status: 'arrived' });
+    strapi.services.posSyncService.requestBookingsSyncing();
+    return {};
+  },
   create: async (ctx) => {
     const { store_id, date, time, number_of_persons, owner, category, comment } = ctx.request.body;
     const data = { store_id, date, time, number_of_persons, owner, category, comment };

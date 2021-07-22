@@ -40,12 +40,13 @@
                 <table class="my-table">
                 <thead>
                     <tr>
+                        <th>NO</th>
                         <th>Date</th>
-                        <th>Time</th>
-                        <th>Number of persons</th>
-                        <th>Status</th>
-                        <th>Category</th>
+                        <th>Type</th>
                         <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Note</th>
+                        <th>Status</th>
                         <th> </th>
                     </tr>
                 </thead>
@@ -54,16 +55,29 @@
                         <td class="empty-ph" colspan="5">There is no booking for the selected date</td>
                     </tr>
                     <tr v-for="k in items" :key="k.id">
-                        <td>{{ new Date(k.date).toLocaleDateString() }}</td>
-                        <td>{{ k.time | timeText }}</td>
-                        <td>{{ k.number_of_persons }}</td>
-                        <td>{{ k.status }}</td>
-                        <td>{{ k.category }}</td>
+                        <td>{{ k.no }}</td>
+                        <td>
+                            <strong>{{ k.time | timeText }}</strong> <br>
+                            {{ new Date(k.date).toLocaleDateString() }}
+                        </td>
+                        <td>
+                            <strong>{{ k.number_of_persons }} Persons</strong> <br>
+                            {{ k.category }}
+                        </td>
                         <td><b>{{ k.customer_name }}</b></td>
+                        <td>{{ k.customer_phone }}</td>
+                        <td style="max-width: 200px;">{{ k.comment || '---' }}</td>
+                        <td>
+                            <strong>{{ k.status }}</strong>
+                        </td>
                         <td>
                             <button v-if="k.status != 'canceled'" @click="cancelClick(k)" class="danger">
                                 <i class="fas fa-ban"></i>
                                 Cancel
+                            </button>
+                            <button v-if="k.status != 'arrived'" @click="arrivedClick(k)">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Arrived
                             </button>
                         </td>
                     </tr>
@@ -143,6 +157,11 @@ export default {
                 this.cancelBooking(booking);
             }
         },
+        arrivedClick(booking){
+            if(confirm(`Does the customer ${booking.customer_name} arrived ?`)){
+                this.markBookingAsArrived(booking);
+            }
+        },
         async cancelBooking(booking){
             try {
                 await request(`/booking/bookings/cancel/${booking.id}`, {
@@ -150,6 +169,18 @@ export default {
                 });
                 booking.status = 'canceled';
                 strapi.notification.success('Booking successfully canceled!');
+            } catch (error) {
+                console.error(error);
+                strapi.notification.error(error.toString());
+            }
+        },
+        async markBookingAsArrived(booking){
+            try {
+                await request(`/booking/bookings/arrived/${booking.id}`, {
+                    method: 'POST'
+                });
+                booking.status = 'arrived';
+                strapi.notification.success('Booking successfully marked as Arrived!');
             } catch (error) {
                 console.error(error);
                 strapi.notification.error(error.toString());
@@ -198,7 +229,12 @@ export default {
     border-top: 1px solid #007EFF;
 }
 .my-table th, .my-table td{
-    padding: 0.5rem;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    text-transform: capitalize;
+    vertical-align: top;
+}
+.my-table tr:nth-child(even){
+    background-color: #f9f9f9;
 }
 .key-data-col{
     max-width: 300px;

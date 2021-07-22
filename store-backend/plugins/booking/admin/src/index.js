@@ -37,16 +37,15 @@ export default strapi => {
           },
           name,
           permissions: [
-            // Uncomment to set the permissions of the plugin here
-            // {
-            //   action: '', // the action name should be plugins::plugin-name.actionType
-            //   subject: null,
-            // },
+            {
+              action: `plugins::${pluginId}.view-list`,
+              subject: null,
+            },
           ],
         },
       ],
     },
   };
-
+  console.log('action', `plugins::${pluginId}.view-list`)
   return strapi.registerPlugin(plugin);
 };

@@ -17,6 +17,14 @@
       }
     },
     {
+      "method": "POST",
+      "path": "/bookings/arrived/:id",
+      "handler": "booking.arrived",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "GET",
       "path": "/bookings/my",
       "handler": "booking.findMy",

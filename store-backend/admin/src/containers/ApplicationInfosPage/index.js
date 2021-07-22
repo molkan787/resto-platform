@@ -57,18 +57,6 @@ const ApplicationInfosPage = () => {
       <Bloc>
         <Padded left right top size="smd">
           <Padded left right top size="xs">
-            <Flex justifyContent="space-between">
-              <Detail
-                link={upgradeLink}
-                title={strapiVersion}
-                content={`v${appInfos.strapiVersion}`}
-              />
-              <Detail
-                link={{ label: pricingLabel, href: 'https://strapi.io/pricing' }}
-                title={editionTitle}
-                content={formatMessage({ id: currentPlan })}
-              />
-            </Flex>
             <Padded top size="lg">
               <Text fontSize="xs" color="grey" fontWeight="bold">
                 {nodeVersion}
