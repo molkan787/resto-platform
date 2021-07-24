@@ -10,6 +10,7 @@ RUN yarn install
 
 WORKDIR /usr/src/apps/store-backend
 COPY ./store-backend/package.json .
+COPY ./store-backend/yarn.lock .
 RUN yarn install
 
 WORKDIR /usr/src/apps/store-frontend
