@@ -79,6 +79,10 @@
                                 <i class="fas fa-sign-in-alt"></i>
                                 Arrived
                             </button>
+                            <button class="gray" @click="editClick(k)">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -151,6 +155,12 @@ export default {
                 strapi.notification.error(error.toString());
             }
             this.loading = false;
+        },
+        editClick(booking){
+            const { origin } = window.location;
+            const { id } = booking;
+            const redirectUrl = `${origin}/admin/plugins/content-manager/collectionType/plugins::booking.booking/${id}`;
+            window.location.href = redirectUrl;
         },
         cancelClick(booking){
             if(confirm(`Cancel the booking for ${booking.customer_name} ?`)){
