@@ -513,11 +513,14 @@ const EditViewDataManagerProvider = ({
             ...trackerProperty,
           });
         }
-
+        
         strapi.notification.toggle({
           type: 'warning',
           message: { id: `${pluginId}.error.record.fetch` },
         });
+        if(err && err.response && err.response.status === 400){
+          alert(error);
+        }
       }
     } catch (err) {
       console.error({ err });
