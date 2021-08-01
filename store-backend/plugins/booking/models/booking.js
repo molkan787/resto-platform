@@ -39,6 +39,12 @@ module.exports = {
                 }
             }
 
+        },
+        async beforeDelete(params){
+            const booking = await strapi.query('booking', 'booking').findOne(params);
+            if(booking.status !== 'canceled'){
+                await strapi.plugins.booking.services.bookedslots.removeBooking(booking);
+            }
         }
     }
 
