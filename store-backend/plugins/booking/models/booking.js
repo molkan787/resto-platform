@@ -15,6 +15,7 @@ module.exports = {
         async afterCreate(data){
             strapi.services.notifier.sendBookingConfirmation(data.owner, data);
             await strapi.plugins.booking.services.bookedslots.addBooking(data);
+            strapi.services.posSyncService.requestBookingsSyncing();
         },
         async beforeUpdate(params, data){
             await fillAdditionalBookingData(data);
@@ -40,11 +41,17 @@ module.exports = {
             }
 
         },
+        afterUpdate(){
+            strapi.services.posSyncService.requestBookingsSyncing();
+        },
         async beforeDelete(params){
             const booking = await strapi.query('booking', 'booking').findOne(params);
             if(booking.status !== 'canceled'){
                 await strapi.plugins.booking.services.bookedslots.removeBooking(booking);
             }
+        },
+        afterDelete(){
+            strapi.services.posSyncService.requestBookingsSyncing();
         }
     }
 
