@@ -1,33 +1,18 @@
-// TEMPORARY SOLUTION
-// TODO: create email sending app (separate from store backend app)
+const axios = require('axios')
 
-// const nodemailer = require('nodemailer');
-
-// const ACCOUNT = Object.freeze({
-//     Address: 'noreply@drmapps.eu',
-//     Password: '6utdPagdxfy901t4PiuR'
-// })
-
-// const transport = nodemailer.createTransport({
-//     host: 'server343197.nazwa.pl',
-//     port: 587,
-//     auth: {
-//         user: ACCOUNT.Address,
-//         pass: ACCOUNT.Password
-//     }
-// })
+const EMAIL_AGENT_URL = process.env.NODE_ENV == 'development' ? 'http://localhost:3033' : 'http://emailagent:3033'
 
 module.exports = {
 
     send(to, subject, content, isHTML){
-        return Promise.resolve();
-        // return transport.sendMail({
-        //     from: `Murew <${ACCOUNT.Address}>`,
-        //     to: to,
-        //     subject: subject,
-        //     text: isHTML ? undefined : content,
-        //     html: isHTML ? content : undefined,
-        // })
+        const msg = {
+            to,
+            subject,
+            text: isHTML ? '' : content,
+            html: isHTML ? content : content.replace(/\n/g, '<br>'),
+            senderName: 'Murew',
+        }
+        return axios.post(`${EMAIL_AGENT_URL}/sendMail`, msg)
     }
 
 }
