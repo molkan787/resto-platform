@@ -1,0 +1,13 @@
+{
+  "name": "email-agent",
+  "version": "1.0.0",
+  "description": "An app resposible for sending emails",
+  "main": "src/index.js",
+  "author": "Seghier Dahmane",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.6",
+    "express": "^4.17.1"
+  }
+}
