@@ -27,3 +27,18 @@ build-distance-helper-image:
   artifacts:
     paths:
     - distance-helper.tar
+
+build-emailagent-image:
+  image: docker:latest
+  stage: build
+  when: manual
+  services:
+    - docker:dind
+  script:
+    - docker build -t emailagent:lastest -f emailagent.dockerfile .
+    - docker save -o emailagent.tar emailagent:lastest
+  except:
+    - master
+  artifacts:
+    paths:
+    - emailagent.tar
