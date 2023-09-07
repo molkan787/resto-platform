@@ -5,4 +5,4 @@ The following packages must be installed on the target machine
 - Yarn (npm package - globally installed)
 - PM2 (npm package - globally installed)
 - Docker
-- Mongo Tools
+- MongoDB Command Line Database Tools
