@@ -17,7 +17,7 @@ module.exports = class MurewSupervisor{
 
     async init(){
         await bootstrap();
-        this.mongoClient = await MongoClient.connect('mongodb://root:murew_is_magic@localhost:27018');
+        this.mongoClient = await MongoClient.connect('mongodb://root:murew_is_magic@localhost:27018', { useUnifiedTopology: true });
     }
 
     async updateVendorApp(app){
