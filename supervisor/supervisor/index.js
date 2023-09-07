@@ -98,7 +98,7 @@ module.exports = class MurewSupervisor{
         const bin = process.platform == 'win32' ? '"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongorestore.exe"' : 'mongorestore';
         const { dbName } = this._getDbInfo(appId);
         const db_uri = this._getDbUri(appId, true);
-        const cmd = `${bin} --nsFrom="murew-store-tmp.*" --nsTo="${dbName}.*" --uri="${db_uri}" --archive="${db_archive}"`;
+        const cmd = `${bin} --nsFrom="murew-store-tmp.*" --nsTo="${dbName}.*" --nsInclude="murew-store-tmp.*" --uri="${db_uri}" --archive="${db_archive}"`;
         console.log('importDbData:cmd', cmd);
         await exec(cmd);
     }
