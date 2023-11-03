@@ -4,7 +4,16 @@ const { OfferGetType } = require('murew-core/dist/interfaces/Offer');
 module.exports = class MurewMenuSync{
 
     static async setMenu(store_id, data){
-        const { menu, offers } = data;
+        const { menu, offers, replace } = data;
+
+        if(replace){
+            await Promise.all([
+                strapi.query('category').delete({ store_id }),
+                strapi.query('product').delete({ store_id }),
+                strapi.query('offer').delete({ store_id }),
+            ])
+        }
+
         const queries = menu.map(cat => this.upsertCategory(cat, store_id));
         const response = await Promise.all(queries);
         const categories = [].concat(...response.map(d => d.categories));
@@ -36,23 +45,24 @@ module.exports = class MurewMenuSync{
 
         const offersIds = await Promise.all(offers.map(offer => this.upsertOffer(offer)));
 
-        await strapi.query('category').delete({
-            store_id,
-            id_nin: categories,
-            remote_id_null: false
-        });
 
-        await strapi.query('product').delete({
-            store_id,
-            id_nin: products,
-            remote_id_null: false
-        });
+        // await strapi.query('category').delete({
+        //     store_id,
+        //     id_nin: categories,
+        //     remote_id_null: false
+        // });
+
+        // await strapi.query('product').delete({
+        //     store_id,
+        //     id_nin: products,
+        //     remote_id_null: false
+        // });
         
-        await strapi.query('offer').delete({
-            store_id,
-            id_nin: offersIds,
-            remote_id_null: false
-        });
+        // await strapi.query('offer').delete({
+        //     store_id,
+        //     id_nin: offersIds,
+        //     remote_id_null: false
+        // });
 
     }
 
