@@ -8,16 +8,17 @@ module.exports = {
         const plan = await strapi.services.shared.getVendorPlan();
         let fee = 0;
         if(plan.plan == 'monthly_fee'){
-            const due = await this.getThisMonthDue(plan);
-            fee = paymentNetAmount / 2;
-            if(fee > due){
-                fee = due;
-            }
+            // const due = await this.getThisMonthDue(plan);
+            // fee = paymentNetAmount / 2;
+            // if(fee > due){
+            //     fee = due;
+            // }
+            fee = 0;
         }else if(plan.plan == 'percentage'){
             fee = paymentNetAmount * plan.amount / 100;
         }
         if(fee < 0) fee = 0;
-        return Math.round(fee);
+        return Math.round(fee * 100) / 100; // rouding to last 2 decimals
     },
 
     async getThisMonthDue(plan){
