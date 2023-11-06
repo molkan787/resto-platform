@@ -43,14 +43,19 @@ module.exports = class MurewSupervisor{
      * @param {{id: string, domain: string, port_pointer: number}} app 
      */
     async createVendorApp(app, skipDbCreation){
-        const { id: appId, domain, port_pointer: _port_pointer } = app;
+        const { id: appId, domain, port_pointer: _port_pointer, registration_url } = app;
         let adminRegistrationUrl = '';
         if(!skipDbCreation){
-            console.log('Creating vendor database...');
+            console.log('createVendorApp: Creating vendor database...');
             await this.createVendorDB(appId);
-            console.log('Creating vendor admin registration...');
-            const urlPath = await this.createAdminAccountRegistration(appId);
-            adminRegistrationUrl = `${WEB_PROTOCOL}://backend.${domain}${urlPath}`;
+            if(registration_url === '--'){
+                console.log('createVendorApp: Skiping creation of registration url')
+                adminRegistrationUrl = '--'
+            }else{
+                console.log('createVendorApp: Creating vendor admin registration...');
+                const urlPath = await this.createAdminAccountRegistration(appId);
+                adminRegistrationUrl = `${WEB_PROTOCOL}://backend.${domain}${urlPath}`;
+            }
         }
         const DB_URI = this._getDbUri(appId);
         console.log('DB_URI', DB_URI);
@@ -59,7 +64,7 @@ module.exports = class MurewSupervisor{
         const backendPort = 9000 + port_pointer;
         const backendUrl = `${WEB_PROTOCOL}://backend.${domain}`;
         const frontendUrl = `${WEB_PROTOCOL}://${domain}`;
-        console.log('Creating vendor\'s app container...');
+        console.log('createVendorApp: Creating vendor\'s app container...');
         const container = await this.createVendorAppContainer(appId, {
             frontend: frontendPort,
             backend: backendPort
@@ -72,7 +77,7 @@ module.exports = class MurewSupervisor{
             `DISTANCE_HELPER_URL=${WEB_PROTOCOL}://${Consts.DISTANCE_HELPER_NAME}:1338`
         ]);
         await container.start();
-        console.log('Adding domain mapping to reverse proxy server...');
+        console.log('createVendorApp: Adding domain mapping to reverse proxy server...');
         await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://localhost:${frontendPort}`);
         await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://localhost:${backendPort}`);
         return {
