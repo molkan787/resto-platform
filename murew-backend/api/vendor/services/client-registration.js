@@ -48,7 +48,8 @@ module.exports = {
     }
     const vendor = await strapi.query('vendor').create(vendorData)
     console.log('vendor:', vendor)
-    await this.createAdminAccount('murew-store', userInfo)
+    await this.createAdminAccount(vendor.id.toString(), userInfo)
+    // await this.createAdminAccount('murew-store', userInfo)
     return {
       serverIP: vendor.cluster.public_ip,
       domain_name: domain_name
