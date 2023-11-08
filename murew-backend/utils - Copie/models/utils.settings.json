@@ -1,0 +1,14 @@
+{
+  "collectionName": "utils",
+  "info": {
+    "name": "utils",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false,
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {}
+}

@@ -5,4 +5,11 @@
  * to customize this controller
  */
 
-module.exports = {};
+module.exports = {
+    async registerClient(context){
+        // TODO: Add here some sort of rate limit / spam protection
+        const data = await strapi.services['client-registration'].registerClient(context.request.body)
+        await new Promise(r => setTimeout(r, 4000)) // tmp
+        return data
+    }
+};

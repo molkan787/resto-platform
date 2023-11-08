@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/helpers/resolve-host-ips",
+      "handler": "helpers.resolveHostIps",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -42,6 +42,21 @@
       "default": 0,
       "required": true,
       "min": 0
+    },
+    "contact_info": {
+      "type": "component",
+      "repeatable": false,
+      "component": "divert.person"
+    },
+    "cluster": {
+      "type": "component",
+      "repeatable": false,
+      "component": "divert.cluster"
+    },
+    "features": {
+      "type": "component",
+      "repeatable": false,
+      "component": "divert.platform-features"
     }
   }
 }

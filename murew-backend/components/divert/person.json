@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_divert_people",
+  "info": {
+    "name": "person",
+    "icon": "user-circle"
+  },
+  "options": {},
+  "attributes": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone_number": {
+      "type": "string"
+    }
+  }
+}

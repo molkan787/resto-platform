@@ -81,7 +81,8 @@ module.exports = class MurewSupervisor{
         await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://localhost:${frontendPort}`);
         await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://localhost:${backendPort}`);
         return {
-            adminRegistrationUrl
+            adminRegistrationUrl,
+            serverIP: process.env.PUBLIC_IP
         }
     }
 

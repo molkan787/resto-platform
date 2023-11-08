@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_divert_clusters",
+  "info": {
+    "name": "cluster",
+    "icon": "server"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "public_ip": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

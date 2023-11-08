@@ -2,56 +2,56 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/vendors",
-      "handler": "vendor.find",
+      "path": "/utils",
+      "handler": "utils.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/vendors/count",
-      "handler": "vendor.count",
+      "path": "/utils/count",
+      "handler": "utils.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/vendors/:id",
-      "handler": "vendor.findOne",
+      "path": "/utils/:id",
+      "handler": "utils.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/vendors",
-      "handler": "vendor.create",
+      "path": "/utils",
+      "handler": "utils.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/vendors/:id",
-      "handler": "vendor.update",
+      "path": "/utils/:id",
+      "handler": "utils.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/vendors/:id",
-      "handler": "vendor.delete",
+      "path": "/utils/:id",
+      "handler": "utils.delete",
       "config": {
         "policies": []
       }
     },
     {
-      "method": "POST",
-      "path": "/register-client",
-      "handler": "vendor.registerClient",
+      "method": "GET",
+      "path": "/utils/resolve-host-ips",
+      "handler": "utils.resolveHostIps",
       "config": {
         "policies": []
       }

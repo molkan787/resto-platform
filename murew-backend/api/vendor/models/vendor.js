@@ -14,14 +14,22 @@ module.exports = {
             data.port_pointer = await generatePortPointer();
         },
         async afterCreate(vendor){
+            console.log('afterCreate: Creating vendor app...')
+            return // TMP
             try {
                 await setVendorPlanInSharedDb(vendor);
                 const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
                 const { data } = await axios.post('http://localhost:1323/create-vendor-app', { app: sanitizedVendor });
-                const { adminRegistrationUrl } = data;
+                const { adminRegistrationUrl, serverIP } = data;
                 await strapi.query('vendor').update(
                     { id: vendor.id },
-                    { registration_url: adminRegistrationUrl }
+                    {
+                        registration_url: adminRegistrationUrl,
+                        cluster: {
+                            name: 'Main-Cluster',
+                            public_ip: serverIP
+                        },
+                    }
                 );
             } catch (error) {
                 await strapi.query('vendor').delete({ id: vendor.id });
@@ -29,6 +37,8 @@ module.exports = {
             }
         },
         async afterDelete(vendor){
+            console.log('afterDelete: Destroying vendor app...')
+            return // TMP
             const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
             await axios.post('http://localhost:1323/destroy-vendor-app', { app: sanitizedVendor });
         },

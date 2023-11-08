@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_divert_platform_features",
+  "info": {
+    "name": "platform_features",
+    "icon": "hotel"
+  },
+  "options": {},
+  "attributes": {
+    "desktop_pos": {
+      "type": "boolean"
+    },
+    "website": {
+      "type": "boolean"
+    },
+    "mobile_app": {
+      "type": "boolean"
+    }
+  }
+}
