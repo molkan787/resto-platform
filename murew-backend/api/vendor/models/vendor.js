@@ -15,7 +15,7 @@ module.exports = {
         },
         async afterCreate(vendor){
             console.log('afterCreate: Creating vendor app...')
-            return // TMP
+            // return // TMP
             try {
                 await setVendorPlanInSharedDb(vendor);
                 const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
@@ -38,7 +38,7 @@ module.exports = {
         },
         async afterDelete(vendor){
             console.log('afterDelete: Destroying vendor app...')
-            return // TMP
+            // return // TMP
             const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
             await axios.post('http://localhost:1323/destroy-vendor-app', { app: sanitizedVendor });
         },
