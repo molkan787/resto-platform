@@ -36,9 +36,13 @@ module.exports = class NginxConf {
         const v_filename = `vendor_${hostname}`
         const conf_filename = path.join(NGINX_SITES_AVAILABLE_DIR, v_filename)
         const link_filename = path.join(NGINX_SITES_ENABLED_DIR, v_filename)
-        await exec(`rm ${link_filename}`)
-        await exec(`rm ${conf_filename}`)
-        await this.reloadNginx()
+        try {
+            await exec(`rm ${link_filename}`)
+            await exec(`rm ${conf_filename}`)
+            await this.reloadNginx()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     static async reloadNginx(){
