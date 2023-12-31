@@ -40,6 +40,7 @@ const SharedService = {
     const VendorId = process.env.VENDOR_ID || 'dev_vendor';
     const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: VendorId });
     return plan || {
+      vendor_name: '--',
       plan: 'none',
       amount: 0
     };

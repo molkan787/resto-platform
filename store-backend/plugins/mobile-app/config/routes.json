@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/request-build",
+      "handler": "mobile-app.requestBuild",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/get-status",
+      "handler": "mobile-app.getStatus",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/download-build-output/app-release.apk",
+      "handler": "mobile-app.downloadBuildOutput",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
