@@ -1,0 +1,24 @@
+{
+  "name": "murew-apps-builder-agent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
+  "license": "PRIVATE",
+  "private": true,
+  "scripts": {
+    "start": "node .",
+    "prepare-template": "node ./mobile-client-builder/run-prepare-project-template.js"
+  },
+  "engines": {
+    "node": ">=20.10.0"
+  },
+  "dependencies": {
+    "brolog": "^1.14.2",
+    "express": "^4.18.2",
+    "mkdirp": "^3.0.1",
+    "mongodb": "^6.3.0",
+    "rimraf": "^5.0.5",
+    "tempfile": "^5.0.0"
+  }
+}

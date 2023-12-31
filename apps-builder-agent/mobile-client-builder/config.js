@@ -1,0 +1,1 @@
+export const MOBILE_CLIENT_PROJECT_DIR = process.env.MOBILE_CLIENT_PROJECT_DIR || "D:\\projects\\Murew"
