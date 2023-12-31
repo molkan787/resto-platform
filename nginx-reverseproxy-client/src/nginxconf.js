@@ -19,7 +19,7 @@ module.exports = class NginxConf {
             server_name  ${hostname};
     
             location / {
-                    proxy_pass ${targetURL};
+                proxy_pass ${targetURL};
             }
         }
         `
@@ -28,7 +28,7 @@ module.exports = class NginxConf {
         const link_filename = path.join(NGINX_SITES_ENABLED_DIR, v_filename)
         await writeFile(conf_filename, confStr, 'utf8')
         await exec(`ln -s ${conf_filename} ${link_filename}`)
-        await exec('systemctl reload nginx')
+        await this.reloadNginx()
     }
 
     static async removeVirtualHost(hostname){
@@ -38,6 +38,10 @@ module.exports = class NginxConf {
         const link_filename = path.join(NGINX_SITES_ENABLED_DIR, v_filename)
         await exec(`rm ${link_filename}`)
         await exec(`rm ${conf_filename}`)
+        await this.reloadNginx()
+    }
+
+    static async reloadNginx(){
         await exec('systemctl reload nginx')
     }
 
