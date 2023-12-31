@@ -157,11 +157,11 @@ module.exports = class MurewSupervisor{
     }
 
     async addProxyHostMap(sourceHost, target){
-        await axios.post('http://localhost/hosts/add', { sourceHost, target });
+        await axios.post('http://localhost:1340/hosts/add', { sourceHost, target });
     }
     
     async removeProxyHostMap(sourceHost){
-        await axios.post('http://localhost/hosts/remove', { sourceHost });
+        await axios.post('http://localhost:1340/hosts/remove', { sourceHost });
     }
 
     async startVendorApp(appId){
