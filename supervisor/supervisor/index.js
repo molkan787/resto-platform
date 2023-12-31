@@ -78,8 +78,8 @@ module.exports = class MurewSupervisor{
         ]);
         await container.start();
         console.log('createVendorApp: Adding domain mapping to reverse proxy server...');
-        await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://localhost:${frontendPort}`);
-        await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://localhost:${backendPort}`);
+        await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://127.0.0.1:${frontendPort}`);
+        await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://127.0.0.1:${backendPort}`);
         return {
             adminRegistrationUrl,
             serverIP: process.env.PUBLIC_IP
