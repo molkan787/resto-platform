@@ -45,7 +45,7 @@ module.exports = {
     }
     const vendor = await strapi.query('vendor').create(vendorData)
     console.log('vendor:', vendor)
-    // await this.createAdminAccount(vendor.id.toString(), userInfo)
+    await this.createAdminAccount(vendor.id.toString(), userInfo)
     // await this.createAdminAccount('murew-store', userInfo)
     return true
   },

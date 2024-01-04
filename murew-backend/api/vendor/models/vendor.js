@@ -15,7 +15,7 @@ module.exports = {
         },
         async afterCreate(vendor){
             console.log('afterCreate: Creating vendor app...')
-            return // TMP
+            // return // TMP
             try {
                 await setVendorPlanInSharedDb(vendor);
                 const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
