@@ -7,7 +7,7 @@ const path = require('path');
 const axios = require('axios');
 const { randomString } = require('../utils');
 
-const WEB_PROTOCOL = 'https';
+const PUBLIC_WEB_PROTOCOL = 'https';
 
 module.exports = class MurewSupervisor{
 
@@ -55,7 +55,7 @@ module.exports = class MurewSupervisor{
             }else{
                 console.log('createVendorApp: Creating vendor admin registration...');
                 const urlPath = await this.createAdminAccountRegistration(appId);
-                adminRegistrationUrl = `${WEB_PROTOCOL}://backend.${domain}${urlPath}`;
+                adminRegistrationUrl = `${PUBLIC_WEB_PROTOCOL}://backend.${domain}${urlPath}`;
             }
         }
         const DB_URI = this._getDbUri(appId);
@@ -63,8 +63,8 @@ module.exports = class MurewSupervisor{
         const port_pointer = parseInt(_port_pointer);
         const frontendPort = 8000 + port_pointer;
         const backendPort = 9000 + port_pointer;
-        const backendUrl = `${WEB_PROTOCOL}://backend.${domain}`;
-        const frontendUrl = `${WEB_PROTOCOL}://${domain}`;
+        const backendUrl = `${PUBLIC_WEB_PROTOCOL}://backend.${domain}`;
+        const frontendUrl = `${PUBLIC_WEB_PROTOCOL}://${domain}`;
         console.log('createVendorApp: Creating vendor\'s app container...');
         const container = await this.createVendorAppContainer(appId, {
             frontend: frontendPort,
@@ -75,13 +75,13 @@ module.exports = class MurewSupervisor{
             'HOST=0.0.0.0',
             `BACKEND_URL=${backendUrl}`,
             `FRONTEND_URL=${frontendUrl}`,
-            `DISTANCE_HELPER_URL=${WEB_PROTOCOL}://${Consts.DISTANCE_HELPER_NAME}:1338`
+            `DISTANCE_HELPER_URL=http://${Consts.DISTANCE_HELPER_NAME}:1338`
         ]);
         await container.start();
         console.log('createVendorApp: Adding domain mapping to reverse proxy server...');
         if(!isUpdate){
-            await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://127.0.0.1:${frontendPort}`);
-            await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://127.0.0.1:${backendPort}`);
+            await this.addProxyHostMap(domain, `http://127.0.0.1:${frontendPort}`);
+            await this.addProxyHostMap(`backend.${domain}`, `http://127.0.0.1:${backendPort}`);
             await this.generateSSLCertificates(domain)
         }
         return {
