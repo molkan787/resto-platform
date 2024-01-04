@@ -1,10 +1,16 @@
 const child_process = require('child_process');
 
+/**
+ * 
+ * @param {string} cmd 
+ * @returns {Promise<{ stdout: string, stderr: string }>}
+ */
 function exec(cmd){
     return new Promise((resolve, reject) => {
-        const child = child_process.exec(cmd);
-        child.on('error', reject);
-        child.on('exit', resolve);
+        child_process.exec(cmd, (error, stdout, stderr) => {
+            if(error) reject(error)
+            else resolve({ stdout, stderr })
+        });
     });
 }
 

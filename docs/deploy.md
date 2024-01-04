@@ -6,4 +6,5 @@ The following packages must be installed on the target machine
 - Yarn (npm package - globally installed)
 - PM2 (npm package - globally installed)
 - Docker
-- MongoDB Command Line Database Tools
+- MongoDB Command Line Database Tools (v100)
+- Certbot 2.8.0

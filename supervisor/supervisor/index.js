@@ -7,7 +7,7 @@ const path = require('path');
 const axios = require('axios');
 const { randomString } = require('../utils');
 
-const WEB_PROTOCOL = 'http';
+const WEB_PROTOCOL = 'https';
 
 module.exports = class MurewSupervisor{
 
@@ -21,7 +21,7 @@ module.exports = class MurewSupervisor{
     }
 
     async updateVendorApp(app){
-        await this.destroyVendorApp(app);
+        await this.destroyVendorApp(app, true);
         await this.createVendorApp(app, true);
     }
 
@@ -29,23 +29,24 @@ module.exports = class MurewSupervisor{
      * 
      * @param {{id: string, domain: string}} app 
      */
-    async destroyVendorApp(app){
+    async destroyVendorApp(app, isUpdate){
         const { id: appId, domain } = app;
         const container  = docker.getContainer('vendor_app_' + appId);
         await container.stop();
         await container.remove();
-        await this.removeProxyHostMap(domain);
-        await this.removeProxyHostMap(`backend.${domain}`);
+        if(!isUpdate){
+            await this.removeProxyHostMap(domain);
+            await this.removeProxyHostMap(`backend.${domain}`);
+        }
     }
 
     /**
-     * 
      * @param {{id: string, domain: string, port_pointer: number}} app 
      */
-    async createVendorApp(app, skipDbCreation){
+    async createVendorApp(app, isUpdate){
         const { id: appId, domain, port_pointer: _port_pointer, registration_url } = app;
         let adminRegistrationUrl = '';
-        if(!skipDbCreation){
+        if(!isUpdate){
             console.log('createVendorApp: Creating vendor database...');
             await this.createVendorDB(appId);
             if(registration_url === '--'){
@@ -78,12 +79,25 @@ module.exports = class MurewSupervisor{
         ]);
         await container.start();
         console.log('createVendorApp: Adding domain mapping to reverse proxy server...');
-        await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://127.0.0.1:${frontendPort}`);
-        await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://127.0.0.1:${backendPort}`);
+        if(!isUpdate){
+            await this.addProxyHostMap(domain, `${WEB_PROTOCOL}://127.0.0.1:${frontendPort}`);
+            await this.addProxyHostMap(`backend.${domain}`, `${WEB_PROTOCOL}://127.0.0.1:${backendPort}`);
+            await this.generateSSLCertificates(domain)
+        }
         return {
             adminRegistrationUrl,
             serverIP: process.env.PUBLIC_IP
         }
+    }
+
+    async generateSSLCertificates(domain){
+        const cmd = `certbot --nginx -d ${domain} -d backend.${domain}`
+        const result = await exec(cmd)
+        const str = result.stdout.toLowerCase()
+        return (
+            str.includes(`successfully deployed certificate for ${domain}`) &&
+            str.includes(`successfully deployed certificate for backend.${domain}`)
+        )
     }
 
     async createVendorDB(appId){
