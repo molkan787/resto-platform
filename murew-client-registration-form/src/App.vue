@@ -111,8 +111,9 @@ async function submitApplication() {
 }
 
 function setApplicationId(id: string){
-  const search = (window.location.search.length > 0 ? '&' : '?') + `aid=${id}`
-  window.location.replace(window.location.href + search)
+  window.top?.postMessage({ applicationId: id })
+  // const search = (window.location.search.length > 0 ? '&' : '?') + `aid=${id}`
+  // window.location.replace(window.location.href + search)
 }
 
 async function submitIdentityVerification(){
