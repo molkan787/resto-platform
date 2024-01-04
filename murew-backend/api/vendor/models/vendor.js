@@ -15,7 +15,7 @@ module.exports = {
         },
         async afterCreate(vendor){
             console.log('afterCreate: Creating vendor app...')
-            // return // TMP
+            return // TMP
             try {
                 await setVendorPlanInSharedDb(vendor);
                 const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
@@ -25,10 +25,10 @@ module.exports = {
                     { id: vendor.id },
                     {
                         registration_url: adminRegistrationUrl,
-                        cluster: {
-                            name: 'Main-Cluster',
-                            public_ip: serverIP
-                        },
+                        // cluster: {
+                        //     name: 'Main-Cluster',
+                        //     public_ip: serverIP
+                        // },
                     }
                 );
             } catch (error) {

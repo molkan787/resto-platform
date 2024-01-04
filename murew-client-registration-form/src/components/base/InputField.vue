@@ -21,7 +21,7 @@ const showEmptyError = computed(
         <label :for="name">{{ label }}</label>
         <input
             :value="modelValue"
-            @input="$emit('update:modelValue', $event.target.value)"
+            @input="$emit('update:modelValue', (<any>$event.target).value)"
             :type="type ?? 'text'" :name="name"
             :placeholder="placeholder ?? label ?? ''"
         />

@@ -5,7 +5,7 @@
  */
 
 module.exports = {
-  async registerClient(data){
+  async registerClient(data, { platform_cluster }){
     const { 
       feature_desktop_pos,
       feature_website,
@@ -30,10 +30,7 @@ module.exports = {
           phone_number: account_phone
         },
         registration_url: '--',
-        cluster: {
-          name: 'Main-Cluster',
-          public_ip: '144.126.225.131'
-        },
+        cluster: platform_cluster,
         features: {
           desktop_pos: feature_desktop_pos,
           website: feature_website,
@@ -48,19 +45,16 @@ module.exports = {
     }
     const vendor = await strapi.query('vendor').create(vendorData)
     console.log('vendor:', vendor)
-    await this.createAdminAccount(vendor.id.toString(), userInfo)
+    // await this.createAdminAccount(vendor.id.toString(), userInfo)
     // await this.createAdminAccount('murew-store', userInfo)
-    return {
-      serverIP: vendor.cluster.public_ip,
-      domain_name: domain_name
-    }
+    return true
   },
   async createAdminAccount(vendorId, userInfo){
     const isDevVendor = vendorId === 'murew-store';
     const dbName = isDevVendor ? 'murew-store' : `vendor_db_${vendorId}`;
     const client = await strapi.services.shareddb.getMongoClient();
     const db = client.db(dbName);
-    // "Store Admin" role has 'strapi-editor' as smug in the database..
+    // "Store Admin" role has 'strapi-editor' as slug in the database..
     const superAdminRole = await db.collection('strapi_role').findOne({ code: 'strapi-editor' })
     const { firstname, lastname, email, password } = userInfo
     const hashedPassword = await strapi.admin.services.auth.hashPassword(password);

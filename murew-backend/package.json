@@ -19,6 +19,7 @@
     "downloadjs": "^1.4.7",
     "eventemitter3": "^4.0.7",
     "excel4node": "^1.7.2",
+    "joi": "^17.11.0",
     "strapi": "3.3.4",
     "strapi-admin": "3.3.4",
     "strapi-connector-bookshelf": "3.3.4",

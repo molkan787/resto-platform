@@ -14,5 +14,15 @@ module.exports = {
                 else resolve(addresses)
             })
         })
+    },
+    async isDomainPointsToIp(domain, ipAddress){
+        try {
+            const addresses = await this.resolveHostIps(domain)
+            console.log(addresses)
+            return addresses.includes(ipAddress)
+        } catch (error) {
+            console.error(error)
+            return false
+        }
     }
 };

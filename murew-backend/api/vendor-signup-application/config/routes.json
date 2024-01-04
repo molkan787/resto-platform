@@ -1,0 +1,84 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/vendor-signup-applications",
+      "handler": "vendor-signup-application.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/vendor-signup-applications/count",
+      "handler": "vendor-signup-application.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/vendor-signup-applications/:id",
+      "handler": "vendor-signup-application.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vendor-signup-applications",
+      "handler": "vendor-signup-application.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/vendor-signup-applications/:id",
+      "handler": "vendor-signup-application.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/vendor-signup-applications/:id",
+      "handler": "vendor-signup-application.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vendor-signup-applications/create-application",
+      "handler": "vendor-signup-application.createApplication",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/vendor-signup-applications/application-data/:id",
+      "handler": "vendor-signup-application.getApplicationData",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vendor-signup-applications/verify-identity/:id",
+      "handler": "vendor-signup-application.verifyIdentity",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vendor-signup-applications/verify-dns/:id",
+      "handler": "vendor-signup-application.verifyDNS",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
