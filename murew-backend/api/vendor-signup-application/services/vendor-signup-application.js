@@ -14,6 +14,10 @@ module.exports = {
         if(error){
             return { error }
         }
+        const { domain_name } = value
+        if(await this.isDomainAlreadyRegistered(domain_name)){
+            return { error: `Domain name "${domain_name}" is already registered in our system, Please use another.` }
+        }
         const picked_cluster = await strapi.services['clusters-manager'].pickCluster()
         const { id, status, cluster } = await strapi.query('vendor-signup-application').create({
             status: 'identity_verification',
@@ -21,6 +25,11 @@ module.exports = {
             cluster: picked_cluster
         })
         return { id, status, cluster: { public_ip: cluster.public_ip } }
+    },
+
+    async isDomainAlreadyRegistered(domainName){
+        const vendor = await strapi.query('vendor').findOne({ domain: domainName })
+        return !!vendor
     },
 
     async getPublicApplicationData(applicationId){

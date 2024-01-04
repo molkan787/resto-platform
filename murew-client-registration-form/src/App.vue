@@ -80,7 +80,7 @@ const web_data = ref({
 async function submitApplication() {
   try {
     loadingText.value = 'Please wait...'
-    const data4Send = <any>Object.assign({}, data)
+    const data4Send = <any>Object.assign({}, data.value)
     delete data4Send.account_repeat_password
     const response = await fetch(
     `${Config.API_URL}/vendor-signup-applications/create-application`,
@@ -93,11 +93,14 @@ async function submitApplication() {
       }
     )
     if(response.status !== 200) throw new Error(response.statusText)
-    const responseData = await response.json()
-    if(responseData.error){
-      alert(responseData.error.details[0].message)
+    const { error, id } = await response.json()
+    if(error){
+      if(typeof error === 'string'){
+        alert(error)
+      }else{
+        alert(error.details[0].message)
+      }
     }else{
-      const { id } = responseData
       setApplicationId(id)
     }
   } catch (error) {
@@ -302,8 +305,8 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
             </ul>
           </p>
           <p>
-            After completing the configuration press the "Verify" button.
-            * Please keep in mind that dns settings may take up to 1 hour to take effect.
+            After completing the configuration press the "Verify" button. <br>
+            * Please keep in mind that dns settings may take up to 24 hours to take effect, You can come back later and continue the registration.
           </p>
         </div>
 
