@@ -32,6 +32,8 @@ const InformationCard = () => {
 
   const isVendor = layout.uid == 'application::vendor.vendor';
   const vendoId = isVendor ? initialData.id : null;
+  console.log('layout.uid', layout.uid)
+  console.log('initialData.id', initialData.id)
 
   const accessBackend = async vendor_id => {
     const response = await request(`/vendor_backend/${vendor_id}`, { method: 'GET' });
