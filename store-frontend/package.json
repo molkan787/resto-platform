@@ -16,6 +16,7 @@
     "boxicons": "^2.0.7",
     "core-js": "^3.6.5",
     "debounce": "^1.2.0",
+    "murew-core": "../murew-core",
     "nuxt": "^2.14.6",
     "primeicons": "^4.1.0",
     "primevue": "^2.0.0",
@@ -40,5 +41,8 @@
     "sass-loader": "^10.1.0",
     "ts-jest": "^26.4.1",
     "vue-jest": "^3.0.4"
+  },
+  "engines": {
+    "node": "12.20.0"
   }
 }
