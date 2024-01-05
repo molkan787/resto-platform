@@ -60,8 +60,8 @@ module.exports = {
             const { domain_name } = data
             const backend_domain_name = 'backend.' + domain_name
             const { public_ip } = cluster
-            const check1 = await strapi.services.helpers.isDomainPointsToIp(domain_name, public_ip)
-            const check2 = await strapi.services.helpers.isDomainPointsToIp(backend_domain_name, public_ip)
+            const check1 = await strapi.services.helpers.isDomainPointingToIp(domain_name, public_ip)
+            const check2 = await strapi.services.helpers.isDomainPointingToIp(backend_domain_name, public_ip)
 
             if(check1 && check2){ // DNS Config is valid (domains points to server's ip)
                 const aid = applicationId

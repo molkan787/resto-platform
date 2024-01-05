@@ -15,7 +15,7 @@ module.exports = {
             })
         })
     },
-    async isDomainPointsToIp(domain, ipAddress){
+    async isDomainPointingToIp(domain, ipAddress){
         try {
             const addresses = await this.resolveHostIps(domain)
             console.log(addresses)
