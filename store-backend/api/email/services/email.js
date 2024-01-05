@@ -6,15 +6,16 @@ console.log('EMAIL_AGENT_URL', EMAIL_AGENT_URL)
 
 module.exports = {
 
-    send(to, subject, content, isHTML){
+    async send(to, subject, content, isHTML){
+        const vendorName = await strapi.services.shared.getVendorName()
         const msg = {
             to,
             subject,
             text: isHTML ? '' : content,
             html: isHTML ? content : content.replace(/\n/g, '<br>'),
-            senderName: 'Murew',
+            senderName: vendorName,
         }
-        return axios.post(`${EMAIL_AGENT_URL}/sendMail`, msg)
+        return await axios.post(`${EMAIL_AGENT_URL}/sendMail`, msg)
     }
 
 }
