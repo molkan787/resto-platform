@@ -9,6 +9,7 @@ async function run(){
     const mongoClient = await MongoClient.connect(DATABASE_URI, { useUnifiedTopology: true });
     const db = mongoClient.db(MASTER_BACKEND_DB_NAME);
     const vendorDoc = await db.collection('vendors').findOne({ _id: ObjectId(vendorId) })
+    vendorDoc.id = vendorDoc._id.toString()
     console.log(`Updating vendor "${vendorDoc.Name}" with domain "${vendorDoc.domain}"`)
     await sleep(10000) // Giving time to user to cancel the operation if needed
     await axios.post('http://127.0.0.1:1323/update-vendor-app', { app: vendorDoc })
