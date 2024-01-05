@@ -65,7 +65,7 @@ module.exports = {
 
             if(check1 && check2){ // DNS Config is valid (domains points to server's ip)
                 const aid = applicationId
-                strapi.services['client-registration'].registerClient(data, cluster)
+                strapi.services['client-registration'].registerClient(data, { platform_cluster: cluster })
                 .then(() => {
                     return strapi.query('vendor-signup-application').update(
                         { id: aid },
