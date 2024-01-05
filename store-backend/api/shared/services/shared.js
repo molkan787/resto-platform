@@ -52,6 +52,13 @@ const SharedService = {
     //   plan: 'percentage',
     //   amount: 8
     // }
+  },
+
+  async getVendorName(){
+    await this.getReady();
+    const VendorId = process.env.VENDOR_ID || 'dev_vendor';
+    const doc = await this.sharedDb.collection('vendor_plans').findOne({ _id: VendorId });
+    return (doc && doc.vendor_name) || 'uJustEat'
   }
 
 };
