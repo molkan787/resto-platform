@@ -8,6 +8,7 @@ const axios = require('axios');
 const { randomString } = require('../utils');
 
 const PUBLIC_WEB_PROTOCOL = 'https';
+const DATABASE_URI = process.env.DATABASE_URI || 'mongodb://localhost:27017'
 
 module.exports = class MurewSupervisor{
 
@@ -17,7 +18,7 @@ module.exports = class MurewSupervisor{
 
     async init(){
         await bootstrap();
-        this.mongoClient = await MongoClient.connect('mongodb://root:murew_is_magic@localhost:27018', { useUnifiedTopology: true });
+        this.mongoClient = await MongoClient.connect(DATABASE_URI, { useUnifiedTopology: true });
     }
 
     async updateVendorApp(app){

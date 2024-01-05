@@ -3,7 +3,7 @@
 | App Name                  | Listen Port | Required env variables                  |
 |---------------------------|-------------|-----------------------------------------|
 | Murew Backend             | 1337        |                                         |
-| Supervisor                | 1323        |                                         |
+| Supervisor                | 1323        | DATABASE_URI                            |
 | Distance Helper           | 1338        | DISTANCE_HELPER_URL                     |
 | Docker MongoDB Container  | 27018       | DATABASE_URI                            |
 | Reverse Proxy             | 80          |                                         |
