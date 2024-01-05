@@ -6,9 +6,9 @@ const { exec } = require('../helpers/shell');
 const path = require('path');
 const axios = require('axios');
 const { randomString } = require('../utils');
+const { DATABASE_URI } = require('../config');
 
 const PUBLIC_WEB_PROTOCOL = 'https';
-const DATABASE_URI = process.env.DATABASE_URI || 'mongodb://localhost:27017'
 
 module.exports = class MurewSupervisor{
 

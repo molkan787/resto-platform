@@ -6,6 +6,9 @@
   "author": "Dahmane Seghier",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "update-vendor-app": "node ./scripts/update-vendor-app.js"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "dockerode": "^3.2.1",
@@ -16,5 +19,8 @@
   },
   "devDependencies": {
     "@types/dockerode": "^3.2.1"
+  },
+  "engines": {
+    "node": "12.20.0"
   }
 }

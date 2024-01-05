@@ -8,4 +8,11 @@ function randomString(length) {
     return result;
 }
 
-module.exports = { randomString };
+function sleep(timeInMS){
+    return new Promise(r => setTimeout(r, timeInMS))
+}
+
+module.exports = {
+    randomString,
+    sleep,
+}

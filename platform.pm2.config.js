@@ -8,7 +8,8 @@ module.exports = {
       script: './index.js',
       env: {
         'PUBLIC_IP': '127.0.0.1',
-        'DATABASE_URI': DATABASE_URI
+        'DATABASE_URI': DATABASE_URI,
+        'MASTER_BACKEND_DB_NAME': 'admin'
       }
     },
     {
