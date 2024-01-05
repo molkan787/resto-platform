@@ -2,7 +2,6 @@ const axios = require('axios')
 const isDocker = require('is-docker')
 
 const EMAIL_AGENT_URL = isDocker() ? 'http://emailagent:3033' : 'http://localhost:3033'
-console.log('EMAIL_AGENT_URL', EMAIL_AGENT_URL)
 
 module.exports = {
 
