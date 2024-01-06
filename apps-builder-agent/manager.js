@@ -110,6 +110,7 @@ export class BuildManager{
     static async addBuildRequest(payload){
         const { vendorId, packageName, appDisplayName, backendURL, iconFileData, primaryColor } = payload
         const collection = sharedDatabase.collection(DB_QUEUE_BUILD_MOBILE_CLIENT)
+        await collection.deleteMany({ vendorId })
         await collection.insertOne({
             status: 'queued',
             createdAt: new Date(),
