@@ -27,7 +27,8 @@ module.exports = {
       script: 'index.js',
       interpreter: '/root/.nvm/versions/node/v20.10.0/bin/node',
       env: {
-        'DATABASE_URI': DATABASE_URI
+        'DATABASE_URI': DATABASE_URI,
+        'MOBILE_CLIENT_PROJECT_DIR': '/root/Murew'
       }
     },
     {
