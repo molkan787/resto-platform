@@ -109,7 +109,7 @@ module.exports = class MurewSupervisor{
             roles: [ "readWrite", "dbAdmin" ]
         });
         await sharedDb.addUser(dbUser, dbPwd, {
-            roles: [ "read" ]
+            roles: [ "readWrite" ]
         });
         await this.importDbData(appId);
     }
