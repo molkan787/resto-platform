@@ -45,7 +45,6 @@ export class BuildManager{
     static async performBuild(payload){
         const logText = `Building '${APPS_TYPES.STORE_MOBILE_CLIENT}' for VENDOR '${payload.vendorId}'`
         log.info(TAG, logText + ' STARTED')
-        console.time('Build')
         const { vendorId, packageName, appDisplayName, backendURL, iconFileData, primaryColor } = payload
         const outputFilename = await buildMobileClient({
             projectDir: MOBILE_CLIENT_PROJECT_DIR,
@@ -56,15 +55,12 @@ export class BuildManager{
             iconFileData: iconFileData.buffer,
             primaryColor,
         })
-        console.timeEnd('Build')
 
-        console.time('Upload')
         await OutputStorage.put({
             appType: 'store-mobile-client',
             reference: payload.vendorId,
             filename: outputFilename
         })
-        console.timeEnd('Upload')
         log.info(TAG, logText + ' COMPLETED')
     }
 
