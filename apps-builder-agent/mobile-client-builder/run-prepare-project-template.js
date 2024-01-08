@@ -1,4 +1,4 @@
-import { prepareProjectTemplate } from "./project-template"
+import { prepareProjectTemplate } from "./project-template.js"
 
 prepareProjectTemplate(process.argv[2])
 .then(() => {
