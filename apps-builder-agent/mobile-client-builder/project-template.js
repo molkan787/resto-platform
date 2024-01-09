@@ -4,7 +4,7 @@ import { rimraf } from 'rimraf'
 
 export const TEMPLATE_PREFIX = 'TEMPLATE_'
 export const TEMPLATE_PACKAGE_NAME = 'com.murew.mobile.client'
-export const TEMPLATE_BACKEND_URL = 'http://backend.manzil-tandoori.com'
+export const TEMPLATE_BACKEND_URL = 'https://backend.manzil-tandoori.com'
 export const TEMPLATE_MAIN_COLOR_LINE = 'mainColor = Color.fromARGB(255, 206, 33, 62)'
 export const TEMPLATE_ANDROID_MANIFEST_FILENAME = 'TEMPLATE_AndroidManifest.xml'
 export const TEMPLATE_MAIN_ACTIVITY_FILENAME = 'TEMPLATE_MainActivity.kt'
