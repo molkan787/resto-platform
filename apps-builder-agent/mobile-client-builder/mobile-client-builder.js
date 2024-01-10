@@ -19,6 +19,9 @@ const BUILD_OUTPUT_FILENAME = 'build/app/outputs/flutter-apk/app-release.apk'
  * `primaryColor` should be provided in the following format "r,g,b"
  */
 export async function build(payload){
+    const print_payload = Object.assign({}, payload)
+    print_payload.iconFileData = `<buffer ${payload.iconFileData.length} bytes>`
+    log.verbose(TAG, `build payload ${JSON.stringify(print_payload)}`)
     const { projectDir, packageName, appDisplayName, backendURL, iconFileData, primaryColor } = payload
     log.verbose(TAG, '[1/3] Preparing icon files...')
     await prepareIconFiles(projectDir, iconFileData)

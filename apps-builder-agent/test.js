@@ -39,7 +39,7 @@ async function downloadOutputFiles(){
 
 async function test(){
     await prepareFiles({
-        projectDir: "D:\\projects\\Murew",
+        projectDir: "/root/Murew",
         packageName: 'com.test.app',
         appDisplayName: 'Test App',
         backendURL: 'https://backend.test.com',

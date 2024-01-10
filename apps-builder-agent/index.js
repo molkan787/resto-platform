@@ -4,7 +4,7 @@ import { BuildManager } from './manager.js'
 import { log } from 'brolog'
 import express from 'express'
  
-log.level('info')
+log.level('verbose')
 const TAG = 'INDEX'
 
 
