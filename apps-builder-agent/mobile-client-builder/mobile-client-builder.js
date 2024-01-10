@@ -49,7 +49,7 @@ function resizeImage(input, width, output){
 /**
  * @param {{ projectDir: string, packageName: string, appDisplayName: string, backendURL: string, primaryColor: string }} options 
  */
-async function prepareFiles(options){
+export async function prepareFiles(options){
     const { projectDir, packageName, appDisplayName, backendURL, primaryColor } = options
     
     // TODO: {TODO-SECURITY} Sanitize/Check provided parameters before injecting them into code
@@ -60,8 +60,8 @@ async function prepareFiles(options){
         path.join(projectDir, ANDROID_SRC_MAIN_DIR, TEMPLATE_ANDROID_MANIFEST_FILENAME),
         dstAndroidManifest
     )
-    await replaceInTextFile(dstAndroidManifest, TEMPLATE_PACKAGE_NAME, packageName)
-    await replaceInTextFile(dstAndroidManifest, 'android:label="Murew"', `android:label="${appDisplayName}"`)
+    await replaceInTextFile(dstAndroidManifest, TEMPLATE_PACKAGE_NAME, packageName, true)
+    await replaceInTextFile(dstAndroidManifest, 'android:label="Murew"', `android:label="${appDisplayName}"`, true)
 
     log.verbose(TAG, 'Creating source\'s directories chain to match the package name')
     const packageNameDirs = packageName.split('.')
@@ -75,7 +75,7 @@ async function prepareFiles(options){
         path.join(projectDir, ANDROID_SRC_MAIN_DIR, TEMPLATE_MAIN_ACTIVITY_FILENAME),
         dstMainActivity
     )
-    await replaceInTextFile(dstMainActivity, TEMPLATE_PACKAGE_NAME, packageName)
+    await replaceInTextFile(dstMainActivity, TEMPLATE_PACKAGE_NAME, packageName, true)
 
     log.verbose(TAG, 'Settting the PackageName in android/app/build.gradle')
     const dstBuildGradle = path.join(projectDir, 'android', 'app', 'build.gradle')
@@ -83,7 +83,7 @@ async function prepareFiles(options){
         path.join(projectDir, 'android', 'app', TEMPLATE_BUILD_GRADLE_FILENAME),
         dstBuildGradle
     )
-    await replaceInTextFile(dstBuildGradle, TEMPLATE_PACKAGE_NAME, packageName)
+    await replaceInTextFile(dstBuildGradle, TEMPLATE_PACKAGE_NAME, packageName, true)
 
     log.verbose(TAG, 'Setting the Vendor\'s Backend-URL in the dart source code (backend/link_api.dart)')
     const dstLinkApi = path.join(projectDir, DART_SRC_MAIN_DIR, 'backend', 'link_api.dart')
@@ -91,7 +91,7 @@ async function prepareFiles(options){
         path.join(projectDir, DART_SRC_MAIN_DIR, 'backend', TEMPLATE_LINK_API_FILENAME),
         dstLinkApi
     )
-    await replaceInTextFile(dstLinkApi, TEMPLATE_BACKEND_URL, backendURL)
+    await replaceInTextFile(dstLinkApi, TEMPLATE_BACKEND_URL, backendURL, true)
 
     log.verbose(TAG, 'Setting Primary Color in the dart source code (Themes/colors.dart)')
     const dstColors = path.join(projectDir, DART_SRC_MAIN_DIR, 'Themes', SOURCE_COLORS_FILENAME)
@@ -99,7 +99,7 @@ async function prepareFiles(options){
         path.join(projectDir, DART_SRC_MAIN_DIR, 'Themes', TEMPLATE_PREFIX + SOURCE_COLORS_FILENAME),
         dstColors
     )
-    await replaceInTextFile(dstColors, TEMPLATE_MAIN_COLOR_LINE, `mainColor = Color.fromARGB(255, ${primaryColor})`)
+    await replaceInTextFile(dstColors, TEMPLATE_MAIN_COLOR_LINE, `mainColor = Color.fromARGB(255, ${primaryColor})`, true)
 
     log.verbose(TAG, 'prepareFiles() completed')
 }

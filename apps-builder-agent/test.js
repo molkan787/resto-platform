@@ -5,6 +5,7 @@ import { OutputStorage } from './output-storage/output-storage.js'
 import { ObjectId } from 'mongodb'
 import fs from 'fs'
 import path from 'path'
+import { prepareFiles } from './mobile-client-builder/mobile-client-builder.js'
 
 log.level('silly')
 const TAG = 'TEST'
@@ -37,7 +38,13 @@ async function downloadOutputFiles(){
 }
 
 async function test(){
-    console.log(process.argv)
+    await prepareFiles({
+        projectDir: "D:\\projects\\Murew",
+        packageName: 'com.test.app',
+        appDisplayName: 'Test App',
+        backendURL: 'https://backend.test.com',
+        primaryColor: '150, 20, 60'
+    })
 }
 
 // InitDatabase()

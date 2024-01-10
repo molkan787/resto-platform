@@ -75,8 +75,15 @@ export const writeFile = (filename, data, encoding) => new Promise((resolve, rej
     })
 })
 
-export const replaceInTextFile = async (filename, search, replacement) => {
+export const replaceInTextFile = async (filename, search, replacement, strict) => {
+    /** @type {string} */
     let data = await readFile(filename, 'utf8');
+    if(strict){
+        const index = data.indexOf(search)
+        if(index === -1){
+            throw new Error('replaceInTextFile(): Search string not found.')
+        }
+    }
     data = data.replace(search, replacement);
     await writeFile(filename, data, 'utf8');
 }
