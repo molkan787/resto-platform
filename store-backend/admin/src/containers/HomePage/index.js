@@ -15,10 +15,9 @@ import useFetch from './hooks';
 import { ALink, Block, Container, LinkWrapper, P, Wave, Separator } from './components';
 
 import { VueWrapper } from 'vuera';
-import VueTest from './VueTest.vue'
+import DashboardMainPanel from './DashboardMainPanel.vue'
 
 const HomePage = ({ history: { push } }) => {
-  const { error, isLoading, posts } = useFetch();
   // Temporary until we develop the menu API
   const { collectionTypes, singleTypes, isLoading: isLoadingForModels } = useModels();
 
@@ -30,36 +29,16 @@ const HomePage = ({ history: { push } }) => {
     );
   };
 
-  const hasAlreadyCreatedContentTypes = useMemo(() => {
-    const filterContentTypes = contentTypes => contentTypes.filter(c => c.isDisplayed);
-
-    return (
-      filterContentTypes(collectionTypes).length > 1 || filterContentTypes(singleTypes).length > 0
-    );
-  }, [collectionTypes, singleTypes]);
-
   if (isLoadingForModels) {
     return <LoadingIndicatorPage />;
   }
 
-  const headerId = hasAlreadyCreatedContentTypes
-    ? 'HomePage.greetings'
-    : 'app.components.HomePage.welcome';
-  const username = get(auth.getUserInfo(), 'username', '');
-  const linkProps = hasAlreadyCreatedContentTypes
-    ? {
-        id: 'app.components.HomePage.button.blog',
-        href: 'https://strapi.io/blog/',
-        onClick: () => {},
-        type: 'blog',
-        target: '_blank',
-      }
-    : {
-        id: 'app.components.HomePage.create',
-        href: '',
-        onClick: handleClick,
-        type: 'documentation',
-      };
+  // const features = useMemo(() => window.strapi.platform.features)
+  
+  const { host } = window.location
+  const fHost = host.startsWith('backend.') ? host.substring(8) : host
+  const frontendURL = 'https://' + fHost
+
 
   return (
     <>
@@ -70,16 +49,26 @@ const HomePage = ({ history: { push } }) => {
         <div className="row">
           <div className="col-lg-8 col-md-12">
             <Block>
-              <h1>Dashboard</h1>
-              <VueWrapper component={VueTest} />
+              {/* <h1>Dashboard</h1> */}
+              <VueWrapper component={DashboardMainPanel} />
             </Block>
           </div>
 
           <div className="col-md-12 col-lg-4">
             <Block style={{ paddingRight: 30, paddingBottom: 0 }}>
-              <h2>Murew</h2>
-              <Separator style={{ marginTop: 18 }} />
-              <h4>Sub-content</h4>
+              <h2>Your Apps</h2>
+              <Separator style={{ marginTop: 14, marginBottom: 12 }} />
+              <h4 style={{ marginBottom: 2 }}>Website:</h4>
+              <a href={ frontendURL } target="_blank">
+                {frontendURL}
+              </a>
+              <div style={{ height: 12 }}></div>
+              <h4 style={{ marginBottom: 2 }}>Mobile App:</h4>
+              <a href="/admin/plugins/mobile-app">Generate App</a>
+              <div style={{ height: 12 }}></div>
+              <h4 style={{ marginBottom: 2 }}>POS App:</h4>
+              <a href="/admin/plugins/pos-sync">Configure</a>
+              <div style={{ height: 12 }}></div>
             </Block>
           </div>
         </div>

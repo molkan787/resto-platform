@@ -28,7 +28,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 // Strapi provider with the internal APIs
-import { StrapiProvider } from 'strapi-helper-plugin';
+import { StrapiProvider, request } from 'strapi-helper-plugin';
 import { merge } from 'lodash';
 import Fonts from './components/Fonts';
 import { freezeApp, pluginLoaded, unfreezeApp, updatePlugin } from './containers/App/actions';
@@ -147,12 +147,23 @@ const lockAppWithOverlay = () => {
   lockApp(overlayblockerParams);
 };
 
+const platform = {
+  features: {}
+}
+
+// new Promise(r => setTimeout(r, 5000)).then(() => request('/platform-features/features'))
+// .then(d => {
+//   console.log('d', d)
+//   platform.features = d.features
+// })
+
 window.strapi = Object.assign(window.strapi || {}, {
   node: MODE || 'host',
   env: NODE_ENV,
   remoteURL,
   backendURL: BACKEND_URL === '/' ? window.location.origin : BACKEND_URL,
   onStoresLoaded: [],
+  platform,
   notification: {
     // New notification api
     toggle: config => {

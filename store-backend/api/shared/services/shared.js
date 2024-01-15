@@ -1,6 +1,6 @@
 'use strict';
 
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 function getSharedDbUriFromVendorDbUri(uri){
   const sharedDbName = 'murew-shared';
@@ -37,27 +37,21 @@ const SharedService = {
 
   async getVendorPlan(){
     await this.getReady();
-    const VendorId = process.env.VENDOR_ID || 'dev_vendor';
-    const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: VendorId });
+    const VendorId = process.env.VENDOR_ID || '65a4fae3d8cd667865e3ce38';
+    const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: ObjectId(VendorId) });
+    console.log(plan)
     return plan || {
       vendor_name: '--',
       plan: 'none',
-      amount: 0
-    };
-    // return {
-    //   plan: 'monthly_fee',
-    //   amount: 10
-    // }
-    // return {
-    //   plan: 'percentage',
-    //   amount: 8
-    // }
+      amount: 0,
+      features: {}
+    }
   },
 
   async getVendorName(){
     await this.getReady();
-    const VendorId = process.env.VENDOR_ID || 'dev_vendor';
-    const doc = await this.sharedDb.collection('vendor_plans').findOne({ _id: VendorId });
+    const VendorId = process.env.VENDOR_ID || '65a4fae3d8cd667865e3ce38';
+    const doc = await this.sharedDb.collection('vendor_plans').findOne({ _id: ObjectId(VendorId) });
     return (doc && doc.vendor_name) || 'uJustEat'
   }
 

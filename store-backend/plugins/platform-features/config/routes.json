@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/features",
+      "handler": "platform-features.getFeatures",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

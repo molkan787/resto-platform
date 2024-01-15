@@ -49,7 +49,7 @@ module.exports = {
 };
 
 async function setVendorPlanInSharedDb(vendor){
-    const { id, plan_type, fee_amount, Name } = vendor;
+    const { id, plan_type, fee_amount, Name, features } = vendor;
     const db = await strapi.services.shareddb.getDb();
     await db.collection('vendor_plans').updateOne({
         _id: id
@@ -57,7 +57,8 @@ async function setVendorPlanInSharedDb(vendor){
         $set: {
             vendor_name: Name,
             plan: plan_type,
-            amount: fee_amount
+            amount: fee_amount,
+            features: features
         }
     }, {
         upsert: true
