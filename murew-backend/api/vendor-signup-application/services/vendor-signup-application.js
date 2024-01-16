@@ -74,6 +74,10 @@ module.exports = {
                 }).catch(err => {
                     console.error(`Vendor registration failed { applicationId = ${id}, domain = ${domain_name} }`)
                     console.error(err)
+                    strapi.query('vendor-signup-application').update(
+                        { id: aid },
+                        { status: 'errored' }
+                    )
                 })
                 const { status } = await strapi.query('vendor-signup-application').update(
                     { id: applicationId },

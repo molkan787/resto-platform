@@ -32,7 +32,7 @@ module.exports = {
                     }
                 );
             } catch (error) {
-                await strapi.query('vendor').delete({ id: vendor.id });
+                // await strapi.query('vendor').delete({ id: vendor.id });
                 throw error;
             }
         },
@@ -40,7 +40,12 @@ module.exports = {
             console.log('afterDelete: Destroying vendor app...')
             // return // TMP
             const sanitizedVendor = sanitizeEntity(vendor, { model: strapi.models.vendor });
-            await axios.post('http://localhost:1323/destroy-vendor-app', { app: sanitizedVendor });
+            try {
+                await axios.post('http://localhost:1323/destroy-vendor-app', { app: sanitizedVendor });
+            } catch (error) {
+                console.error('An error occured while destroying vendor app (http request to supervisor)')
+                console.error(error)
+            }
         },
         async afterUpdate(vendor){
             await setVendorPlanInSharedDb(vendor);

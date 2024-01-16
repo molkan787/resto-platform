@@ -7,7 +7,8 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "rs": "ser stop murew-backend && ser start murew-backend"
   },
   "devDependencies": {
     "@types/eventemitter3": "^2.0.2",

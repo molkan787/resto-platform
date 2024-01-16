@@ -6,6 +6,10 @@
 
 module.exports = {
   async registerClient(data, { platform_cluster }){
+    const cluster = Object.assign({}, platform_cluster)
+    console.log(platform_cluster)
+    delete cluster.id
+    delete cluster._id
     const { 
       feature_desktop_pos,
       feature_website,
@@ -30,7 +34,7 @@ module.exports = {
           phone_number: account_phone
         },
         registration_url: '--',
-        cluster: platform_cluster,
+        cluster: cluster,
         features: {
           desktop_pos: feature_desktop_pos,
           website: feature_website,
