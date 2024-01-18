@@ -5,9 +5,9 @@
         <table>
             <tbody>
                 <tr>
-                    <td class="mtd big-number">17</td>
-                    <td class="mtd big-number">8</td>
-                    <td class="mtd big-number">37</td>
+                    <td class="mtd big-number">0</td>
+                    <td class="mtd big-number">0</td>
+                    <td class="mtd big-number">0</td>
                 </tr>
                 <tr>
                     <td class="mtd st-name">Pending</td>
