@@ -80,7 +80,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
 
 export default {
     data: () => ({
-        primaryColor: '247, 184, 10',
+        primaryColor: '',
         loading: false,
         refreshing: false,
         statusData: null,
