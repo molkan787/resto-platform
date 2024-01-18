@@ -1,6 +1,7 @@
 FROM node:12.20.0
 
 ENV npm_config_platform=linux
+ENV NODE_ENV=production
 
 
 WORKDIR /usr/src/apps/murew-core
