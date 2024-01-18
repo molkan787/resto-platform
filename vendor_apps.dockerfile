@@ -1,8 +1,6 @@
 FROM node:12.20.0
 
 ENV npm_config_platform=linux
-ENV NODE_ENV=production
-
 
 WORKDIR /usr/src/apps/murew-core
 COPY ./murew-core/package.json .
@@ -19,6 +17,7 @@ COPY ./store-frontend/package.json .
 COPY ./store-frontend/yarn.lock .
 RUN yarn install
 
+ENV NODE_ENV=production
 
 WORKDIR /usr/src/apps/murew-core
 COPY ./murew-core .
