@@ -49,6 +49,7 @@ const TMP_DB_NAME = 'murew-store-tmp';
 async function populateDefaultData(db){
     const storesColl = db.collection('stores');
     await storesColl.insertOne({
+        _id: new ObjectID('611a4dc0d2ad725168e343e7'),
         active: true,
         name: 'Main',
         address: [],
