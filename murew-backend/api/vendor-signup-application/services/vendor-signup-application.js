@@ -76,7 +76,7 @@ module.exports = {
                     console.error(err)
                     strapi.query('vendor-signup-application').update(
                         { id: aid },
-                        { status: 'errored' }
+                        { status: 'create_failed' }
                     )
                 })
                 const { status } = await strapi.query('vendor-signup-application').update(
