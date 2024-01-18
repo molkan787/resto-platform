@@ -38,8 +38,8 @@ const SharedService = {
   async getVendorPlan(){
     await this.getReady();
     const VendorId = process.env.VENDOR_ID || '65a4fae3d8cd667865e3ce38';
-    const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: ObjectId(VendorId) });
-    console.log(plan)
+    const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: VendorId });
+    
     return plan || {
       vendor_name: '--',
       plan: 'none',
@@ -49,9 +49,7 @@ const SharedService = {
   },
 
   async getVendorName(){
-    await this.getReady();
-    const VendorId = process.env.VENDOR_ID || '65a4fae3d8cd667865e3ce38';
-    const doc = await this.sharedDb.collection('vendor_plans').findOne({ _id: ObjectId(VendorId) });
+    const doc = await this.getVendorPlan()
     return (doc && doc.vendor_name) || 'uJustEat'
   }
 
