@@ -31,7 +31,8 @@ const SharedService = {
 
   async getSettings(){
     await this.getReady();
-    const { _id, ...settings } = await this.sharedDb.collection('settings').findOne({});
+    const doc = await this.sharedDb.collection('settings').findOne({});
+    const { _id, ...settings } = doc || {}
     return settings;
   },
 
