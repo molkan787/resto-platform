@@ -15,7 +15,7 @@ module.exports = {
             amount: intTotal,
             currency: 'gbp',
             metadata: {
-                vendor_id: this.getCurrentVendorId(),
+                vendor_id: strapi.config.vendor.VENDOR_ID,
                 order_id: orderId,
             },
             // application_fee_amount: Math.floor(intTotal * 0.1),
@@ -104,9 +104,5 @@ module.exports = {
             return null;
         }
     },
-
-    getCurrentVendorId(){
-        return process.env.VENDOR_ID || 'dev_vendor';
-    }
 
 };

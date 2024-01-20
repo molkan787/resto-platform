@@ -71,7 +71,7 @@ module.exports = {
     },
 
     getCurrentVendorId(){
-        return process.env.VENDOR_ID || 'dev_vendor'
+        return strapi.config.vendor.VENDOR_ID
     }
 
 };
