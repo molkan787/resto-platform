@@ -160,6 +160,7 @@ export default {
                     if(paymentSuccess){
                         this.$cartService.clearCart();
                         this.redirectToOrderPage(resp.order);
+                        alert('Your order was successfully placed, Now it is awaiting the restaurant to accept it!')
                     }
                 } catch (error) {
                     console.error(error);
