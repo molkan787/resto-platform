@@ -67,8 +67,8 @@ export default {
             font-weight: bold;
         }
         &.selected{
-            background-color:  rgba(var(--vs-primary), 1);
-            color: white;
+            background-color: rgba(var(--vs-primary), 0.3);
+            text-decoration: underline;
         }
     }
     .children{
