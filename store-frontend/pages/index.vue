@@ -6,6 +6,18 @@
           <h1 class="hd1">{{ header }}</h1>
           <h1 class="hd2">{{ subheader }}</h1>
           <p class="bp1">{{ text }}</p>
+          <div class="menu-buttons">
+            <template v-if="stores.length > 1">
+              <vs-button v-for="store in stores" :key="store.id" size="xl" :to="`/order/${store.slug}`">
+                Order from {{ store.name | capitalize }}
+              </vs-button>
+            </template>
+            <template v-else>
+              <vs-button :active="active == 'order'" size="xl" :to="`/order/${(stores[0] || {}).slug}`">
+                ORDER ONLINE
+              </vs-button>
+            </template>
+          </div>
           <p class="menu-buttons">
             <a v-for="btn in menuButtons" :key="btn.id" :href="btn.url" target="_blank">
               <vs-button border size="large">
@@ -154,6 +166,11 @@ export default {
   }
   .menu-buttons{
     padding-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    & > button{
+      margin: 0 10px;
+    }
   }
 }
 </style>
