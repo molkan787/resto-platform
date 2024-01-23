@@ -26,7 +26,7 @@ export default {
         const images = data.images.map(({ alternativeText, url, formats }) => ({
             alt: alternativeText,
             url: prefixUrl + url,
-            thumbnail: `${prefixUrl}/files/${formats.small.name}`,
+            thumbnail: `${prefixUrl}/files/${formats.thumbnail.name}`,
         }));
         return { images }
     },
