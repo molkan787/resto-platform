@@ -4,12 +4,18 @@
         <vs-card class="category-header-card" @click="headerCardClick">
           <template #text>
             <h2>
-              {{ activeName }}
+              {{ category.name }}
               <i class="bx" :class="expanded ? 'bxs-down-arrow' : 'bxs-up-arrow'"></i>
             </h2>
-            <div class="childs-tabs hide-scrollbar" v-if="expanded && childsItems.length">
+            <div class="childs-tabs hide-scrollbar" v-if="expanded && category.children.length">
               <div class="items" cancel-toggle>
-                <div v-for="child in childsItems" :key="child.id" @click="active = child.id ? child : null" cancel-toggle>
+                <div @click="active = null" :class="{ active: active === null }" cancel-toggle>
+                  All
+                </div>
+                <div v-for="child in category.children" :key="child.id"
+                  @click="active = child.id ? child : null"
+                  :class="{ active: active && active.id === child.id }"
+                  cancel-toggle>
                   {{ child.name }}
                 </div>
               </div>
@@ -36,24 +42,18 @@ export default {
     expanded: false,
   }),
   computed: {
-    activeName(){
-      return this.active ? this.active.name : this.category.name;
-    },
     products(){
-      return this.active ? this.active.products : this.category.products;
+      return this.active ? this.active.products : this.allProducts;
     },
     children(){
       return this.category.children.reduce((m, c) => (m[c.id] = c) && m, {});
     },
-    childsItems(){
-      const items = this.category.children.filter(c => c !== this.active);
-      if(this.active != null){
-        items.unshift({
-          id: null,
-          name: this.category.name
-        });
+    allProducts(){
+      const all = [...this.category.products]
+      for(let n = 0; n < this.category.children.length; n++){
+        all.push(...this.category.children[n].products)
       }
-      return items;
+      return all
     }
   },
   methods: {
@@ -87,6 +87,11 @@ export default {
           font-size: 17px;
           padding: 0 6px;
           cursor: pointer;
+          opacity: 0.8;
+          &.active{
+            font-weight: bold;
+            opacity: 1;
+          }
         }
       }
     }

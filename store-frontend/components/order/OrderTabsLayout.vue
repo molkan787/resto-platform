@@ -26,7 +26,17 @@ export default {
     },
     computed: {
         products(){
-            return this.selectedCategory && this.selectedCategory.products;
+            if(!this.selectedCategory) return []
+            const childs = this.selectedCategory.children
+            if(childs && childs.length > 0){
+                const all = [...this.selectedCategory.products]
+                for(let n = 0; n < this.selectedCategory.children.length; n++){
+                    all.push(...this.selectedCategory.children[n].products)
+                }
+                return all
+            }else{
+                return this.selectedCategory.products;
+            }
         }
     },
     data: () => ({
