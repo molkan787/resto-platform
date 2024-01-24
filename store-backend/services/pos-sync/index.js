@@ -116,7 +116,7 @@ module.exports = class PosSyncService{
     }
 
     sendOrder(order){
-        console.log('sending order', order)
+        console.log(`[pos-sync] sending order {${order.id}}`)
         this.sendAction(MurewActions.NewOrder, order);
     }
 
