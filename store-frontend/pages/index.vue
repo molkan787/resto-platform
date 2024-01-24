@@ -13,7 +13,7 @@
               </vs-button>
             </template>
             <template v-else>
-              <vs-button :active="active == 'order'" size="xl" :to="`/order/${(stores[0] || {}).slug}`">
+              <vs-button size="xl" :to="`/order/${(stores[0] || {}).slug}`">
                 ORDER ONLINE
               </vs-button>
             </template>
