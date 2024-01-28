@@ -39,7 +39,7 @@ const SharedService = {
   async getVendorPlan(){
     await this.getReady();
     const VendorId = strapi.config.vendor.VENDOR_ID;
-    const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: VendorId });
+    const plan = await this.sharedDb.collection('vendor_plans').findOne({ _id: ObjectId(VendorId) });
     
     return plan || {
       vendor_name: '--',

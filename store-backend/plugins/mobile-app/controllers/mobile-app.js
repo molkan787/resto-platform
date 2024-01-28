@@ -13,10 +13,19 @@ module.exports = {
    */
 
   requestBuild: async (ctx) => {
-    await strapi.plugins['mobile-app'].services['mobile-app'].requestMobileAppBuild(ctx.request.body)
-    ctx.send({
-      status: 'ok',
-    })
+    const features = await strapi.plugins['platform-features'].services['platform-features'].getFeatures()
+    const isMobileAppEnabled = !!((features || {}).mobile_app)
+    if(isMobileAppEnabled){
+      await strapi.plugins['mobile-app'].services['mobile-app'].requestMobileAppBuild(ctx.request.body)
+      ctx.send({
+        status: 'ok',
+      })
+    }else{
+      ctx.status = 400
+      ctx.send({
+        status: 'denied',
+      })
+    }
   },
 
   getStatus: async (ctx) => {
