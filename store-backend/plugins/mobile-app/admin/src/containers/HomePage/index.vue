@@ -101,7 +101,7 @@ export default {
     }),
     computed: {
         isEnabled() {
-            return true || !!((this.features || {}).mobile_app)
+            return !!((this.features || {}).mobile_app)
         },
         backendURL() {
             return strapi.backendURL
