@@ -45,7 +45,7 @@ module.exports = class MurewSupervisor{
      * @param {{id: string, domain: string, port_pointer: number}} app 
      */
     async createVendorApp(app, isUpdate){
-        const { id: appId, domain, port_pointer: _port_pointer, registration_url } = app;
+        const { id: appId, domain, port_pointer: _port_pointer, registration_url, features } = app;
         let adminRegistrationUrl = '';
         if(!isUpdate){
             console.log('createVendorApp: Creating vendor database...');
@@ -67,6 +67,7 @@ module.exports = class MurewSupervisor{
         const backendUrl = `${PUBLIC_WEB_PROTOCOL}://backend.${domain}`;
         const frontendUrl = `${PUBLIC_WEB_PROTOCOL}://${domain}`;
         console.log('createVendorApp: Creating vendor\'s app container...');
+        const enableStorefront = !!((features || {}).website)
         const container = await this.createVendorAppContainer(appId, {
             frontend: frontendPort,
             backend: backendPort
@@ -76,7 +77,8 @@ module.exports = class MurewSupervisor{
             'HOST=0.0.0.0',
             `BACKEND_URL=${backendUrl}`,
             `FRONTEND_URL=${frontendUrl}`,
-            `DISTANCE_HELPER_URL=http://${Consts.DISTANCE_HELPER_NAME}:1338`
+            `DISTANCE_HELPER_URL=http://${Consts.DISTANCE_HELPER_NAME}:1338`,
+            `ENABLE_STOREFRONT=${enableStorefront ? 'yes' : 'no'}`
         ]);
         await container.start();
         console.log('createVendorApp: Adding domain mapping to reverse proxy server...');
