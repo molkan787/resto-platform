@@ -1,5 +1,7 @@
 'use strict';
 
+const { ObjectId } = require('mongodb')
+
 /**
  * Read the documentation (https://strapi.io/documentation/v3.x/concepts/models.html#lifecycle-hooks)
  * to customize this model
@@ -57,7 +59,7 @@ async function setVendorPlanInSharedDb(vendor){
     const { id, plan_type, fee_amount, Name, features } = vendor;
     const db = await strapi.services.shareddb.getDb();
     await db.collection('vendor_plans').updateOne({
-        _id: id
+        _id: ObjectId(id)
     }, {
         $set: {
             vendor_name: Name,
