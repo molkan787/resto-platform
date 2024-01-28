@@ -14,15 +14,18 @@ module.exports = {
       strapi.query('store-settings').findOne(),
       strapi.query('vendor-meta').findOne(),
       strapi.services.shared.getSettings(),
-      pageQuery.find({
-        published_at_null: false
-      })
+      pageQuery.find({ published_at_null: false }),
+      strapi.services.shared.getVendorPlan(),
     ])
-    const [ layout, store, vendor_meta, shared_settings, pages ] = data;
+    const [ layout, store, vendor_meta, shared_settings, pages, vendorPlan ] = data;
     const { order_page_layout, primary_color, website_logo } = layout;
     const { delivery_cost, free_delivery_maximum_distance, maximum_delivery_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
     const { stripe_connected_account_ready: stripe_ready, stripe_connected_account_id } = vendor_meta;
+    const { mobile_app } = vendorPlan.features || {}
     return {
+      features: {
+        mobile_app: !!mobile_app
+      },
       layout: {
         order_page_layout,
         primary_color: JSON.parse(primary_color).rgb,
