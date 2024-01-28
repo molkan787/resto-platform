@@ -69,6 +69,7 @@
                                                 Download
                                             </button>
                                         </a>
+                                        <span v-else>--</span>
                                     </td>
                                 </tr>
                             </tbody>
