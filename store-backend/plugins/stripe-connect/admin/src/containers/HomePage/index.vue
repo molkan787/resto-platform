@@ -45,8 +45,8 @@ export default {
     }),
     computed: {
         isConnected(){
-            const { connected_account_ready, connected_account_id, connected_account_email } = this.state;
-            return connected_account_ready && !!connected_account_id && !!connected_account_email;
+            const { connected_account_ready, connected_account_id } = this.state;
+            return connected_account_ready && !!connected_account_id;
         }
     },
     methods: {
