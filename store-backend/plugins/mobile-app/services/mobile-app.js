@@ -29,7 +29,7 @@ module.exports = {
             appDisplayName: vendorName,
             backendURL,
             iconFileData: Buffer.from(iconFileData, 'base64'),
-            primaryColor,
+            primaryColor: this.convertHexToRGB(primaryColor),
         }
         
         const coll = strapi.services.shared.sharedDb.collection('queue_build_mobile_client')
@@ -72,6 +72,18 @@ module.exports = {
 
     getCurrentVendorId(){
         return strapi.config.vendor.VENDOR_ID
+    },
+
+    convertHexToRGB(hexColor){
+        if(typeof hexColor !== 'string') throw new Error('Invalid input')
+        if(hexColor.length !== 7) throw new Error('Invalid hex color code length')
+        const r = parseInt(hexColor.substring(1, 3), 16)
+        const g = parseInt(hexColor.substring(3, 5), 16)
+        const b = parseInt(hexColor.substring(5, 7), 16)
+        if(isNaN(r) || isNaN(g) || isNaN(b)){
+            throw new Error('Invalid hex color code')
+        }
+        return `${r}, ${g}, ${b}`
     }
 
 };

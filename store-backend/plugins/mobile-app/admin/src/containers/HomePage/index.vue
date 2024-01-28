@@ -14,7 +14,14 @@
                     <label for="logoFile"><b>Logo</b></label> <br>
                     <input type="file" name="logoFile" ref="logoFile" /> <br>
                     <label for="primaryColor"><b>Primary Color</b></label> <br>
-                    <input v-model.trim="primaryColor" name="primaryColor" placeholder="Format: R,G,B (ex: 247, 184, 10)" />
+                    <!-- <input v-model.trim="primaryColor" name="primaryColor" placeholder="Format: R,G,B (ex: 247, 184, 10)" /> -->
+                    <div style="display: flex;flex-direction: row;">
+                        <verte v-model="primaryColor" model="hex" menuPosition="center" :showHistory="null" :enableAlpha="false">
+                        </verte>
+                        <div style="padding: 2px 6px;user-select: all;">
+                            {{ primaryColor }}
+                        </div>
+                    </div>
                     <br>
 
                     <div class="spacer r2"></div>
@@ -81,6 +88,8 @@
 <script>
 import 'vue-select/dist/vue-select.css';
 import { request } from 'strapi-helper-plugin';
+import verte from 'verte';
+import 'verte/dist/verte.css';
 
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -90,8 +99,11 @@ const toBase64 = file => new Promise((resolve, reject) => {
 });
 
 export default {
+    components: {
+        verte,
+    },
     data: () => ({
-        primaryColor: '',
+        primaryColor: '#1AA05A',
         loading: false,
         refreshing: false,
         statusData: null,
