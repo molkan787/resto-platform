@@ -86,8 +86,9 @@ export const getters = {
     },
     cartItems: ({ cart, products }: State) => CartUtils.getCartItems(cart.products, products),
     
-    productsTotal: (state: State, getters: any): number => {
-        return getters.cartItems.reduce((t: number, i: any) => t + i.total, 0);
+    productsTotal: ({ cart, products }: State, getters: any): number => {
+        return CartUtils.calcProductsTotal(cart.products, products).total
+        // return getters.cartItems.reduce((t: number, i: any) => t + i.total, 0);
     },
     productsDiscount: (state: State, getters: any) => {
         return OfferUtils.getOfferDiscountAmount(getters.selectedOffer, getters.productsTotal);
