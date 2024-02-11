@@ -1,6 +1,7 @@
 import { CategoryContentType, Offer } from "./interfaces";
 import { Cart, CartItem, CartProductOptions, CartProducts } from "./interfaces/Cart";
 import { Product } from "./interfaces/Product";
+import { fixDecimals } from "./MathUtils";
 import { OfferUtils } from "./OfferUtils";
 import { OrderType } from "./types";
 import { ProductsMap } from "./types/ProductsMap";
@@ -22,7 +23,7 @@ export class CartUtils {
         let values = this.calcProductsTotal(cart.products, products);
         let total = values.total;
         const discount = OfferUtils.getOfferDiscountAmount(offer, total);
-        const deliveryCost = orderType == OrderType.Delivery ? delivery : 0;
+        const deliveryCost = orderType == OrderType.Delivery ? fixDecimals(delivery, 2) : 0;
         total += discount;
         total += deliveryCost;
         return {
@@ -31,7 +32,7 @@ export class CartUtils {
             sub_total: values.total,
             discount: discount,
             delivery_cost: deliveryCost,
-            total: total
+            total: fixDecimals(total, 2)
         };
     }
 
@@ -53,9 +54,9 @@ export class CartUtils {
             }
         }
         return {
-            total,
-            food_total: foodTotal,
-            drinks_total: drinksTotal
+            total: fixDecimals(total, 2),
+            food_total: fixDecimals(foodTotal, 2),
+            drinks_total: fixDecimals(drinksTotal, 2)
         }
     }
 
@@ -80,8 +81,8 @@ export class CartUtils {
      */
     static calcItemTotal(product: Product, options: CartProductOptions){
         const extrasCost = options.extras.reduce((t, e) => t + e.price, 0);
-        const unitPrice = product.price + extrasCost;
-        return unitPrice * options.qty;
+        const unitPrice = fixDecimals(product.price + extrasCost, 2);
+        return fixDecimals(unitPrice * options.qty, 2);
     }
 
 

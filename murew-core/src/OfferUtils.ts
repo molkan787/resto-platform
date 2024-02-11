@@ -3,6 +3,7 @@ import { OfferOptions } from "./interfaces/OfferOptions";
 import { ProductsMap } from "./types";
 import { arrayToMap, getMapItems } from "./DataUtils";
 import { formatPrice, itemsText } from "./TextUtils";
+import { fixDecimals } from "./MathUtils";
 
 export class OfferUtils {
 
@@ -60,7 +61,8 @@ export class OfferUtils {
         if(!benefit) return 0;
         const { type } = benefit;
         if(type == OfferGetType.PercentDiscount){
-            return (<OfferBenefitPercentDiscount>benefit).percent_amount * total / -100;
+            const amt = (<OfferBenefitPercentDiscount>benefit).percent_amount * total / -100
+            return fixDecimals(amt, 2);
         }
         return 0;
     }
