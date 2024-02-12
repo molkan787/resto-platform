@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { DB_QUEUE_BUILD_MOBILE_CLIENT, sharedDatabase } from './database.js'
-import { build as buildMobileClient } from './mobile-client-builder/mobile-client-builder.js'
+import { build as buildAndroidMobileClient } from './mobile-client-builder/android-mobile-client-builder.js'
 import { OutputStorage } from './output-storage/output-storage.js'
 import { sleep } from './helpers.js'
 import { log } from 'brolog'
@@ -46,7 +46,7 @@ export class BuildManager{
         const logText = `Building '${APPS_TYPES.STORE_MOBILE_CLIENT}' for VENDOR '${payload.vendorId}'`
         log.info(TAG, logText + ' STARTED')
         const { vendorId, packageName, appDisplayName, backendURL, iconFileData, primaryColor } = payload
-        const outputFilename = await buildMobileClient({
+        const outputFilename = await buildAndroidMobileClient({
             projectDir: MOBILE_CLIENT_PROJECT_DIR,
             vendorId,
             packageName,
