@@ -6,6 +6,8 @@ import { mkdirp } from 'mkdirp'
 import { rimraf } from 'rimraf'
 import tempfile from 'tempfile'
 import { log } from 'brolog'
+import { settingsCollection } from '../database.js'
+import { ANDROID_SIGING_STORE_FILE, ANDROID_SIGING_KEY_ALIAS } from './config.js'
 
 const TAG = 'MobileClientBuilder'
 
@@ -21,14 +23,23 @@ const BUILD_OUTPUT_FILENAME = 'build/app/outputs/flutter-apk/app-release.apk'
 export async function build(payload){
     const print_payload = Object.assign({}, payload)
     print_payload.iconFileData = `<buffer ${payload.iconFileData.length} bytes>`
+
     log.verbose(TAG, `build payload ${JSON.stringify(print_payload)}`)
     const { projectDir, packageName, appDisplayName, backendURL, iconFileData, primaryColor } = payload
+
     log.verbose(TAG, '[1/3] Preparing icon files...')
     await prepareIconFiles(projectDir, iconFileData)
+
     log.verbose(TAG, '[2/3] Preparing code files...')
     await prepareFiles({ projectDir, packageName, appDisplayName, backendURL, primaryColor })
+
     log.verbose(TAG, '[3/3] Compiling...')
-    await retryAsync(() => exec('flutter build apk', { cwd: projectDir }), 3)
+    const sigingProperties = await getSigingProperties()
+    log.verbose(TAG, `Using keystore "${sigingProperties.AndroidSigning_storeFile}"`)
+    const buildCmdEnvs = Object.assign({}, process.env, sigingProperties)
+    await retryAsync(() => exec('flutter build apk', { cwd: projectDir, env: buildCmdEnvs }), 3)
+
+
     const outputFilename = path.join(projectDir, BUILD_OUTPUT_FILENAME)
     return outputFilename
 }
@@ -72,7 +83,7 @@ export async function prepareFiles(options){
     await rimraf(path.join(projectDir, ANDROID_SRC_MAIN_DIR, 'kotlin'))
     await mkdirp(srcPackageNameDir)
 
-    log.verbose(TAG, 'Settting the PackageName in MainActivity.kt')
+    log.verbose(TAG, 'Setting the PackageName in MainActivity.kt')
     const dstMainActivity = path.join(srcPackageNameDir, 'MainActivity.kt')
     await fs.copyFile(
         path.join(projectDir, ANDROID_SRC_MAIN_DIR, TEMPLATE_MAIN_ACTIVITY_FILENAME),
@@ -80,7 +91,7 @@ export async function prepareFiles(options){
     )
     await replaceInTextFile(dstMainActivity, TEMPLATE_PACKAGE_NAME, packageName, true)
 
-    log.verbose(TAG, 'Settting the PackageName in android/app/build.gradle')
+    log.verbose(TAG, 'Setting the PackageName in android/app/build.gradle')
     const dstBuildGradle = path.join(projectDir, 'android', 'app', 'build.gradle')
     await fs.copyFile(
         path.join(projectDir, 'android', 'app', TEMPLATE_BUILD_GRADLE_FILENAME),
@@ -108,9 +119,14 @@ export async function prepareFiles(options){
 }
 
 
-/**
- * @param {{ vendorId: string }} options 
- */
-async function generateSigningStore(options){
-    
+async function getSigingProperties(){
+    const doc = await settingsCollection.findOne({ key: 'android_signing' })
+    if(!doc) throw new Error('Could not find android_signing document')
+    const { store_password, key_password } = doc.value
+    return {
+        'AndroidSigning_storeFile': ANDROID_SIGING_STORE_FILE,
+        'AndroidSigning_keyAlias': ANDROID_SIGING_KEY_ALIAS,
+        'AndroidSigning_storePassword': store_password,
+        'AndroidSigning_keyPassword': key_password,
+    }
 }

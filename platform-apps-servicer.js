@@ -1,4 +1,5 @@
 const DATABASE_URI = 'mongodb://root:murew_is_magic@localhost:27018'
+const MASTER_BACKEND_DB_NAME = 'admin'
 
 const apps = [
   {
@@ -8,7 +9,7 @@ const apps = [
     env: {
       'PUBLIC_IP': '127.0.0.1',
       'DATABASE_URI': DATABASE_URI,
-      'MASTER_BACKEND_DB_NAME': 'admin'
+      'MASTER_BACKEND_DB_NAME': MASTER_BACKEND_DB_NAME
     }
   },
   {
@@ -26,7 +27,10 @@ const apps = [
     interpreter: '/root/.nvm/versions/node/v20.10.0/bin/node',
     env: {
       'DATABASE_URI': DATABASE_URI,
-      'MOBILE_CLIENT_PROJECT_DIR': '/root/Murew'
+      'MOBILE_CLIENT_PROJECT_DIR': '/root/Murew',
+      'MASTER_BACKEND_DB_NAME': MASTER_BACKEND_DB_NAME,
+      'ANDROID_SIGING_STORE_FILE': '/root/platform_data/keys/mobile-storefront-android-upload-keystore.jks',
+      'ANDROID_SIGING_KEY_ALIAS': 'mobile-storefront-upload'
     }
   },
   {
