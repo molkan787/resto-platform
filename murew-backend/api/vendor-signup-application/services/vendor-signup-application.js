@@ -24,7 +24,29 @@ module.exports = {
             data: value,
             cluster: picked_cluster
         })
+        this.sendWelcomeEmail(id, data)
         return { id, status, cluster: { public_ip: cluster.public_ip } }
+    },
+
+    async sendWelcomeEmail(applicationId, formData){
+        const appLink = `https://ujusteat.com/registration/?aid=${applicationId}`
+        const { account_first_name, account_last_name, account_email } = formData
+        const emailText = `
+        Welcome Mr(s) ${account_first_name} ${account_last_name},
+        This email confirms that you have started setting-up your restauration platform, you can continue the process anytime by accessing the following link:
+        ${appLink}
+
+        Best regards,
+        uJustEat
+        `
+        const payload = {
+            to: account_email,
+            subject: 'Welcome to uJustEat',
+            text: emailText,
+            html: '',
+            senderName: 'uJustEat',
+        }
+        return await axios.post(`http://emailagent:3033/sendMail`, payload)
     },
 
     async isDomainAlreadyRegistered(domainName){
