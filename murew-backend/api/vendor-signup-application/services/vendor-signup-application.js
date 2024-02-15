@@ -14,6 +14,7 @@ module.exports = {
         if(error){
             return { error }
         }
+        value.domain_name = value.domain_name.toLowerCase()
         const { domain_name } = value
         if(await this.isDomainAlreadyRegistered(domain_name)){
             return { error: `Domain name "${domain_name}" is already registered in our system, Please use another.` }
