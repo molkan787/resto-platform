@@ -204,6 +204,11 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
   step.value = 0
 }
 
+const appLink = ref<string | null>(null)
+if(queryApplicationId){
+  appLink.value = getQueryVariable('appLink') || window.location.href
+}
+
 </script>
 
 <template>
@@ -291,11 +296,11 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
         <div v-if="step == 4" class="dns-config">
           <h2>Website Configuration</h2>
           <p>
-            You need to update DNS Settings of your domain <b>{{ web_data.domain_name }}</b>
+            You need to update DNS Settings of your domain
             <br>
           </p>
           <p>
-            <h4>Navigate to the DNS settings and perform the following:</h4>
+            <h4>Navigate to the DNS settings and perform the following actions:</h4>
             <ul style="padding-left: 25px;">
               <li>
                 Add <b>A</b> record <b>{{ web_data.domain_name }}</b> pointing to <b>{{ web_data.serverIP }}</b>
@@ -305,6 +310,7 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
               </li>
             </ul>
           </p>
+          <br>
           <p>
             After completing the configuration press the "Verify" button. <br>
             * Please keep in mind that dns settings may take up to 24 hours to take effect, You can come back later and continue the registration.
@@ -322,7 +328,7 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
               http://backend.{{ web_data.domain_name }}
             </a>
             <br>
-            Use the email and password you've entered in the previous steps to login.
+            Use email address and password you've entered in previous steps to login.
           </p>
         </div>
 
@@ -332,6 +338,11 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
         <button v-if="step >= 0 && step < 5" @click="nextStep" class="p-button" type="button">
           {{  step === 4 ? 'Verify' : 'Next' }}
         </button>
+
+        <div v-if="appLink && step != 5" class="appLinkSection">
+          You can resume your registration anytime using the link below: <br>
+          <a :href="appLink" target="_parent">{{ appLink }}</a>
+        </div>
 
       </form>
       <div class="ui inverted dimmer" :class="{ active: !!loadingText }">
@@ -343,10 +354,16 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
 
 <style scoped>
 .form-wrapper{
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
   padding: 2rem;
   border: 2px solid #ebeef1;
   background: #fff;
+}
+.appLinkSection{
+  padding-top: 2rem;
+  font-size: 12px;
 }
 </style>
 

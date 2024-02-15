@@ -27,5 +27,6 @@ if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
 function loadFormPage(aid){
     /** @type {HTMLIFrameElement} */
     const el = document.getElementById('regform_iframe')
-    el.src = '/registration-app/' + (aid ? '?aid=' + aid : '')
+    const appLink = encodeURIComponent(window.location.href)
+    el.src = `/registration-app/?appLink=${appLink}` + (aid ? `&aid=${aid}`: '')
 }

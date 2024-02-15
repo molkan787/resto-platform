@@ -36,6 +36,11 @@
   --section-gap: 160px;
 }
 
+@font-face {
+  font-family: "Work Sans";
+  src: url(./WorkSans.ttf);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
@@ -58,27 +63,18 @@
   font-weight: normal;
 }
 
+*:not(i){
+  font-family: "Work Sans",sans-serif !important;
+}
+
 body {
-  min-height: 100vh;
   color: var(--color-text);
   background: transparent !important;
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
+  font-family: "Work Sans",sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
