@@ -1,0 +1,12 @@
+Project Code License Agreement
+
+This Project Code License Agreement ("Agreement") is made between Seghier Dahmane ("Owner") and any individual or entity accessing or using the code located in the current directory.
+
+Owner owns all the code contained in the current directory ("Code"). No one except Seghier Dahmane is allowed to use, modify, read, distribute, sublicense, or otherwise interact with the Code without Owner's prior written consent.
+
+Owner reserves all rights not expressly granted to others under this Agreement.
+
+Governing Law:
+This Agreement shall be governed by and construed in accordance with the laws of United Kingdom. Any disputes arising under or in connection with this Agreement shall be subject to the exclusive jurisdiction of the courts of United Kingdom.
+
+IN WITNESS WHEREOF, the Owner has executed this Agreement.

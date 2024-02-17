@@ -65,6 +65,7 @@ const data = ref({
   feature_mobileapp: true,
   business_name: '',
   domain_name: '',
+  payment_model: 'monthly_fee',
   account_first_name: '',
   account_last_name: '',
   account_email: '',
@@ -228,20 +229,20 @@ if(queryApplicationId){
 
           <div class="feature-box">
             <div class="ui checked read-only checkbox">
-              <input type="checkbox" checked="false" disabled>
-              <label>POS Application</label>
+              <input id="ftr_posapp" type="checkbox" checked="false" disabled>
+              <label for="ftr_posapp">POS Application</label>
             </div>
           </div>
           <div class="feature-box">
             <div class="ui checked checkbox">
-              <input type="checkbox" v-model="data.feature_website">
-              <label>Website (Online ordering)</label>
+              <input id="ftr_website" type="checkbox" v-model="data.feature_website">
+              <label for="ftr_website">Website (Online ordering)</label>
             </div>
           </div>
           <div class="feature-box">
             <div class="ui checked checkbox">
-              <input type="checkbox" v-model="data.feature_mobileapp">
-              <label>Mobile App</label>
+              <input id="ftr_mobileapp" type="checkbox" v-model="data.feature_mobileapp">
+              <label for="ftr_mobileapp">Mobile App</label>
             </div>
           </div>
 
@@ -281,16 +282,30 @@ if(queryApplicationId){
           <InputField :emptyError="showErrors" v-model="data.account_repeat_password" type="password" name="repeat_password" label="Repeat Password" :errorMessage="passwordsError ? 'Passwords does not match' : ''" />
         </div>
 
-        <div v-if="step == 3" class="card-verification">
-          <h2>Credit/Debit Card Verification</h2>
+        <div v-if="step == 3" class="payment-model">
+          <h2>Payment Model</h2>
           <p>
-            We need your card information to verify your identity. <br>
-            <span style="opacity: 0.8;">Full name: {{  data.account_first_name  }} {{ data.account_last_name }}</span>
+            Choose how you want to pay fees: <br>
+            <div style="height: 4px;"></div>
+            <div class="feature-box">
+              <div class="ui checkbox">
+                <input id="pm_monthly" type="radio" v-model="data.payment_model" value="monthly_fee">
+                <label for="pm_monthly">Fixed monthly rate ($36/month subscription)</label>
+              </div>
+            </div>
+            <div class="feature-box">
+              <div class="ui checkbox">
+                <input id="pm_percent" type="radio" v-model="data.payment_model" value="percentage">
+                <label for="pm_percent">Commision Based (5% of orders value)</label>
+              </div>
+            </div>
+            <!-- <div class="feature-box">
+              <div class="ui checked checkbox">
+                <input type="checkbox" v-model="data.feature_mobileapp">
+                <label>Free (No fees)</label>
+              </div>
+            </div> -->
           </p>
-          <br>
-          <br>
-          <br>
-          <br>
         </div>
 
         <div v-if="step == 4" class="dns-config">
@@ -360,6 +375,10 @@ if(queryApplicationId){
   padding: 2rem;
   border: 2px solid #ebeef1;
   background: #fff;
+}
+.feature-box label{
+  cursor: pointer;
+  user-select: none;
 }
 .appLinkSection{
   padding-top: 2rem;
