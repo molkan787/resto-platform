@@ -66,8 +66,8 @@
     },
     {
       "method": "POST",
-      "path": "/vendor-signup-applications/verify-identity/:id",
-      "handler": "vendor-signup-application.verifyIdentity",
+      "path": "/vendor-signup-applications/confirm-payment/:id",
+      "handler": "vendor-signup-application.confirmPayment",
       "config": {
         "policies": []
       }

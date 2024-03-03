@@ -21,6 +21,10 @@
       "type": "component",
       "repeatable": false,
       "component": "divert.cluster"
+    },
+    "internal_data": {
+      "type": "json",
+      "private": true
     }
   }
 }

@@ -1,3 +1,5 @@
 'use strict';
 
-module.exports = () => { };
+module.exports = async () => {
+    await strapi.services['stripe-pilot'].init()
+};

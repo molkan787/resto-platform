@@ -4,6 +4,7 @@ const ApplicationDataSchema = Joi.object({
     feature_desktop_pos: Joi.bool().required(),
     feature_website: Joi.bool().required(),
     feature_mobileapp: Joi.bool().required(),
+    payment_model: Joi.string().required(),
     business_name: Joi.string().required().min(2).max(100).label('Business Name'),
     domain_name: Joi.string().domain().label('Domain Name'),
     account_first_name: Joi.string().required().label('First Name'),

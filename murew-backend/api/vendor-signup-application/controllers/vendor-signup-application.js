@@ -26,9 +26,9 @@ module.exports = {
         }
     },
 
-    async verifyIdentity(ctx){
+    async confirmPayment(ctx){
         this._validateIdParam(ctx)
-        const data = await strapi.services['vendor-signup-application'].verifyIdentity(ctx.params.id)
+        const data = await strapi.services['vendor-signup-application'].confirmPayment(ctx.params.id, ctx.request.query)
         ctx.send(data)
     },
     

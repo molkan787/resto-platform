@@ -6,27 +6,16 @@ window.onmessage = function(e) {
 }
 
 
-function getQueryVariable(variableName) {
-    var query = window.location.search.substring(1);
-    var vars = query.split('&');
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == variableName) {
-            return decodeURIComponent(pair[1]);
-        }
+function loadFormPage(){
+    let qs = window.location.search
+    const appLink = encodeURIComponent(window.location.href)
+    if(qs.length > 0){
+        qs += `&appLink=${appLink}`
+    }else{
+        qs = `?appLink=${appLink}`
     }
-    return undefined
-}
-const queryApplicationId = getQueryVariable('aid')
-if(typeof queryApplicationId === 'string' && queryApplicationId.length > 1){
-    loadFormPage(queryApplicationId)
-}else{
-    loadFormPage()
-}
-
-function loadFormPage(aid){
     /** @type {HTMLIFrameElement} */
     const el = document.getElementById('regform_iframe')
-    const appLink = encodeURIComponent(window.location.href)
-    el.src = `/registration-app/?appLink=${appLink}` + (aid ? `&aid=${aid}`: '')
+    el.src = `/registration-app/${qs}`
 }
+loadFormPage()

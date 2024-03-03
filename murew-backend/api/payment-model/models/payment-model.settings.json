@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_models",
+  "info": {
+    "name": "payment_model",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "model_type": {
+      "type": "enumeration",
+      "enum": [
+        "monthly_fee",
+        "percentage",
+        "one_off_payment"
+      ]
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "maintenance": {
+      "type": "decimal"
+    },
+    "features": {
+      "type": "component",
+      "repeatable": false,
+      "component": "divert.platform-features",
+      "required": true
+    },
+    "stripe_recurring_price_id": {
+      "type": "string"
+    },
+    "stripe_oneoff_price_id": {
+      "type": "string"
+    }
+  }
+}
