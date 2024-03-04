@@ -19,11 +19,15 @@ async function run(){
     // console.log('Building app...')
     // await exec('yarn build', { cwd: '~/resto-e-commerce/murew-client-registration-form' })
     console.log('Clearing previously deployed files...')
-    await Promise.all([
-        exec('rm -rf ~/murew-presentation-website/registration-form-app/assets'),
-        exec('rm ~/murew-presentation-website/registration-form-app/favicon.ico'),
-        exec('rm ~/murew-presentation-website/registration-form-app/index.html'),
-    ])
+    try {
+        await Promise.all([
+            exec('rm -rf ~/murew-presentation-website/registration-form-app/assets'),
+            exec('rm ~/murew-presentation-website/registration-form-app/favicon.ico'),
+            exec('rm ~/murew-presentation-website/registration-form-app/index.html'),
+        ])
+    } catch (error) {
+        
+    }
     console.log('Copying new files...')
     await exec('cp -a ~/resto-e-commerce/murew-client-registration-form/dist/. ~/murew-presentation-website/registration-form-app')
     await exec('cp ~/resto-e-commerce/murew-client-registration-form/top-window.js ~/murew-presentation-website/registration-form-app/assets/top-window.js')
