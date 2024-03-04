@@ -16,8 +16,8 @@ function exec(cmd, options){
 }
 
 async function run(){
-    console.log('Building app...')
-    await exec('yarn build', { cwd: '~/resto-e-commerce/murew-client-registration-form' })
+    // console.log('Building app...')
+    // await exec('yarn build', { cwd: '~/resto-e-commerce/murew-client-registration-form' })
     console.log('Clearing previously deployed files...')
     await Promise.all([
         exec('rm -rf ~/murew-presentation-website/registration-form-app/assets'),
