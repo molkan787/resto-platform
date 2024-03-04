@@ -25,7 +25,8 @@ async function run(){
         exec('rm ~/murew-presentation-website/registration-form-app/index.html'),
     ])
     console.log('Copying new files...')
-    await exec('cp ~/resto-e-commerce/murew-client-registration-form/dist/* ~/murew-presentation-website/registration-form-app/')
+    await exec('cp -a ~/resto-e-commerce/murew-client-registration-form/dist/. ~/murew-presentation-website/registration-form-app')
+    await exec('cp ~/resto-e-commerce/murew-client-registration-form/top-window.js ~/murew-presentation-website/registration-form-app/assets/top-window.js')
 }
 
 
