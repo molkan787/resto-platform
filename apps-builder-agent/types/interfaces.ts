@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb"
 
 export interface BuildPayload{
+    appType: string
     vendorId: string
     packageName: string
     appDisplayName: string

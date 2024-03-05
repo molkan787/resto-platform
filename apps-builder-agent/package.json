@@ -8,13 +8,16 @@
   "private": true,
   "scripts": {
     "start": "node .",
+    "start-ios": "cross-env AGENT_TYPE=remote BUILD_APP_TYPE=mobile-storefront-ios yarn start",
     "prepare-template": "node ./mobile-client-builder/run-prepare-project-template.js"
   },
   "engines": {
     "node": ">=20.10.0"
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "brolog": "^1.14.2",
+    "cross-env": "^7.0.3",
     "express": "^4.18.2",
     "mkdirp": "^3.0.1",
     "mongodb": "^6.3.0",

@@ -28,6 +28,8 @@ export const exec = function (cmd, options) {
 }
 
 export async function retryAsync(run, maxAttemps){
+    if(typeof run !== 'function') throw new Error('Invalid argument "run"')
+    if(typeof maxAttemps !== 'number') throw new Error('Invalid argument "maxAttemps"')
     for(let i = 0; i < maxAttemps; i++){
         try {
             await run()
@@ -136,18 +138,34 @@ export function asyncPipe(sourceStream, destinationStream){
 export async function routeHandler(req, res, handler){
     try {
         const value = await handler(req, res)
+        res.status(200)
         if(typeof value === 'object' && value !== null){
-            res.status(200)
             res.header('Content-Type', 'application/json')
             res.send(JSON.stringify(value))
         }else if(typeof value !== 'undefined'){
-            res.status(200)
             res.header('Content-Type', 'text/plain')
             res.send(value.toString())
+        }else{
+            res.header('Content-Type', 'application/json')
+            res.send('{}')
         }
     } catch (error) {
         log.error(error)
         res.status(500)
         res.send('{ "status": "error" }')
     }
+}
+
+export function isValidString(value){
+    return typeof value === 'string' && value.length > 0
+}
+
+/**
+ * Encodes properties if `items` object into http query string (returned string does not start with "?")
+ * @param {Record<string, string>} items 
+ */
+export function encodeQueryString(items){
+    return Object.entries(items)
+        .map(e => `${e[0]}=${encodeURIComponent(e[1])}`)
+        .join('&')
 }
