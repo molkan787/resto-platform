@@ -1,5 +1,7 @@
 'use strict';
 
+const { BUILD_APP_TYPES } = require("../services/mobile-app");
+
 /**
  * mobile-app.js controller
  * @description: A set of functions called "actions" of the `mobile-app` plugin.
@@ -36,8 +38,18 @@ module.exports = {
     })
   },
 
-  downloadBuildOutput: async (ctx) => {
-    const downloadStream = await strapi.plugins['mobile-app'].services['mobile-app'].getBuiltOutput()
+  downloadBuildOutputAndroid: async (ctx) => {
+    const downloadStream = await strapi.plugins['mobile-app'].services['mobile-app'].getBuiltOutput(BUILD_APP_TYPES.MOBILE_STOREFRONT_ANDROID)
+    if(downloadStream){
+      ctx.response.body = downloadStream
+    }else{
+      ctx.response.status = 200
+      ctx.send('File not found')
+    }
+  },
+
+  downloadBuildOutputIOS: async (ctx) => {
+    const downloadStream = await strapi.plugins['mobile-app'].services['mobile-app'].getBuiltOutput(BUILD_APP_TYPES.MOBILE_STOREFRONT_IOS)
     if(downloadStream){
       ctx.response.body = downloadStream
     }else{

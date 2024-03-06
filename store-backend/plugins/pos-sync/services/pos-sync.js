@@ -9,7 +9,7 @@ const RESEND_INTERVAL = 1000 * 60 * 1
 
 const posSync = module.exports = {
     async doWork(){
-        await new Promise(r => setTimeout(r, 10000)) // wait for strapi initialization
+        await new Promise(r => setTimeout(r, 30 * 1000)) // delay 30 seconds to make sure strapi has initialized
         while(true){
             try {
                 await this.resendUnhandledOrders()

@@ -19,7 +19,15 @@
     {
       "method": "GET",
       "path": "/download-build-output/app-release.apk",
-      "handler": "mobile-app.downloadBuildOutput",
+      "handler": "mobile-app.downloadBuildOutputAndroid",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/download-build-output/app-release.ipa",
+      "handler": "mobile-app.downloadBuildOutputIOS",
       "config": {
         "policies": []
       }

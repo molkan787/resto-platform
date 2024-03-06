@@ -2,6 +2,11 @@
 
 const { GridFSBucket, ObjectId } = require('mongodb')
 
+const BUILD_APP_TYPES = Object.freeze({
+    MOBILE_STOREFRONT_ANDROID: 'mobile-storefront-android',
+    MOBILE_STOREFRONT_IOS: 'mobile-storefront-ios',
+})
+
 /**
  * mobile-app.js service
  *
@@ -9,6 +14,8 @@ const { GridFSBucket, ObjectId } = require('mongodb')
  */
 
 module.exports = {
+
+    BUILD_APP_TYPES,
 
     // TODO: TODO-SECURITY confirm iconFileData is a valid image file data
     async requestMobileAppBuild({ iconFileData, primaryColor }){
@@ -36,7 +43,11 @@ module.exports = {
         await coll.deleteMany({
             vendorId: vendorId
         })
-        await coll.insertOne(doc)
+
+        doc.appType = BUILD_APP_TYPES.MOBILE_STOREFRONT_ANDROID
+        await coll.insertOne(Object.assign({}, doc))
+        doc.appType = BUILD_APP_TYPES.MOBILE_STOREFRONT_IOS
+        await coll.insertOne(Object.assign({}, doc))
         
     },
 
@@ -44,22 +55,20 @@ module.exports = {
         await strapi.services.shared.getReady()
         const coll = strapi.services.shared.sharedDb.collection('queue_build_mobile_client')
         const vendorId = this.getCurrentVendorId()
-        const doc = await coll.findOne({ vendorId })
-        if(doc){
-            const { status, appDisplayName, createdAt } = doc
-            return { status, appDisplayName, createdAt }
-        }else{
-            return null
-        }
+        const docs = await coll.find({ vendorId }).toArray()
+        return docs.map(doc => {
+            const { status, appDisplayName, appType, createdAt } = doc
+            return { status, appDisplayName, appType, createdAt }
+        })
     },
 
-    async getBuiltOutput(){
+    async getBuiltOutput(appType){
         await strapi.services.shared.getReady()
         const vendorId = this.getCurrentVendorId()
         const bucket = new GridFSBucket(strapi.services.shared.sharedDb, { bucketName: 'build_outputs' })
         const files = await bucket.find({
             metadata: {
-                appType: 'store-mobile-client',
+                appType: appType,
                 reference: vendorId
             }
         }).toArray()

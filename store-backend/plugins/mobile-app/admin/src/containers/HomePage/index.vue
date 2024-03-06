@@ -47,24 +47,26 @@
                             Refreshing...
                         </div>
                     </h3>
-                    <div v-if="statusData">
+                    <div v-if="statusData && statusData.length > 0">
                         <table style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>App Name</th>
+                                    <th>Platform</th>
                                     <th>Status</th>
                                     <th>Creation Date</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>{{ statusData.appDisplayName }}</td>
-                                    <td>{{ statusData.status }}</td>
-                                    <td>{{ statusData.createdAt | date }}</td>
+                                <tr v-for="(item, index) in statusData" :key="index">
+                                    <td>{{ item.appDisplayName }}</td>
+                                    <td>{{ item.appType | appTarget }}</td>
+                                    <td>{{ item.status }}</td>
+                                    <td>{{ item.createdAt | date }}</td>
                                     <td>
-                                        <a v-if="statusData.status === 'completed'"
-                                            :href="backendURL + '/mobile-app/download-build-output/app-release.apk'">
+                                        <a v-if="item.status === 'completed'"
+                                            :href="`${backendURL}/mobile-app/download-build-output/app-release${outputFileExtension(item.appType)}`">
                                             <button>
                                                 Download
                                             </button>
@@ -119,9 +121,6 @@ export default {
         backendURL() {
             return strapi.backendURL
         },
-        currentStatus() {
-            return (this.statusData || {}).status
-        }
     },
     methods: {
         async generateClick() {
@@ -160,8 +159,11 @@ export default {
             });
         },
         timerHandler() {
-            if (this.currentStatus === 'queued' || this.currentStatus === 'building') {
-                this.refreshStatus()
+            for(let item of this.statusData){
+                if (item.status === 'queued' || item.status === 'building') {
+                    this.refreshStatus()
+                    return
+                }
             }
         },
         async refreshStatus() {
@@ -186,12 +188,30 @@ export default {
                 console.error('An error occured while loading vendor features')
                 console.error(error)
             }
-        }
+        },
+        outputFileExtension(appType){
+            if(appType === 'mobile-storefront-android'){
+                return '.apk'
+            }else if(appType === 'mobile-storefront-ios'){
+                return '.ipa'
+            }else{
+                return ''
+            }
+        },
     },
     filters: {
         date(v) {
             return new Date(v).toLocaleString()
-        }
+        },
+        appTarget(appType){
+            if(appType === 'mobile-storefront-android'){
+                return 'Android'
+            }else if(appType === 'mobile-storefront-ios'){
+                return 'iOS'
+            }else{
+                return 'Other'
+            }
+        },
     },
     mounted() {
         this.refreshStatus()
