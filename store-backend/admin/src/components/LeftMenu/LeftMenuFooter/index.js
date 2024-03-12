@@ -17,8 +17,8 @@ function LeftMenuFooter(/*{ version }*/) {
   return (
     <Wrapper>
       <div className="poweredBy">
-        <a key="website" href="https://murew.io" target="_blank" rel="noopener noreferrer">
-          Murew e-Commerce
+        <a key="website" href="https://digitalfoodtechnology.com/" target="_blank" rel="noopener noreferrer">
+          Digital Food Technology
         </a>
       </div>
     </Wrapper>

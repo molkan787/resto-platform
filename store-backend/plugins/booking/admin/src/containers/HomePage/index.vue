@@ -1,7 +1,7 @@
 <template>
     <div class="pos-sync-page-index">
         <section class="card">
-            <h2>Booking</h2>
+            <h2>Live Bookings Viewer</h2>
 
             <div class="filters">
                 <table>

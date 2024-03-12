@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "Booking",
+    "name": "Live Bookings Viewer",
     "icon": "calendar-alt",
     "description": "Description of booking plugin."
   },

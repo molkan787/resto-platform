@@ -16,7 +16,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
-import { UserContext, hasPermissions, request } from 'strapi-helper-plugin';
+import { UserContext, hasPermissions, request, auth } from 'strapi-helper-plugin';
 import {
   LeftMenuLinksSection,
   LeftMenuFooter,
@@ -45,7 +45,7 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
 
     return 0;
   }, [latestStrapiReleaseTag, version]);
-  const [
+  let [
     {
       collectionTypesSectionLinks,
       generalSectionLinks,
@@ -59,19 +59,82 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
   ] = useReducer(reducer, initialState, () =>
     init(initialState, plugins, settingsMenu, settingsLinkNotificationCount)
   );
-  const generalSectionLinksFiltered = useMemo(() => filterLinks(generalSectionLinks), [
-    generalSectionLinks,
-  ]);
-  const pluginsSectionLinksFiltered = useMemo(() => filterLinks(pluginsSectionLinks), [
-    pluginsSectionLinks,
-  ]);
 
-  const singleTypesSectionLinksFiltered = useMemo(() => filterLinks(singleTypesSectionLinks), [
-    singleTypesSectionLinks,
-  ]);
-  const collectTypesSectionLinksFiltered = useMemo(() => filterLinks(collectionTypesSectionLinks), [
-    collectionTypesSectionLinks,
-  ]);
+  const lastItem = arr => arr[arr.length - 1]
+
+  function mapLinks(map, links){
+    for(let i = 0; i < links.length; i++){
+      const e = links[i]
+      const slug = lastItem(lastItem(e.destination.split('/')).split('.'))
+      map[slug] = e
+    }
+    return map
+  }
+  function grabLinks(map, items){
+    const out = []
+    for(let i = 0; i < items.length; i++){
+      const e = items[i]
+      const l = map[e]
+      delete map[e]
+      if(l) out.push(l)
+    }
+    return out
+  }
+
+  const RANK_SuperAdmin = 1000
+  const RANK_PlatformAdmin = 900
+  const RANK_StoreAdmin = 500
+  const RANK_StoreEditor = 200
+
+  const rolesRanks = {
+    'strapi-super-admin': RANK_SuperAdmin, // Super Admin (Developer)
+    'platform-admin': RANK_PlatformAdmin, // Platform Admin (Business Manager)
+    'strapi-editor': RANK_StoreAdmin, // Store Admin (Restaurant Owner / Manager)
+    'strapi-author': RANK_StoreEditor, // Store Editor (Restaurant Employee)
+  }
+
+  const userRoleCode = auth.getUserInfo().roles[0].code
+  const currentUserRoleRank = rolesRanks[userRoleCode] || 0
+
+
+  const collectionlinksMap = mapLinks({}, collectionTypesSectionLinks)
+  const singlelinksMap = mapLinks({}, singleTypesSectionLinks)
+  const pluginslinksMap = mapLinks({}, pluginsSectionLinks)
+  const generallinksMap = mapLinks({}, generalSectionLinks)
+  
+  const restaurantSectionLinks = [
+    ...grabLinks(collectionlinksMap, ['order', 'category', 'product', 'offer', 'booking']),
+    ...grabLinks(singlelinksMap, ['store-settings']),
+  ]
+
+  const customersSectionLinks = grabLinks(collectionlinksMap, ['user', 'review', 'contact-message'])
+
+  const showAdminLinks = currentUserRoleRank >= RANK_StoreAdmin
+
+  const websiteSectionLinks = [
+    ...grabLinks(singlelinksMap, ['home-page-settings', 'layout-settings', 'gallery']),
+    ...grabLinks(collectionlinksMap, ['pages']),
+  ]
+
+  const toolsSectionLinks = showAdminLinks ? [
+    ...grabLinks(pluginslinksMap, ['booking', 'reports']),
+  ] : []
+
+  const platformSectionLinks = showAdminLinks ? [
+    ...grabLinks(collectionlinksMap, ['store']),
+    ...grabLinks(pluginslinksMap, ['mobile-app', 'pos-sync', 'stripe-connect', 'upload']),
+    ...grabLinks(generallinksMap, ['settings']),
+  ] : []
+
+  const remainingSectionLinks = (currentUserRoleRank >= RANK_PlatformAdmin) ? 
+  [
+    ...Object.values(collectionlinksMap),
+    ...Object.values(singlelinksMap),
+    ...Object.values(pluginslinksMap),
+    ...Object.values(generallinksMap),
+  ] : []
+
+
 
   // TODO:
   // This is making a lot of request especially for the Author role as all permissions are being sent to
@@ -207,40 +270,56 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
           <span style={{ color: 'white' }}>Browse Store</span>
           <Select onChange={onStoreChange} options={stores} value={currentStore}></Select>
         </div>
-        {collectTypesSectionLinksFiltered.length > 0 && (
-          <LeftMenuLinksSection
-            section="collectionType"
+        <LeftMenuLinksSection
+            title="Restaurant"
             name="collectionType"
-            links={collectTypesSectionLinksFiltered}
-            location={location}
-            searchable
-          />
-        )}
-        {singleTypesSectionLinksFiltered.length > 0 && (
-          <LeftMenuLinksSection
-            section="singleType"
-            name="singleType"
-            links={singleTypesSectionLinksFiltered}
-            location={location}
-            searchable
-          />
-        )}
-
-        {pluginsSectionLinksFiltered.length > 0 && (
-          <LeftMenuLinksSection
-            section="plugins"
-            name="plugins"
-            links={pluginsSectionLinksFiltered}
+            links={restaurantSectionLinks}
             location={location}
             searchable={false}
-            emptyLinksListMessage="app.components.LeftMenuLinkContainer.noPluginsInstalled"
+        />
+        <LeftMenuLinksSection
+            title="Customers"
+            name="collectionType"
+            links={customersSectionLinks}
+            location={location}
+            searchable={false}
+        />
+        
+        {websiteSectionLinks.length > 0 && (
+          <LeftMenuLinksSection
+            title="Website"
+            name="singleType"
+            links={websiteSectionLinks}
+            location={location}
+            searchable={false}
           />
         )}
-        {generalSectionLinksFiltered.length > 0 && (
+        {toolsSectionLinks.length > 0 && (
           <LeftMenuLinksSection
-            section="general"
+            shrink={false}
+            title="Tools"
+            name="plugins"
+            links={toolsSectionLinks}
+            location={location}
+            searchable={false}
+          />
+        )}    
+        {platformSectionLinks.length > 0 && (
+          <LeftMenuLinksSection
+            shrink={false}
+            title="Platform"
+            name="plugins"
+            links={platformSectionLinks}
+            location={location}
+            searchable={false}
+          />
+        )}
+        {remainingSectionLinks.length > 0 && (
+          <LeftMenuLinksSection
+          shrink={false}
+            title="Developer Links"
             name="general"
-            links={generalSectionLinksFiltered}
+            links={remainingSectionLinks}
             location={location}
             searchable={false}
           />

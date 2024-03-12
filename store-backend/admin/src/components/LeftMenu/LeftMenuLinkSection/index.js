@@ -11,7 +11,7 @@ import EmptyLinksList from './EmptyLinksList';
 import EmptyLinksListWrapper from './EmptyLinksListWrapper';
 
 const LeftMenuLinksSection = ({
-  section,
+  title,
   searchable,
   location,
   links,
@@ -20,17 +20,12 @@ const LeftMenuLinksSection = ({
 }) => {
   const [search, setSearch] = useState('');
 
-  const filteredList = sortBy(
-    matchSorter(links, search, {
-      keys: ['label'],
-    }),
-    'label'
-  );
+  const filteredList = links
 
   return (
     <>
       <LeftMenuLinkHeader
-        section={section}
+        title={title}
         searchable={searchable}
         setSearch={setSearch}
         search={search}

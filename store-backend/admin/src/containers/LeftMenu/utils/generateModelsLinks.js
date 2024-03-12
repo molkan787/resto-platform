@@ -1,11 +1,28 @@
 import { chain, get } from 'lodash';
 
+const _icons = {
+  'application::store.store': 'store',
+  'application::order.order': 'box',
+  'application::category.category': 'bars',
+  'application::product.product': 'utensils',
+  'application::offer.offer': 'tags',
+  'plugins::booking.booking': 'calendar-alt',
+  'application::store-settings.store-settings': 'cog',
+  'plugins::users-permissions.user': 'user',
+  'application::review.review': 'comment-alt',
+  'application::contact-message.contact-message': 'envelope',
+  'application::home-page-settings.home-page-settings': 'desktop',
+  'application::layout-settings.layout-settings': 'table',
+  'application::gallery.gallery': 'images',
+  'application::pages.pages': 'columns',
+}
+
 const generateLinks = links => {
   return links
     .filter(link => link.isDisplayed)
     .map(link => {
       return {
-        icon: 'circle',
+        icon: _icons[link.uid] || 'file',
         destination: `/plugins/content-manager/${link.schema.kind}/${link.uid}`,
         isDisplayed: false,
         label: link.label,

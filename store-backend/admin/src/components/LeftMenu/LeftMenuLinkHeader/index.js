@@ -4,17 +4,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// TODO remove this
-import messages from './messages.json';
 import Search from './Search';
 import Title from './Title';
 import SearchButton from './SearchButton';
 import SearchWrapper from './SearchWrapper';
 
-const LeftMenuLinkHeader = ({ section, searchable, setSearch, search }) => {
+const LeftMenuLinkHeader = ({ title, searchable, setSearch, search }) => {
   const [showSearch, setShowSearch] = useState(false);
   const ref = createRef();
-  let { id, defaultMessage } = messages[camelCase(section)];
 
   useEffect(() => {
     if (showSearch && ref.current) {
@@ -39,7 +36,7 @@ const LeftMenuLinkHeader = ({ section, searchable, setSearch, search }) => {
     <Title>
       {!showSearch ? (
         <>
-          <FormattedMessage id={'id'} defaultMessage={defaultMessage} />
+          <FormattedMessage id={'id'} defaultMessage={title} />
           {searchable && (
             <SearchButton onClick={toggleSearch}>
               <FontAwesomeIcon icon="search" />
