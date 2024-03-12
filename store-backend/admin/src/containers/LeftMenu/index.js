@@ -123,7 +123,6 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
   const platformSectionLinks = showAdminLinks ? [
     ...grabLinks(collectionlinksMap, ['store']),
     ...grabLinks(pluginslinksMap, ['mobile-app', 'pos-sync', 'stripe-connect', 'upload']),
-    ...grabLinks(generallinksMap, ['settings']),
   ] : []
 
   const remainingSectionLinks = (currentUserRoleRank >= RANK_PlatformAdmin) ? 
