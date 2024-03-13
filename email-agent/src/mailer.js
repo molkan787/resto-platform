@@ -1,22 +1,31 @@
-const sgMail = require('@sendgrid/mail')
-const { SENDGRID_API_KEY, DEFAULT_SENDER_NAME, SENDER_EMAIL_ADDRESS } = require('./config')
+const { MailerSend, EmailParams, Sender, Recipient } = require('mailersend')
+const { MAILERSEND_API_KEY, DEFAULT_SENDER_NAME, SENDER_EMAIL_ADDRESS, REPLY_TO_EMAIL_ADDRESS } = require('./config')
 
-sgMail.setApiKey(SENDGRID_API_KEY)
+const mailerSend = new MailerSend({
+    apiKey: MAILERSEND_API_KEY,
+})
 
 /**
  * @param {{ to: string, senderName?: string, subject: string, text: string, html?: string }} payload 
  * @returns 
  */
-function sendMail(payload){
+async function sendMail(payload){
     const { to, senderName, subject, text, html } = payload
-    const msg = {
-        to,
-        from: `${senderName || DEFAULT_SENDER_NAME} <${SENDER_EMAIL_ADDRESS}>`,
-        subject,
-        text,
-        html
-    }
-    return sgMail.send(msg)
+
+    const sentFrom = new Sender(SENDER_EMAIL_ADDRESS, senderName || DEFAULT_SENDER_NAME);
+    const replyTo = new Sender(REPLY_TO_EMAIL_ADDRESS);
+    const recipients = [
+        new Recipient(to)
+    ]
+    const emailParams = new EmailParams()
+        .setFrom(sentFrom)
+        .setTo(recipients)
+        .setReplyTo(replyTo)
+        .setSubject(subject)
+        .setHtml(html)
+        .setText(text)
+
+    await mailerSend.email.send(emailParams);
 }
 
 module.exports = {
