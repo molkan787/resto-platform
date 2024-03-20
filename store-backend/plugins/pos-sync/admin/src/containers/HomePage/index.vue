@@ -1,30 +1,42 @@
 <template>
     <div class="pos-sync-page-index">
-        <section class="card">
-            <h2>POS Sync</h2>
-            <p>
-                Synchronize your pos menu with the online ordering system. <br>
-                To get started select store and click generate sync key.
-            </p>
+        <div class="card">
+            <div class="mrow">
+                <div class="fill column">
+                    <h2>POS Sync</h2>
+                    <p>
+                        Synchronize your pos menu with the online ordering system. <br>
+                        To get started select store and click generate sync key.
+                    </p>
 
-            <label for="import_store"><b>Select store</b></label> <br>
-            <vSelect v-model="selectedStore" class="store-select" :options="stores" :clearable="false" /> <br>
-            <label for="import_store"><b>Name</b></label> <br>
-            <input v-model.trim="keyName" /> <br>
+                    <label for="import_store"><b>Select store</b></label> <br>
+                    <vSelect v-model="selectedStore" class="store-select" :options="stores" :clearable="false" /> <br>
+                    <label for="import_store"><b>Name</b></label> <br>
+                    <input v-model.trim="keyName" /> <br>
 
-            <div class="spacer r2"></div>
+                    <div class="spacer r2"></div>
 
-            <template v-if="loading">
-                <div class="button" disabled>
-                    <i class="fas fa-cog fa-spin"></i>
-                    Generating...
+                    <template v-if="loading">
+                        <div class="button" disabled>
+                            <i class="fas fa-cog fa-spin"></i>
+                            Generating...
+                        </div>
+                    </template>
+                    <template v-else>
+                        <button @click="generateClick">
+                            Generate Sync Key
+                        </button>
+                    </template>
                 </div>
-            </template>
-            <template v-else>
-                <button @click="generateClick">
-                    Generate Sync Key
-                </button>
-            </template>
+                <div class="column">
+                    <h2>POS App Installer</h2>
+                    <p>Download and install latest version of our POS Desktop Application</p>
+                        <a href="https://digitalfoodtechnology.com/downloads/" target="_blank">
+                            <button>Download</button>
+                        </a>
+                </div>
+            </div>
+
             <div class="spacer r2"></div>
             <hr>
             <div class="spacer r2"></div>
@@ -63,7 +75,7 @@
                     </tr>
                 </tbody>
             </table>
-        </section>
+        </div>
     </div>
 </template>
 
@@ -217,6 +229,13 @@ button:disabled{
     background: #ffffff;
     border-radius: 2px;
     box-shadow: 0 2px 4px #e3e9f3;
+}
+.mrow{
+    display: flex;
+    flex-direction: row;
+}
+.mrow .column.fill{
+    flex: 1;
 }
 input{
     /* width: 100%; */
