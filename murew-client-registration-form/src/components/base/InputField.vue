@@ -33,17 +33,6 @@ const showEmptyError = computed(
 </template>
 
 <style scoped>
-input{
-    border: 2px solid #ebeef1 !important;
-    border-radius: 0 !important;
-    padding: 0.655em 1.5em !important;
-    background: #fff !important;
-    font-size: 1.0625rem !important;
-    line-height: 1.75 !important;
-}
-input:focus{
-    border-color: #8F4EC7 !important;
-}
 .description{
     font-weight: normal !important;
     color: #5d5d5d !important;

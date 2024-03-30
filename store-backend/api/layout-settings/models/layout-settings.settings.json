@@ -2,7 +2,7 @@
   "kind": "singleType",
   "collectionName": "layout_settings",
   "info": {
-    "name": "Layout Settings",
+    "name": "General Settings",
     "description": ""
   },
   "options": {
@@ -32,6 +32,10 @@
         "images"
       ],
       "plugin": "upload",
+      "required": true
+    },
+    "website_title": {
+      "type": "string",
       "required": true
     }
   }

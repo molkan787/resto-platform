@@ -232,8 +232,8 @@ function initStripePaymentElement() {
     appearance: {
       theme: 'flat',
       variables: {
-        colorPrimary: '#8f4ec7',
-        borderRadius: '0px',
+        colorPrimary: '#2B39D4',
+        borderRadius: '3px',
       },
     },
   };
@@ -399,18 +399,30 @@ function fillTestInfo(){
               <input id="ftr_posapp" type="checkbox" checked="false" disabled>
               <label for="ftr_posapp">POS Application</label>
             </div>
+            <p class="info">
+              Efficient restaurant POS app: streamline orders, manage inventory, process payments,
+              and handle online orders for seamless dining experiences.
+            </p>
           </div>
           <div class="feature-box">
             <div class="ui checked checkbox">
               <input id="ftr_website" type="checkbox" v-model="data.feature_website">
               <label for="ftr_website">Website (Online ordering)</label>
             </div>
+            <p class="info">   
+              Dynamic restaurant website: showcases menu, enables online orders,
+              and facilitates table bookings for an enhanced dining experience and seamless service.
+            </p>
           </div>
           <div class="feature-box">
             <div class="ui checked checkbox">
               <input id="ftr_mobileapp" type="checkbox" v-model="data.feature_mobileapp">
               <label for="ftr_mobileapp">Mobile App</label>
             </div>
+            <p class="info">
+              Innovative restaurant mobile app: Explore menu, place orders,
+              reserve tables,and enjoy seamless dining experiences on-the-go with effortless convenience.
+            </p>
           </div>
 
         </div>
@@ -426,15 +438,15 @@ function fillTestInfo(){
               <input :id="model.id" type="radio" v-model="data.payment_model" :value="model.id">
               <label :for="model.id">{{ model.name }}</label>
             </div>
-            <span v-if="model.model_type === 'monthly_fee'" class="info">
+            <p v-if="model.model_type === 'monthly_fee'" class="info">
               {{ formatPrice(model.amount) }}/month subscription
-            </span>
-            <span v-else-if="model.model_type === 'percentage'" class="info">
+            </p>
+            <p v-else-if="model.model_type === 'percentage'" class="info">
               {{ model.amount }}% of orders value
-            </span>
-            <span v-else-if="model.model_type === 'one_off_payment'" class="info">
+            </p>
+            <p v-else-if="model.model_type === 'one_off_payment'" class="info">
               {{ formatPrice(model.amount) }} + maintenance fee {{ formatPrice(model.maintenance) }}/month
-            </span>
+            </p>
           </div>
           </p>
         </div>
@@ -515,17 +527,17 @@ function fillTestInfo(){
             You need to update DNS Settings of your domain
             <br>
           </p>
-          <p>
-          <h4>Navigate to the DNS settings of your domain name provider and perform the following actions then click the "Verify" button below:</h4>
-          <ul class="config-steps" style="padding-left: 25px;">
-            <li>
-              Add <span>"A"</span> record <span>{{ web_data.domain_name }}</span> pointing to <span>{{ web_data.serverIP }}</span>
-            </li>
-            <li>
-              Add <span>"A"</span> record <span>backend.{{ web_data.domain_name }}</span> pointing to <span>{{ web_data.serverIP }}</span>
-            </li>
-          </ul>
-          </p>
+          <div class="section-card">
+            <h4>Navigate to the DNS settings of your domain name provider and perform the following actions then click the "Verify" button below:</h4>
+            <ul class="config-steps" style="padding-left: 25px;">
+              <li>
+                Add <span>"A"</span> record <span>{{ web_data.domain_name }}</span> pointing to <span>{{ web_data.serverIP }}</span>
+              </li>
+              <li>
+                Add <span>"A"</span> record <span>backend.{{ web_data.domain_name }}</span> pointing to <span>{{ web_data.serverIP }}</span>
+              </li>
+            </ul>
+          </div>
           <br>
           <p>
             If you are unsure what dns settings are or how to edit them please contact your domain name provider and provide instructions from this page.
@@ -539,7 +551,7 @@ function fillTestInfo(){
         <div v-if="currentStepIs('completed')" class="completed-card">
           <h2>
             Completed
-            <i class="green check circle icon"></i>
+            <i class="check circle icon" style="color:#29A844"></i>
           </h2>
           <p>
             Your platform is ready, You can access it via: <br>
@@ -573,6 +585,10 @@ function fillTestInfo(){
 </template>
 
 <style scoped>
+.section-card{
+  background-color: #F0F0F0;
+  padding: 12px;
+}
 .form-wrapper {
   width: 100%;
   max-width: 500px;
@@ -587,7 +603,7 @@ function fillTestInfo(){
   user-select: none;
 }
 
-.feature-box span.info {
+.feature-box p.info {
   display: block;
   margin-left: 26px;
   color: #777777;
@@ -605,7 +621,7 @@ function fillTestInfo(){
 }
 .config-steps li span{
   font-weight: bold;
-  background-color: hsla(160, 100%, 37%, 0.15);
+  background-color: #AC9F5D80;
 }
 .order-summary{
   padding-bottom: 1rem;

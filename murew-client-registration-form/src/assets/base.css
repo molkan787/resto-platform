@@ -36,11 +36,6 @@
   --section-gap: 160px;
 }
 
-@font-face {
-  font-family: "Work Sans";
-  src: url(./WorkSans.ttf);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
@@ -64,7 +59,7 @@
 }
 
 *:not(i){
-  font-family: "Work Sans",sans-serif !important;
+  font-family: "Ubuntu", sans-serif;
 }
 
 body {
@@ -74,7 +69,7 @@ body {
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family: "Work Sans",sans-serif;
+  font-family: "Ubuntu", sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
