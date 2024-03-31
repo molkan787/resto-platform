@@ -32,14 +32,14 @@
         <div v-for="(block, index) in content_sections" :key="block.id" class="container center-content">
           <div class="content-block">
             <div class="imgs-wrapper" v-if="index % 2 == 0 && !isMobile">
-              <img v-for="img in block.images" :key="img.id" :src="imgUrl(img)" :alt="img.alternativeText">
+              <img v-for="img in block.images" :key="img.id" v-lazy-load :data-src="imgUrl(img)" :alt="img.alternativeText">
             </div>
             <div class="fluid center-content text">
               <h1>{{ block.title | uppercase }}</h1>
               <div v-html="block.content" />
             </div>
             <div class="imgs-wrapper" v-if="index % 2 == 1 || isMobile">
-              <img v-for="img in block.images" :key="img.id" :src="imgUrl(img)" :alt="img.alternativeText">
+              <img v-for="img in block.images" :key="img.id" v-lazy-load :data-src="imgUrl(img)" :alt="img.alternativeText">
             </div>
           </div>
         </div>

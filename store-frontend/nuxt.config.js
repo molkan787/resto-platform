@@ -49,7 +49,8 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/strapi',
-    'vuejs-google-maps/nuxt'
+    'vuejs-google-maps/nuxt',
+    'nuxt-lazy-load'
   ],
 
   strapi: {
@@ -65,6 +66,10 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: process.env.BACKEND_URL || 'http://localhost:1337'
+  },
+
+  lazyLoad: {
+    directiveOnly: true,
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
