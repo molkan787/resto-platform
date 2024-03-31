@@ -31,6 +31,7 @@ html, button, input{
     border-radius: 6px;
     cursor: default;
     max-width: none !important;
+    border: 1px solid rgb(230, 230, 230);
     &:hover {
         -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, .05) !important;
         -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity)) !important;

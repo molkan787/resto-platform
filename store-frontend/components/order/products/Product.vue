@@ -1,6 +1,6 @@
 <template>
   <div @click="addToCart" class="product">
-    <vs-card class="low-shadow hh-shadow">
+    <vs-card class="hh-shadow">
       <template #title>
         <h2>
           {{ product.name }}
@@ -17,6 +17,9 @@
           {{ product.price | price }}
           <label v-if="outofstock" class="outofstock">Out of stock</label>
         </span>
+        <div class="img-wrapper">
+          <img src="~/assets/images/dish_placeholder_picture.jpg" alt="Dishes">
+        </div>
       </template>
     </vs-card>
   </div>
@@ -65,6 +68,24 @@ export default {
     height: 100%;
     cursor: pointer;
   }
+  .img-wrapper{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px;
+    max-height: 83px;
+    img{
+      height: 100%;
+      border-radius: 4px;
+      opacity: 0.4;
+    }
+  }
+  .vs-card__title{
+    padding-left: 73px;
+  }
+  
   .p-card-title {
     font-size: 17px !important;
     color: rgb(0, 0, 0);
@@ -75,9 +96,11 @@ export default {
   }
   .description{
     padding-bottom: 1rem;
+    padding-left: 76px;
   }
   .price {
     color: rgb(0, 0, 0);
+    padding-left: 76px;
   }
   .outofstock{
     color: rgb(255, 71, 87);

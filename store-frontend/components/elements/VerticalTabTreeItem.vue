@@ -2,13 +2,17 @@
     <div class="vertical-tab-tree-item" :class="{ expanded, selected }">
         <div class="content" :class="classes" @click="$emit('click', { item: item, deepLevel: deepLevel })">
             {{ item.name }}
+            <i v-if="selected" class='bx bx-chevron-right'></i>
         </div>
         <div class="children" v-if="expanded">
-            <VerticalTabTreeItem
-                v-for="child in item.children" :key="child.id" :item="child"
-                :state="state" :deepLevel="deepLevel + 1"
-                @click="$emit('click', { item: child, deepLevel: deepLevel + 1 })"
-            />
+            <div class="sub-line"></div>
+            <div class="items">
+                <VerticalTabTreeItem
+                    v-for="child in item.children" :key="child.id" :item="child"
+                    :state="state" :deepLevel="deepLevel + 1"
+                    @click="$emit('click', { item: child, deepLevel: deepLevel + 1 })"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -49,16 +53,15 @@ export default {
 
 <style lang="scss" scoped>
 .vertical-tab-tree-item{
-    border-top: 1px solid rgb(230, 230, 230);
-    &:first-child, &.selected, &.selected + &, &.expanded + &{
-        border-color: white;
+    &:not(:last-child){
+        border-bottom: 2px dashed rgb(230, 230, 230);
     }
     .content{
-        padding: 10px;
+        padding: 10px 7px;
         cursor: pointer;
         user-select: none;
         font-size: 18px;
-        border-radius: 0 12px 12px 0;
+        border-radius: 0 6px 6px 0;
         transition: background-color 0.15s;
         &:hover{
             background-color: rgba(var(--vs-primary), 0.2);
@@ -67,14 +70,28 @@ export default {
             font-weight: bold;
         }
         &.selected{
-            background-color: rgba(var(--vs-primary), 0.3);
             text-decoration: underline;
+        }
+        i{
+            font-size: 23px;
+            line-height: 0;
+            transform: translateY(3px);
         }
     }
     .children{
-        margin: 4px 0;
-        padding-left: 1rem;
-        border-left: 4px solid rgba(var(--vs-primary), 1);
+        display: grid;
+        margin: 4px 0 4px 0;
+        padding-left: 0.4rem;
+        grid-template-columns: 3px auto;
+        .items{
+            margin-left: 6px;
+        }
+        .sub-line{
+            height: calc(100% - 40px);
+            background-color: rgba(80,60,60, 0.5) !important;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
     }
 }
 </style>

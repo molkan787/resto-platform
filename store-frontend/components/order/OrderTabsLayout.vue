@@ -1,7 +1,10 @@
 <template>
     <div class="order-tabs-layout">
-        <div class="categories">
-            <VerticalTabTree :items="categories" @selected="categorySelected" />
+        <div class="categories-wrapper">
+            <div class="sub-line"></div>
+            <div class="categories">
+                <VerticalTabTree :items="categories" @selected="categorySelected" />
+            </div>
         </div>
         <div class="products">
             <div class="content">
@@ -57,11 +60,22 @@ export default {
     display: flex;
     flex-direction: row;
 
-    .categories {
-        width: 250px;
-        padding-left: 18px;
-        margin-left: -18px;
-        border-left: 4px solid rgba(var(--vs-primary), 1);
+    .categories-wrapper{
+        display: grid;
+        grid-template-columns: 3px auto;
+        margin-left: -0.6rem;
+        align-self: start;
+        .categories {
+            width: 250px;
+            padding-left: 0.4rem;
+        }
+        .sub-line{
+            height: calc(100% - 40px);
+            width: 3px;
+            background-color: rgba(80,60,60, 0.5) !important;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
     }
     .products {
         flex: 1;
@@ -70,7 +84,7 @@ export default {
         .content {
             width: 100%;
             display: grid;
-            grid-template-columns: 1;
+            grid-template-columns: 50% 50%;
             grid-gap: 1rem;
             @media (max-width: $mobile-width) {
                 & {

@@ -14,11 +14,11 @@
       </nuxt-link>
     </template>
     <vs-navbar-item :active="active == 'index'" to="/">
-      HOME
+      Home
     </vs-navbar-item>
     <template v-if="stores.length > 1">
       <vs-navbar-group>
-        ORDER ONLINE
+        Order Food
         <template #items>
           <vs-navbar-item v-for="store in stores" :key="store.id" :active="activeStoreSlug == store.slug" :to="`/order/${store.slug}`">
             {{ store.name | capitalize }}
@@ -28,14 +28,14 @@
     </template>
     <template v-else>
       <vs-navbar-item :active="active == 'order'" :to="`/order/${(stores[0] || {}).slug}`">
-        ORDER ONLINE
+        Order Food
       </vs-navbar-item>
     </template>
 
     
     <template v-if="bookableStores.length > 1">
       <vs-navbar-group>
-        BOOK TABLE
+        Book Table
         <template #items>
           <vs-navbar-item v-for="store in stores" :key="store.id" :active="activeStoreSlug == store.slug" :to="`/book/${store.slug}`">
             {{ store.name | capitalize }}
@@ -45,24 +45,24 @@
     </template>
     <template v-else-if="bookableStores.length == 1">
       <vs-navbar-item :active="active == 'order'" :to="`/book/${(stores[0] || {}).slug}`">
-        BOOK TABLE
+        Book Table
       </vs-navbar-item>
     </template>
 
     <vs-navbar-item :active="active == 'gallery'" to="/gallery">
-      GALLERY
+      Gallery
     </vs-navbar-item>
 
     <vs-navbar-item :active="active == 'reviews'" to="/reviews">
-      REVIEWS
+      Reviews
     </vs-navbar-item>
     
     <vs-navbar-item v-for="page in navPages" :key="page.slug" :active="active == page.slug" :to="'/p/' + page.slug">
-      {{ page.name | uppercase }}
+      {{ page.name }}
     </vs-navbar-item>
 
     <vs-navbar-item :active="active == 'contact'" to="/contact">
-      CONTACT
+      Contact
     </vs-navbar-item>
 
     <template #right>
@@ -172,6 +172,9 @@ export default {
   position: relative !important;
   border-radius: 0 !important;
   box-shadow: 0 0 6px #e2e2e2;
+  .vs-navbar__item{
+    margin: 0 0.5rem;
+  }
   .user-fullname{
     min-width: 120px;
     display: inline-block;

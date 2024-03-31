@@ -2,14 +2,14 @@
     <div class="footer">
         <div class="content">
             <div class="col">
-                <nuxt-link to="/">HOME</nuxt-link>
+                <nuxt-link to="/">Home</nuxt-link>
 
                 <template v-if="stores.length == 1">
-                    <nuxt-link :to="`/order/${stores[0].slug}`">ORDER</nuxt-link>
+                    <nuxt-link :to="`/order/${stores[0].slug}`">Order</nuxt-link>
                 </template>
                 <template v-else>
                     <nuxt-link v-for="store in stores" :key="store.slug" :to="'/order/' + store.slug">
-                        ORDER ON {{ store.name | uppercase }}
+                        Order from {{ store.name }}
                     </nuxt-link>
                 </template>
 
@@ -18,16 +18,16 @@
                 </template>
                 <template v-else-if="bookableStores.length > 1">
                     <nuxt-link v-for="store in bookableStores" :key="store.slug" :to="'/book/' + store.slug">
-                        BOOK TABLE IN {{ store.name | uppercase }}
+                        Book table in {{ store.name }}
                     </nuxt-link>
                 </template>
 
-                <nuxt-link to="/gallery">GALLERY</nuxt-link>
+                <nuxt-link to="/gallery">Gallery</nuxt-link>
 
             </div>
             <div class="col">
                 <nuxt-link v-for="page in pages" :key="page.slug" :to="'/p/' + page.slug">
-                    {{ page.name | uppercase }}
+                    {{ page.name }}
                 </nuxt-link>
             </div>
             <div class="col">
