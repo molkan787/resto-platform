@@ -13,13 +13,17 @@
         <p class="description">
           {{ product.description }}
         </p>
-        <span class="price">
-          {{ product.price | price }}
-          <label v-if="outofstock" class="outofstock">Out of stock</label>
-        </span>
-        <div class="img-wrapper">
-          <img src="~/assets/images/dish_placeholder_picture.jpg" alt="Dishes">
+        <div class="bottom-row">
+          <span class="price">
+            {{ product.price | price }}
+            <label v-if="outofstock" class="outofstock">Out of stock</label>
+          </span>
+          <div class="filler"></div>
+          <vs-button flat>Add to cart</vs-button>
         </div>
+        <!-- <div class="img-wrapper">
+          <img src="~/assets/images/dish_placeholder_picture.jpg" alt="Dishes">
+        </div> -->
       </template>
     </vs-card>
   </div>
@@ -57,6 +61,14 @@ export default {
     float: right;
   }
 }
+.bottom-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .filler{
+    flex: 1;
+  }
+}
 </style>
 
 <style lang="scss">
@@ -82,9 +94,9 @@ export default {
       opacity: 0.4;
     }
   }
-  .vs-card__title{
-    padding-left: 73px;
-  }
+  // .vs-card__title{
+  //   padding-left: 73px;
+  // }
   
   .p-card-title {
     font-size: 17px !important;
@@ -96,16 +108,21 @@ export default {
   }
   .description{
     padding-bottom: 1rem;
-    padding-left: 76px;
+    // padding-left: 76px;
   }
   .price {
     color: rgb(0, 0, 0);
-    padding-left: 76px;
+    // padding-left: 76px;
   }
   .outofstock{
     color: rgb(255, 71, 87);
     padding-left: 0.6rem;
     // float: right;
+  }
+}
+.product{
+  .vs-button{
+    margin: 0 !important;
   }
 }
 </style>

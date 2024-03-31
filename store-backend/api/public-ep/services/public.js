@@ -22,6 +22,7 @@ module.exports = {
     const { delivery_cost, free_delivery_maximum_distance, maximum_delivery_distance, enable_delivery_orders, enable_pickup_orders, enable_preorders, minimum_order_value } = store;
     const { stripe_connected_account_ready: stripe_ready, stripe_connected_account_id } = vendor_meta;
     const { mobile_app } = vendorPlan.features || {}
+    const logoUrl = ((website_logo.formats || {}).thumbnail || website_logo).url
     return {
       features: {
         mobile_app: !!mobile_app
@@ -29,7 +30,7 @@ module.exports = {
       layout: {
         order_page_layout,
         primary_color: JSON.parse(primary_color).rgb,
-        website_logo: website_logo.formats.thumbnail.url
+        website_logo: logoUrl
       },
       store: {
         delivery_cost,
