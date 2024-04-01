@@ -29,7 +29,7 @@ WORKDIR /usr/src/apps/store-backend
 COPY ./store-backend .
 RUN ["yarn", "link", "murew-core"]
 RUN ["yarn", "build"]
-RUN ["rm", "-rf", "admin", "plugins/booking/admin", "plugins/data/admin", "plugins/mobile-app/admin", "plugins/platform-features/admin", "plugins/pos-sync/admin", "plugins/reports/admin", "plugins/stripe-connect/admin"]
+RUN ["rm", "-rf", "admin", "plugins/booking/admin/containers", "plugins/data/admin/containers", "plugins/mobile-app/admin/containers", "plugins/platform-features/admin/containers", "plugins/pos-sync/admin/containers", "plugins/reports/admin/containers", "plugins/stripe-connect/admin/containers"]
 
 WORKDIR /usr/src/apps/store-frontend
 COPY ./store-frontend .
