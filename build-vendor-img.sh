@@ -1,0 +1,1 @@
+docker build -t murew-vendor:alpha1 -f vendor_apps.dockerfile .
