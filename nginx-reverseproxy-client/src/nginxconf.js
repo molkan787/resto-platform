@@ -1,4 +1,4 @@
-const { writeFile, exec, isValidURL } = require("./helpers")
+const { writeFile, exec, isValidURL, readFile } = require("./helpers")
 const path = require('path')
 
 const NGINX_SITES_AVAILABLE_DIR = '/etc/nginx/sites-available'
@@ -48,6 +48,15 @@ module.exports = class NginxConf {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    static async enableVHostHttp2(hostname){
+        this.validateHostname(hostname)
+        const v_filename = `vendor_${hostname}`
+        const conf_filename = path.join(NGINX_SITES_AVAILABLE_DIR, v_filename)
+        let confContent = await readFile(conf_filename, 'u')
+        confContent = confContent.replace(new RegExp('443 ssl', 'g'), '443 ssl http2')
+        await writeFile(conf_filename, confContent, 'utf-8')
     }
 
     static async reloadNginx(){

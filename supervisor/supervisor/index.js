@@ -46,6 +46,7 @@ module.exports = class MurewSupervisor{
      */
     async createVendorApp(app, isUpdate){
         const { id: appId, domain, port_pointer: _port_pointer, registration_url, features } = app;
+        const backendDomain = `backend.${domain}`
         let adminRegistrationUrl = '';
         if(!isUpdate){
             console.log('createVendorApp: Creating vendor database...');
@@ -56,7 +57,7 @@ module.exports = class MurewSupervisor{
             }else{
                 console.log('createVendorApp: Creating vendor admin registration...');
                 const urlPath = await this.createAdminAccountRegistration(appId);
-                adminRegistrationUrl = `${PUBLIC_WEB_PROTOCOL}://backend.${domain}${urlPath}`;
+                adminRegistrationUrl = `${PUBLIC_WEB_PROTOCOL}://${backendDomain}${urlPath}`;
             }
         }
         const DB_URI = this._getDbUri(appId);
@@ -64,7 +65,7 @@ module.exports = class MurewSupervisor{
         const port_pointer = parseInt(_port_pointer);
         const frontendPort = 8000 + port_pointer;
         const backendPort = 9000 + port_pointer;
-        const backendUrl = `${PUBLIC_WEB_PROTOCOL}://backend.${domain}`;
+        const backendUrl = `${PUBLIC_WEB_PROTOCOL}://${backendDomain}`;
         const frontendUrl = `${PUBLIC_WEB_PROTOCOL}://${domain}`;
         console.log('createVendorApp: Creating vendor\'s app container...');
         const enableStorefront = !!((features || {}).website)
@@ -84,8 +85,10 @@ module.exports = class MurewSupervisor{
         console.log('createVendorApp: Adding domain mapping to reverse proxy server...');
         if(!isUpdate){
             await this.addProxyHostMap(domain, `http://127.0.0.1:${frontendPort}`);
-            await this.addProxyHostMap(`backend.${domain}`, `http://127.0.0.1:${backendPort}`);
+            await this.addProxyHostMap(`${backendDomain}`, `http://127.0.0.1:${backendPort}`);
             await this.generateSSLCertificates(domain)
+            await this.enableProxyHostHttp2(domain)
+            await this.enableProxyHostHttp2(backendDomain)
         }
         return {
             adminRegistrationUrl,
@@ -179,6 +182,10 @@ module.exports = class MurewSupervisor{
     
     async removeProxyHostMap(sourceHost){
         await axios.post('http://localhost:1340/hosts/remove', { sourceHost });
+    }
+
+    async enableProxyHostHttp2(sourceHost){
+        await axios.post('http://localhost:1340/hosts/enableHttp2', { sourceHost });
     }
 
     async startVendorApp(appId){

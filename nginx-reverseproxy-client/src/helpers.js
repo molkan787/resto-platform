@@ -5,7 +5,7 @@ const { exec: native_exec } = require('child_process')
  * @param {fs.PathLike} filename 
  * @param {string | Buffer} data 
  * @param {BufferEncoding} encoding 
- * @returns 
+ * @returns {Promise}
  */
 module.exports.writeFile = (filename, data, encoding) => new Promise((resolve, reject) => {
     fs.writeFile(filename, data, encoding || null, err => {
@@ -13,6 +13,23 @@ module.exports.writeFile = (filename, data, encoding) => new Promise((resolve, r
         else resolve(true);
     })
 })
+
+/**
+ * @param {fs.PathLike} filename 
+ * @param {BufferEncoding} encoding 
+ * @returns {Promise}
+ */
+module.exports.readFile = function readFile(filename, encoding){
+    return new Promise((resolve, reject) => {
+        fs.readFile(filename, encoding, (err, data) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve(data);
+            }
+        });
+    })
+}
 
 /**
  * 

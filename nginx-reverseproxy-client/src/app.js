@@ -10,6 +10,7 @@ module.exports = class ReverseProxyApp{
         this.server.get('/hosts', (req, res) => this.handle_listHosts(req, res));
         this.server.post('/hosts/add', (req, res) => this.handle_addHost(req, res));
         this.server.post('/hosts/remove', (req, res) => this.handle_removeHost(req, res));
+        this.server.post('/hosts/enableHttp2', (req, res) => this.handle_enableHttp2(req, res));
     }
 
     async start(){
@@ -33,6 +34,13 @@ module.exports = class ReverseProxyApp{
             throw new Error('Missing parameter');
         }
         await NginxConf.removeVirtualHost(sourceHost)
+    }
+    
+    async enableHttp2(sourceHost){
+        if(!sourceHost){
+            throw new Error('Missing parameter');
+        }
+        await NginxConf.enableVHostHttp2(sourceHost)
     }
 
     /**
@@ -74,6 +82,23 @@ module.exports = class ReverseProxyApp{
         try {
             const { sourceHost } = req.body;
             await this.removeHost(sourceHost);
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify({status: 'ok'}));
+        } catch (error) {
+            console.error(error);
+            res.statusCode = 500;
+            res.end('');
+        }
+    }
+
+    /**
+     * @param {IncomingMessage} req 
+     * @param {ServerResponse} res 
+     */
+    async handle_enableHttp2(req, res){
+        try {
+            const { sourceHost } = req.body;
+            await this.enableHttp2(sourceHost);
             res.setHeader("Content-Type", "application/json");
             res.end(JSON.stringify({status: 'ok'}));
         } catch (error) {
