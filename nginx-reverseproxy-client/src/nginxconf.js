@@ -54,7 +54,7 @@ module.exports = class NginxConf {
         this.validateHostname(hostname)
         const v_filename = `vendor_${hostname}`
         const conf_filename = path.join(NGINX_SITES_AVAILABLE_DIR, v_filename)
-        let confContent = await readFile(conf_filename, 'u')
+        let confContent = await readFile(conf_filename, 'utf-8')
         confContent = confContent.replace(new RegExp('443 ssl', 'g'), '443 ssl http2')
         await writeFile(conf_filename, confContent, 'utf-8')
     }
