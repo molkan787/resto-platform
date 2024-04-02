@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node .",
     "start-ios": "cross-env AGENT_TYPE=remote BUILD_APP_TYPE=mobile-storefront-ios yarn start",
-    "prepare-template": "node ./mobile-client-builder/run-prepare-project-template.js"
+    "prepare-template": "node ./mobile-storefront-android-builder/run-prepare-project-template.js"
   },
   "engines": {
     "node": ">=20.10.0"
