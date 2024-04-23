@@ -10,6 +10,9 @@
 
 module.exports = {
 
+  // ------------------------- Admin Controllers -------------------------
+  // ---------------------------------------------------------------------
+
   async generateKey(ctx){
     const BACKEND_URL = process.env.BACKEND_URL;
     const { store_id, name } = ctx.request.body;
@@ -45,5 +48,50 @@ module.exports = {
     const query = strapi.query('pos-sync-key', 'pos-sync');
     await query.delete({ id });
     return {};
+  },
+
+  // ---------------------------------------------------------------------
+
+
+  
+  // ------------------------- User Controllers --------------------------
+
+  async setOrderStatus(ctx){
+    const storeId = await this.validateSyncKey(ctx)
+    const { orderNo, statusId } = ctx.request.body
+    if(typeof orderNo !== 'string' || typeof statusId !== 'string'){
+      throw new Error('Missing parameters.')
+    }
+    await strapi.query('order').update(
+      { no: orderNo, store_id: storeId },
+      { status: statusId }
+    )
+    return {}
+  },
+
+  async getOrder(ctx){
+    const storeId = await this.validateSyncKey(ctx)
+    const { orderNo } = ctx.params;
+    if(typeof orderNo !== 'string'){
+      throw new Error('Missing parameter.')
+    }
+    const order = await strapi.query('order').findOne(
+      { no: orderNo, store_id: storeId },
+    )
+    if(order) return order
+    else throw new Error('Order not found')
+  },
+
+  async validateSyncKey(ctx){
+    const key = ctx.headers['sync-key']
+    if(typeof key !== 'string') throw new Error('Missing Sync Key (sync-key header)')
+    const keyData = JSON.parse(Buffer.from(key, 'base64').toString())
+    const storeId = strapi.services.posSyncService.server.getStoreId(keyData.key_id)
+    if(!storeId) throw new Error('Invalid Sync Key (sync-key header)')
+    return storeId
   }
+  
+  // ---------------------------------------------------------------------
+
+
 };

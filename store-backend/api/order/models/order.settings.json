@@ -16,7 +16,7 @@
       "enum": [
         "pending",
         "placed",
-        "confirmed",
+        "preparing",
         "canceled",
         "accepted",
         "declined",

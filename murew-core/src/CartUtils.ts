@@ -22,10 +22,13 @@ export class CartUtils {
         const { orderType, delivery } = cart;
         let values = this.calcProductsTotal(cart.products, products);
         let total = values.total;
+        console.log('total 1:', total)
         const discount = OfferUtils.getOfferDiscountAmount(offer, total);
         const deliveryCost = orderType == OrderType.Delivery ? fixDecimals(delivery, 2) : 0;
         total += discount;
+        console.log('total 2:', total)
         total += deliveryCost;
+        console.log('total 3:', total)
         return {
             food_total: values.food_total,
             drinks_total: values.drinks_total,

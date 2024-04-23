@@ -154,6 +154,7 @@ export default {
 <style lang="scss" scoped>
 .navbar{
   padding: 6px;
+  border-bottom: 1px solid #e6e6e6;
   &.large{
     padding: 12px;
   }
@@ -171,7 +172,7 @@ export default {
 .vs-navbar-content{
   position: relative !important;
   border-radius: 0 !important;
-  box-shadow: 0 0 6px #e2e2e2;
+  box-shadow: 0 0 2px #e2e2e2;
   .vs-navbar__item{
     margin: 0 0.5rem;
   }

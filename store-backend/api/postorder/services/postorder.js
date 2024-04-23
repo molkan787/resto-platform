@@ -32,6 +32,8 @@ module.exports = class PostOrderService{
         this.validateOrder(data, productsMap, productsTotal, offer);
         const totals = CartUtils.calcOrderTotalsValues(cart, productsMap, offer);
         const orderTotal = totals.total;
+        console.log('orderTotal',orderTotal)
+        console.log('order_total',order_total)
         if(orderTotal != order_total){
             throw new BadRequestError('Prices may have changed, Please try reloading the page. Error: TNET');
         }

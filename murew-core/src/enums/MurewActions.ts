@@ -11,4 +11,6 @@ export enum MurewActions{
     BookingsReceivedConfirmation = 'bookings-received-confirmation',
     StartBookingsSyncingProcess = 'start-bookings-syncing-process',
     SetBookingSlots = 'set-booking-slots',
+    RequestOnGoingOrdersList = 'request-on-going-orders-list',
+    OnGoingOrdersList = 'on-going-orders-list',
 }

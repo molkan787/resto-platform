@@ -1,4 +1,5 @@
 'use strict';
+const { MurewActions } = require('murew-core/dist/enums');
 const { sanitizeEntity } = require('strapi-utils');
 
 /**
@@ -7,7 +8,10 @@ const { sanitizeEntity } = require('strapi-utils');
 
 const RESEND_INTERVAL = 1000 * 60 * 1
 
+const ON_GOING_ORDER_STATUES = ['accepted', 'preparing', 'ready']
+
 const posSync = module.exports = {
+
     async doWork(){
         await new Promise(r => setTimeout(r, 30 * 1000)) // delay 30 seconds to make sure strapi has initialized
         while(true){
@@ -34,6 +38,15 @@ const posSync = module.exports = {
     sendOrder(order){
         const sanitizedOrderData = sanitizeEntity(order, { model: strapi.models.order });
         strapi.services.posSyncService.sendOrder(sanitizedOrderData);
+    },
+
+    // ------------------------------------------------------------------
+
+    async sendOnGoingOrders(){
+        const orders = await strapi.query('order').find({
+            status_in: ON_GOING_ORDER_STATUES,
+        })
+        strapi.services.posSyncService.sendAction(MurewActions.OnGoingOrdersList, orders)
     }
 };
 

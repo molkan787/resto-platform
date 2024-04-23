@@ -23,6 +23,22 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "PATCH",
+      "path": "/set-order-status",
+      "handler": "pos-sync.setOrderStatus",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/order/:orderNo",
+      "handler": "pos-sync.getOrder",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

@@ -13,7 +13,7 @@ module.exports = class PosSyncService{
     sendAction(actionName, data){
         this.server.send({
             action: actionName,
-            data
+            data: data
         })
     }
 
@@ -45,6 +45,8 @@ module.exports = class PosSyncService{
             this.gotUpdatedBookings(client, data);
         }else if(action == MurewActions.SetBookingSlots){
             this.setBookingSlots(client, data);
+        }else if(action == MurewActions.RequestOnGoingOrdersList){
+            strapi.plugins['pos-sync'].services['pos-sync'].sendOnGoingOrders(data);
         }
     }
 
