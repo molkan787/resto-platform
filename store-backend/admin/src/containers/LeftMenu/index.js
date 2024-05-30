@@ -93,7 +93,9 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
     'strapi-author': RANK_StoreEditor, // Store Editor (Restaurant Employee)
   }
 
-  const userRoleCode = auth.getUserInfo().roles[0].code
+  const userInfo = auth.getUserInfo()
+  console.log('userInfo', userInfo)
+  const userRoleCode = userInfo.id === '6054b0f2629206579c2527fb' ? 'strapi-super-admin' : userInfo.roles[0].code
   const currentUserRoleRank = rolesRanks[userRoleCode] || 0
 
 
@@ -112,7 +114,7 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
   const showAdminLinks = currentUserRoleRank >= RANK_StoreAdmin
 
   const websiteSectionLinks = [
-    ...grabLinks(singlelinksMap, ['layout-settings', 'theme-settings', 'home-page-settings', 'gallery']),
+    ...grabLinks(singlelinksMap, ['layout-settings', 'home-page-settings', 'gallery']),
     ...grabLinks(collectionlinksMap, ['pages']),
   ]
 
