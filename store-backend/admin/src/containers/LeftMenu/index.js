@@ -112,7 +112,7 @@ const LeftMenu = forwardRef(({ latestStrapiReleaseTag, version, plugins }, ref) 
   const showAdminLinks = currentUserRoleRank >= RANK_StoreAdmin
 
   const websiteSectionLinks = [
-    ...grabLinks(singlelinksMap, ['home-page-settings', 'layout-settings', 'gallery']),
+    ...grabLinks(singlelinksMap, ['layout-settings', 'theme-settings', 'home-page-settings', 'gallery']),
     ...grabLinks(collectionlinksMap, ['pages']),
   ]
 

@@ -1,0 +1,36 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/theme-settings",
+      "handler": "theme-settings.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/theme-settings",
+      "handler": "theme-settings.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/theme-settings",
+      "handler": "theme-settings.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/theme-settings/custom.css",
+      "handler": "theme-settings.custom_css",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

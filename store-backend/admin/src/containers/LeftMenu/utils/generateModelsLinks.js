@@ -13,6 +13,7 @@ const _icons = {
   'application::contact-message.contact-message': 'envelope',
   'application::home-page-settings.home-page-settings': 'desktop',
   'application::layout-settings.layout-settings': 'table',
+  'application::theme-settings.theme-settings': 'palette',
   'application::gallery.gallery': 'images',
   'application::pages.pages': 'columns',
 }

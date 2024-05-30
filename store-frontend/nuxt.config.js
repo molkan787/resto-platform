@@ -1,3 +1,5 @@
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:1337'
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -10,7 +12,8 @@ export default {
       { name: 'creator', content: 'Seghier Dahmane' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: `${BACKEND_URL}/theme-settings/custom.css` }
     ]
   },
   // <meta name="author" content="Seghier Dahmane" />
@@ -53,8 +56,10 @@ export default {
     'nuxt-lazy-load'
   ],
 
+  BACKEND_URL: BACKEND_URL,
+
   strapi: {
-    url: process.env.BACKEND_URL || 'http://localhost:1337',
+    url: BACKEND_URL,
     entities: ['categories', 'products', 'orders', 'stores']
   },
 
@@ -65,7 +70,7 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.BACKEND_URL || 'http://localhost:1337'
+    baseURL: BACKEND_URL
   },
 
   lazyLoad: {
