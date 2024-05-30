@@ -9,7 +9,7 @@
   "attributes": {
     "line1": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "line2": {
       "type": "string"
