@@ -7,12 +7,12 @@
 
 <script>
 export default {
-  head({ $client_env }){
+  head({ $strapi }){
     return {
       link: [
         {
           rel: "stylesheet",
-          href: `${$client_env.BACKEND_URL}/theme-settings/custom.css`
+          href: `${$strapi.$http._defaults.prefixUrl}/theme-settings/custom.css`
         }
       ]
     }
