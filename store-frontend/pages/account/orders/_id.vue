@@ -24,7 +24,10 @@
                     <vs-tr :key="i" v-for="(tr, i) in order.products" :data="tr">
                         <vs-td>
                             {{ tr.name }}
-                            <div class="extras">
+                            <template v-if="doesUseExtrasAsVariations(tr)" class="extras">
+                                {{ extraName(tr) }}
+                            </template>
+                            <div v-else class="extras">
                                 <div v-for="(e, index) in tr.extras" :key="e.name + index">
                                     + {{ e.name }}
                                 </div>
@@ -52,6 +55,16 @@ export default {
             id,
             order,
         };
+    },
+    methods: {
+        doesUseExtrasAsVariations(product){
+            return product.extras.findIndex(e => e.name === 'use_extras_as_variations') >= 0
+        },
+        extraName(product){
+            return product.extras
+                .filter(e => e.name !== 'use_extras_as_variations')
+                .map(e => e.name).join(' ')
+        }
     },
     mounted() {
         console.log(this.order);

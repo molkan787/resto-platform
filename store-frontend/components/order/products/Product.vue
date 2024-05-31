@@ -15,7 +15,7 @@
         </p>
         <div class="bottom-row">
           <span class="price">
-            {{ product.price | price }}
+            {{ priceText }}
             <label v-if="outofstock" class="outofstock">Out of stock</label>
           </span>
           <div class="filler"></div>
@@ -40,6 +40,20 @@ export default {
   computed: {
     outofstock(){
       return this.product.enable_stock && this.product.stock < 1;
+    },
+    useExtrasAsVariations(){
+        return this.product.extras.findIndex(e => e.name === 'use_extras_as_variations') >= 0
+    },
+    priceText(){
+      const p = v => this.$options.filters.price(v)
+      if(this.useExtrasAsVariations){
+        const prices = this.product.extras.map(e => e.price).filter(v => v > 0)
+        const min = Math.min(...prices)
+        const max = Math.max(...prices)
+        return `${p(min)} - ${p(max)}`
+      }else{
+        return p(this.product.price)
+      }
     }
   },
   methods: {
