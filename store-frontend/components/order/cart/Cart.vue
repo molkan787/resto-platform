@@ -23,7 +23,7 @@
                 <table class="items-table">
                     <tbody>
                         <template v-for="item in cartItems">
-                            <CartItem :item="item" :key="item.id" />
+                            <CartItem :item="item" :options="cartProducts[item.id]" :key="item.id" />
                         </template>
                         <transition name="defanim">
                             <tr v-if="delivery >= 0 && cart.orderType == 'delivery'" class="item">

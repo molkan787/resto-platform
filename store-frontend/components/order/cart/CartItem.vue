@@ -4,7 +4,7 @@
             {{ item.qty }}x
         </td>
         <td>
-            {{ item.data.name }}
+            {{ item.data.name }} {{  this.extraName  }}
             <AllergyIcon v-if="item.data.contains_allergens" />
         </td>
         <td class="cart-items-buttons">
@@ -27,11 +27,28 @@ export default {
         item: {
             type: Object,
             required: true,
+        },
+        options: {
+            type: Object,
+            required: true,
         }
     },
     methods: {
         adjustQty(amount){
             this.$cartService.adjustProductQuantity(this.item.id, amount);
+        }
+    },
+    computed: {
+        useExtrasAsVariations(){
+            return this.options.extras.findIndex(e => e.name === 'use_extras_as_variations') >= 0
+        },
+        extraName(){
+            if(this.useExtrasAsVariations){
+                return this.options.extras
+                    .filter(e => e.name !== 'use_extras_as_variations')
+                    .map(e => e.name)
+                    .join(' ')
+            }
         }
     }
 }
