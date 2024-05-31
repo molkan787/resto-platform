@@ -8,7 +8,6 @@
 <script>
 export default {
   head({ $client_env }){
-    console.log('$client_env', $client_env)
     return {
       link: [
         {
