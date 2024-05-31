@@ -5,6 +5,22 @@
   </div>
 </template>
 
+<script>
+export default {
+  head({ $client_env }){
+    console.log('$client_env', $client_env)
+    return {
+      link: [
+        {
+          rel: "stylesheet",
+          href: `${$client_env.BACKEND_URL}/theme-settings/custom.css`
+        }
+      ]
+    }
+  }
+}
+</script>
+
 <style>
 html {
   font-family:

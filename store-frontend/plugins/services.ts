@@ -21,6 +21,7 @@ declare module '@nuxt/types'{
         $paymentService: PaymentService;
         $strapi: Strapi;
         $device: any;
+        $client_env: { BACKEND_URL: string };
     }
 }
 
@@ -54,6 +55,10 @@ const ServicesPlugin: Plugin = (context, inject) => {
     inject('deliveryService', context.$deliveryService);
     inject('offerService', context.$offerService);
     inject('paymentService', context.$paymentService);
+    context.$client_env = {
+        BACKEND_URL: process.env.BACKEND_URL || 'http://localhost:1337'
+    }
+    inject('client_env', context.$client_env);
 }
 
 export default ServicesPlugin;
