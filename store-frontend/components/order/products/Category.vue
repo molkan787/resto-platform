@@ -3,10 +3,10 @@
       <div class="header">
         <vs-card class="category-header-card" @click="headerCardClick">
           <template #text>
-            <h2>
-              {{ category.name }}
+            <div class="header-row">
+              <h2>{{ category.name }}</h2>
               <i class="bx" :class="expanded ? 'bxs-down-arrow' : 'bxs-up-arrow'"></i>
-            </h2>
+            </div>
             <div class="childs-tabs hide-scrollbar" v-if="expanded && category.children.length">
               <div class="items" cancel-toggle>
                 <div @click="active = null" :class="{ active: active === null }" cancel-toggle>
@@ -95,6 +95,16 @@ export default {
         }
       }
     }
+    .header-row{
+      display: flex;
+      flex-direction: row;
+      & > h2{
+        text-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+      }
+    }
   }
   .content{
     width: 100%;
@@ -136,7 +146,7 @@ export default {
     }
     i{
       float: right;
-      margin: 1.2rem;
+      margin: 1.5rem;
     }
   }
 }
