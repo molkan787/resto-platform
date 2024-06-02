@@ -1,10 +1,7 @@
 <template>
     <Page title="Contact" class="contact-page">
         <div class="container">
-            <br>
-            <br>
-            <br>
-            <div class="row">
+            <div class="top-section">
                 <div class="info">
                     <div class="address">
                         <h2 class="p-color">{{ store.name | capitalize }}</h2>
@@ -147,9 +144,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.row{
+.top-section{
     display: flex;
     flex-direction: row;
+}
+@media (max-width: 768px){
+    .top-section{
+        flex-direction: column;
+    }
+    .map{
+        width: 100%;
+        margin-top: 2rem;
+    }
 }
 .address{
     padding: 0 0 1rem 0;
@@ -158,7 +164,7 @@ export default {
     padding: 0 2rem;
 }
 .map{
-    width: 540px;
+    max-width: 540px;
     height: 320px;
 }
 .contact{
@@ -188,6 +194,9 @@ export default {
         .vs-input-content input{
             width: 100%;
         }
+    }
+    .page-content > .container{
+        padding: 1rem;
     }
 }
 </style>
