@@ -25,7 +25,7 @@ module.exports = class PostOrderService{
         }
         const offer = selectedOffer ? await strapi.query('offer').findOne({ id: selectedOffer }) : null;
         const isDelivery = type == OrderType.Delivery;
-        const products_ids = Object.keys(items).concat(offerOptions.selectedItems);
+        const products_ids = this.getCartItemsProductsIds(items).concat(offerOptions.selectedItems);
         const products = await this.fetchProducts(products_ids, store_id);
         const productsMap = arrayToMap(products, 'id');
         const productsTotal = CartUtils.calcProductsTotal(items, productsMap);
@@ -163,8 +163,16 @@ module.exports = class PostOrderService{
         }
     }
 
+    static getCartItemsProductsIds(items){
+        const m = new Map()
+        Object.keys(items).forEach(k => {
+            const pid = CartUtils.getRealPID(k)
+            m.set(pid, true)
+        })
+        return Array.from(m.keys())
+    }
+
     /**
-     * 
      * @param {Interfaces.CartProducts} items 
      * @param {Types.ProductsMap} productsMap 
      */
@@ -173,7 +181,7 @@ module.exports = class PostOrderService{
         for(let [id, options] of Object.entries(items)){
             const { qty, note } = options;
             const extras_ids = options.extras.map(e => e.id);
-            const p = productsMap.get(id);
+            const p = productsMap.get(CartUtils.getRealPID(id));
             if(!p) continue;
             const { name, price, enable_stock, extras: extras_av } = p;
             const extras = extras_av.filter(ea => extras_ids.includes(ea.id)).map(e => ({
@@ -190,7 +198,7 @@ module.exports = class PostOrderService{
                 unit_price: unit_price,
                 extras,
                 enable_stock: enable_stock,
-                remote_id: p.remote_id,
+                remote_id: 0, //p.remote_id,
                 category_type: (p.category || {}).type || 'food'
             })
         }

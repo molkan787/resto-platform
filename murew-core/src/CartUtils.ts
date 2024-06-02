@@ -68,15 +68,20 @@ export class CartUtils {
      */
     static getCartItems(cartProducts: CartProducts, products: ProductsMap): CartItem[] {
         return <CartItem[]>Object.entries(cartProducts).map(([id, options]) => {
-            const product = products.get(id);
+            const pid = this.getRealPID(id)
+            const product = products.get(pid);
             if(!product) return null;
             return {
-                id,
+                id: id,
                 data: product,
                 qty: options.qty,
                 total: this.calcItemTotal(product, options)
             }
         }).filter(i => !!i);
+    }
+
+    static getRealPID(id: string){
+        return id.includes('@') ? id.split('@')[1] : id
     }
 
     /**

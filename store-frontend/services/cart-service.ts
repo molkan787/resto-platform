@@ -5,6 +5,7 @@ import { CartProductOptions } from "murew-core/dist/interfaces";
 import { Context } from "@nuxt/types";
 import { State } from "~/interfaces/State";
 import debounce from "debounce";
+import { randomString } from "~/helpers/RandomHelpers";
 
 export class CartService extends Service{
 
@@ -21,7 +22,9 @@ export class CartService extends Service{
     }
 
     public setProduct(productId: string, options: CartProductOptions){
-        Vue.set(this.state.cart.products, productId, options);
+        const instanceId = randomString(6)
+        const cartItemId = `${instanceId}@${productId}`
+        Vue.set(this.state.cart.products, cartItemId, options);
     }
 
     public removeProduct(productId: string){
