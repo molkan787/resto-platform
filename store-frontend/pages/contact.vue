@@ -153,7 +153,6 @@ export default {
         flex-direction: column;
     }
     .map{
-        width: 100%;
         margin-top: 2rem;
     }
 }
@@ -163,9 +162,13 @@ export default {
 .info{
     padding: 0 2rem;
 }
+.location{
+    flex: 1;
+}
 .map{
-    max-width: 540px;
+    width: 100%;
     height: 320px;
+    max-width: 540px;
 }
 .contact{
     text-align: center;
