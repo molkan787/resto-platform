@@ -82,10 +82,11 @@
             <a class="nhra" @click="mode = AuthMode.Register">Create New Account</a>
           </template>
         </div>
-        <hr>
+        <div style="height: 12px;"></div>
+        <!-- <hr>
         <a @click="setRedirectUrl" class="go-sigin-btn-wrapper" :href="googleSignUrl">
           <GoogleSigninButton />
-        </a>
+        </a> -->
       </div>
     </template>
   </vs-dialog>
