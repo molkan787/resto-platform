@@ -1,6 +1,6 @@
 <template>
     <div class="store-info">
-        <div class="header">
+        <div class="status">
             <template v-if="showOpenStatus">
                 <vs-button class="status" :color="isOpen ? 'success' : 'danger'" :class="{closed: !isOpen}">
                     {{ isOpen ? 'OPEN' : 'CLOSED' }}
@@ -11,9 +11,7 @@
             </template>
             <h1 v-else>{{ storeName | capitalize }}</h1>
         </div>
-        <p>
-        {{ address }}
-        </p>
+        <p class="store-address">{{ address }}</p>
     </div>
 </template>
 
@@ -54,14 +52,16 @@ export default {
 <style lang="scss" scoped>
 .store-info{
     padding: 1rem;
-    .header{
+    display: flex;
+    flex-direction: row;
+    .status{
         color: rgba(var(--vs-primary), 1);
         .status{
             display: inline-block;
             padding: 0 1rem;
             pointer-events: none;
             font-weight: bold;
-            margin-left: -0.2rem;
+            margin-top: 0;
             &.closed{
                 background-color: #e86363 !important;
             }
@@ -72,8 +72,9 @@ export default {
             color: rgb(58, 58, 58);
         }
     }
-    p{
+    .store-address{
         white-space: pre-line;
+        padding-left: 1rem;
     }
 }
 </style>
