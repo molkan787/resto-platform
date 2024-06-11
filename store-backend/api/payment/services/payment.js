@@ -5,9 +5,8 @@ module.exports = {
     async createPaymentIntent(order){
         const { id: orderId, total } = order;
         const intTotal = Math.floor(total * 100);
-        const connectedAccountId = await this.getConnectedAccountId();
-        if(typeof connectedAccountId !== 'string' || connectedAccountId.length < 10){
-            throw new Error('Missing stripe connected account id');
+        if(!(await strapi.services.stripe.isSetupReady())){
+            throw new Error('SB-0003: Stripe is not setup');
         }
         const stripe = await strapi.services.stripe.getInstance();
         const paymentIntent = await stripe.paymentIntents.create({
@@ -22,7 +21,6 @@ module.exports = {
             // transfer_data: {
             //     destination: connectedAccountId,
             // },
-            
         });
         const { id: payment_intent_id, client_secret, amount, currency, status } = paymentIntent;
         const payment = {
@@ -39,7 +37,6 @@ module.exports = {
     },
 
     /**
-     * 
      * @param {any} payment Payment object or Payment Id
      * @returns {boolean} returns `true` if the payment succeeded
      */
@@ -56,13 +53,12 @@ module.exports = {
                 id: payment.id
             }, {
                 status: paymentIntent.status
-            });
-            if(succeeded){
+            })
+            if(succeeded && (await strapi.services.stripe.getStripeMode().name === strapi.services.stripe.STRIPE_MODES.PLATFORM_ACCOUNT)){
                 try {
-                    // TODO: calculate platform fees (application_fee - stripe fee) and pass it to the call below
-                    await this.transformVendorAmount(paymentIntent);
+                    await this.transformVendorAmount(paymentIntent)
                 } catch (error) {
-                    console.error(error);
+                    console.error(error)
                 }
             }
         }
@@ -71,14 +67,14 @@ module.exports = {
 
     async transformVendorAmount(paymentIntent){
         const stripe = await strapi.services.stripe.getInstance();
-        const connectedAccountId = await this.getConnectedAccountId();
+        const connectedAccountId = await strapi.services.stripe.getConnectedAccountId()
         if(typeof connectedAccountId !== 'string' || connectedAccountId.length < 10){
-            console.error(new Error('Missing stripe connected account id'));
-            return;
+            console.error(new Error('Missing stripe connected account id'))
+            return
         }
-        const { balance_transaction, id: charge_id } = paymentIntent.charges.data[0];
-        const { amount, currency, fee: stripe_fee } = balance_transaction;
-        const net_amount = amount - stripe_fee;
+        const { balance_transaction, id: charge_id } = paymentIntent.charges.data[0]
+        const { amount, currency, fee: stripe_fee } = balance_transaction
+        const net_amount = amount - stripe_fee
         const application_fee = await strapi.services['platform-fees'].getPlatformFeeAmount(net_amount); // 10%
         const vendor_money = net_amount - application_fee;
         const transfer = await stripe.transfers.create({
@@ -90,19 +86,9 @@ module.exports = {
         if(application_fee > 0){
             await strapi.services['platform-fees'].addThisMonthPaidAmount(application_fee);
         }
-        console.log(application_fee)
-        console.log(JSON.stringify(transfer));
+        console.log('payment_service.application_fee:', application_fee)
+        console.log('payment_service.transfer:', JSON.stringify(transfer));
         return transfer;
-    },
-
-    async getConnectedAccountId(){
-        const vendor_meta = await strapi.query('vendor-meta').findOne();
-        const { stripe_connected_account_id, stripe_connected_account_ready } = vendor_meta || {};
-        if(stripe_connected_account_ready && typeof stripe_connected_account_id == 'string'){
-            return stripe_connected_account_id;
-        }else{
-            return null;
-        }
     },
 
 };
