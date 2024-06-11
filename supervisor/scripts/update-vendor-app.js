@@ -15,6 +15,7 @@ async function run(){
         console.log('vendorDoc:', vendorDoc)
     }
     console.log(`Updating vendor "${vendorDoc.Name}" with domain "${vendorDoc.domain}"`)
+    console.log('Waiting 10 seconds before proceeding...')
     await sleep(10000) // Giving time to user to cancel the operation if needed
     await axios.post('http://127.0.0.1:1323/update-vendor-app', { app: vendorDoc })
     console.log('Successfully updated vendor app!')
