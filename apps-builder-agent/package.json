@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
-  "license": "PRIVATE",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "start": "node .",
     "start-ios": "cross-env AGENT_TYPE=remote BUILD_APP_TYPE=mobile-storefront-ios yarn start",

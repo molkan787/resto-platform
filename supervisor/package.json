@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "description": "Manages vendor apps",
   "main": "index.js",
-  "author": "Dahmane Seghier",
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "update-vendor-app": "node ./scripts/update-vendor-app.js"
   },

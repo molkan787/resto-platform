@@ -2,6 +2,7 @@
   "name": "reverseproxy",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2"

@@ -2,7 +2,7 @@
   "name": "distance-helper",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Seghier Dahmane",
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "csv-parser": "^3.0.0",

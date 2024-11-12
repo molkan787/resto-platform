@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "An app resposible for sending emails",
   "main": "src/index.js",
-  "author": "Seghier Dahmane",
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
   "license": "MIT",
-  "private": true,
   "dependencies": {
     "express": "^4.17.1",
     "mailersend": "^2.2.0"

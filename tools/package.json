@@ -2,6 +2,7 @@
   "name": "tools",
   "version": "1.0.0",
   "main": "index.js",
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "mkdirp": "^1.0.4",

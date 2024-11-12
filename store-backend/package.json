@@ -1,6 +1,7 @@
 {
   "name": "murew-vendor",
-  "private": true,
+  "author": "Seghier Dahmane <seghier.dahmane@gmail.com>",
+  "license": "MIT",
   "version": "0.1.0",
   "description": "Vendor app for the Murew Platform",
   "scripts": {
@@ -44,15 +45,11 @@
     "vuera": "^0.2.7",
     "websocket": "^1.0.33"
   },
-  "author": {
-    "name": "Seghier Dahmane"
-  },
   "strapi": {
     "uuid": false
   },
   "engines": {
     "node": ">=10.16.0 <=14.x.x",
     "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+  }
 }

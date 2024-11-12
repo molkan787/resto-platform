@@ -1,12 +1,7 @@
-Project Code License Agreement
+Copyright (c) 2024 Seghier Dahmane
 
-This Project Code License Agreement ("Agreement") is made between Seghier Dahmane ("Owner") and any individual or entity accessing or using the code located in the current directory.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-Owner owns all the code contained in the current directory ("Code"). No one except Seghier Dahmane is allowed to use, modify, read, distribute, sublicense, or otherwise interact with the Code without Owner's prior written consent.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-Owner reserves all rights not expressly granted to others under this Agreement.
-
-Governing Law:
-This Agreement shall be governed by and construed in accordance with the laws of United Kingdom. Any disputes arising under or in connection with this Agreement shall be subject to the exclusive jurisdiction of the courts of United Kingdom.
-
-IN WITNESS WHEREOF, the Owner has executed this Agreement.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
