@@ -1,7 +1,7 @@
 > #### Note that documentation is very limited at this time, If anyone wants to actually use this code, contact me to write down some more details and procedures
 
 ### Resto-Platform
-Restaurants platform, where resturant owners can create/setup their own website, mobile app and POS system with few clicks. (Kind of Uber Eats but each restaurtant have their own separate branded apps)
+Restaurants platform, where restaurant owners can create/setup their own website, mobile app and POS system with few clicks. (Kind of Uber Eats but each restaurant have their own separate branded apps)
 
 #### Platform Structure
 
